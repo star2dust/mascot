@@ -1,9 +1,16 @@
 classdef Point2D < handle
     properties
+        % state
         p
         p_dot
         p_ddot
+        % order (1 or 2)
         order
+        % color
+        color
+        % percept (struct) with function 'update' and 'show'
+        percept
+        % algorithm (string) choose which algo to use
         algorithm
     end
 
@@ -17,6 +24,8 @@ classdef Point2D < handle
             opt.p_ddot = [0;0];
             opt.order = 1;
             opt.algorithm = '';
+            opt.color = 'b';
+            opt.percept = struct('update',[],'show',[]);
             [opt,arg] = tb_optparse(opt, varargin);
             % check arg validity
             
@@ -26,41 +35,36 @@ classdef Point2D < handle
             pt.p_ddot = opt.p_ddot;
             pt.order = opt.order;
             pt.algorithm = opt.algorithm;
+            pt.percept = opt.percept;
+            pt.color = opt.color;
         end
 
-        function fig = init(pt)
-            plot(pt.p(1),pt.p(2),'bo'); 
-            hold on
-            
-            hold off
-            fig = gcf;
+        function show(pt)
+            if ~isempty(pt.percept.show)
+                pt.percept.show(pt.percept,pt.color); hold on;
+            end
+            plot(pt.p(1),pt.p(2),[pt.color 'o']);
         end
 
-        function step(pt,data,dt)
+        function step(pt,dt)
+            pt.control();
+            if ~isempty(pt.percept.update)
+                pt.percept = pt.percept.update(pt.percept,dt);
+            end
             if pt.order==2
-                pt.p_ddot = pt.control(data);
                 pt.p_dot = pt.p_dot+pt.p_ddot*dt;
                 pt.p = pt.p+pt.p_dot*dt;
             elseif pt.order==1
-                pt.p_dot = pt.control(data);
                 pt.p = pt.p+pt.p_dot*dt;
             else
                 error('Order should be 1 or 2!');
             end
-            
-            plot(pt.p(1),pt.p(2),'bo'); 
-            hold on
-
-            hold off
         end
 
-        function u = control(pt,data)
-            if isempty(pt.algorithm)
-                u = [0;0];
-            else
-                eval(['u = pt.' pt.algorithm '(data);']);
+        function control(pt)
+            if ~isempty(pt.algorithm)
+                eval(['pt.' pt.algorithm '();']);
             end
         end
     end
-
 end
