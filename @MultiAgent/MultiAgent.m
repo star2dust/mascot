@@ -1,5 +1,5 @@
 classdef MultiAgent < handle
-    properties %(Access = private)
+    properties (SetAccess = private)
         % number and model
         n
         model
@@ -7,6 +7,9 @@ classdef MultiAgent < handle
         p
         p_dot
         p_ddot
+    end
+
+    properties
         % order
         order
         % topology
@@ -17,6 +20,8 @@ classdef MultiAgent < handle
         algorithm
         % percept (struct) with function 'update' and 'show'
         percept
+        % trajactory
+        traj
         % color
         color
     end
@@ -48,6 +53,7 @@ classdef MultiAgent < handle
             ma.Omega = opt.Omega;
             ma.algorithm = opt.algorithm;
             ma.percept = opt.percept;
+            ma.traj = [];
         end
 
         function show(ma)         
@@ -55,12 +61,23 @@ classdef MultiAgent < handle
                 ma.percept.show(ma.percept,ma.color); hold on;
             end
             for i=1:ma.n
-                ma.model(i).show(); 
+                ma.model(i).show();
+                if ~isempty(ma.traj)
+                    plot(ma.traj.pp(1,:,i),ma.traj.pp(2,:,i),[ma.color(i) '-']);
+                end
             end
         end
 
         function step(ma,dt)
-            ma.control();
+            % get model state
+            ma.get_model_state();
+            % run ctrl algo
+            ma.control(dt);
+            % set ctrl bound
+            ma.set_ctrl_bound();
+            % send pr to model
+            ma.set_pr_to_model();
+            % update
             if ~isempty(ma.percept.update)
                 ma.percept = ma.percept.update(ma.percept,dt);
             end
@@ -77,9 +94,9 @@ classdef MultiAgent < handle
             end
         end
 
-        function control(ma)
+        function control(ma,dt)
             if ~isempty(ma.algorithm)
-                eval(['ma.' ma.algorithm '();']);
+                eval(['ma.' ma.algorithm '(dt);']);
             end
         end
     end

@@ -8,6 +8,7 @@ Rb = 2;
 % 我方飞机位置
 p = [randlim([0,0,-2,-2;2,2,0,0]);
     randlim([-2,0,0,-2;0,2,2,0])]/2;
+th = randlim([-pi;pi]*ones(1,4));
 % 我方期望队形
 formation = 9;
 pr = get_pr_from_f(formation);
@@ -42,7 +43,7 @@ n = size(p,2);
 cl = ['r','g','b','c'];
 for i=1:n
     ref = struct('pr',p(:,i),'pr_dot',[0;0],'update',@ptr_update,'show',@ptr_show);
-    pt(i) = Point2D('p',p(:,i),'order',2,'algorithm','pd_stablize','percept',ref,'color',cl(i));
+    pt(i) = Unicycle('q',[p(:,i);th(i)],'order',2,'algorithm','pd_stablize','percept',ref,'color',cl(i));
 end
 mref = struct('pr',pr,'pr_dot',zeros(size(pr)),'p_lb',p_lb,'p_ub',p_ub,...
     'pc',pc,'pc_dot',zeros(size(pr)),'pc_lb',pc_lb,'pc_ub',pc_ub,...

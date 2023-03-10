@@ -1,9 +1,20 @@
 classdef Point2D < handle
-    properties
+    properties (SetAccess = private)
         % state
         p
         p_dot
         p_ddot
+        % max
+        v_max
+        a_max
+        % min
+        v_min
+        a_min
+    end
+
+    properties
+        % radius
+        rad
         % order (1 or 2)
         order
         % color
@@ -12,6 +23,8 @@ classdef Point2D < handle
         percept
         % algorithm (string) choose which algo to use
         algorithm
+        % save trajectory
+        traj
     end
 
     methods
@@ -22,7 +35,12 @@ classdef Point2D < handle
             opt.p = [0;0];
             opt.p_dot = [0;0];
             opt.p_ddot = [0;0];
+            opt.v_min = 0;
+            opt.a_min = 0;
+            opt.v_max = 1;
+            opt.a_max = 1;
             opt.order = 1;
+            opt.rad = 0.02;
             opt.algorithm = '';
             opt.color = 'b';
             opt.percept = struct('update',[],'show',[]);
@@ -33,21 +51,32 @@ classdef Point2D < handle
             pt.p = opt.p;
             pt.p_dot = opt.p_dot;
             pt.p_ddot = opt.p_ddot;
+            pt.v_min = opt.v_min;
+            pt.a_min = opt.a_min;
+            pt.v_max = opt.v_max;
+            pt.a_max = opt.a_max;
             pt.order = opt.order;
+            pt.rad = opt.rad;
             pt.algorithm = opt.algorithm;
             pt.percept = opt.percept;
             pt.color = opt.color;
+            pt.traj = pt.p;
         end
 
         function show(pt)
             if ~isempty(pt.percept.show)
                 pt.percept.show(pt.percept,pt.color); hold on;
             end
-            plot(pt.p(1),pt.p(2),[pt.color 'o']);
+%             plot(pt.p(1),pt.p(2),[pt.color 'o']);
+            circle(pt.p,pt.rad,[pt.color '-']);
+            plot(pt.traj(1,:),pt.traj(2,:),[pt.color '-']);
         end
 
         function step(pt,dt)
-            pt.control();
+            % run ctrl algo
+            pt.control(dt);
+            % set ctrl bound
+            pt.set_ctrl_bound();
             if ~isempty(pt.percept.update)
                 pt.percept = pt.percept.update(pt.percept,dt);
             end
@@ -59,11 +88,12 @@ classdef Point2D < handle
             else
                 error('Order should be 1 or 2!');
             end
+            pt.traj = [pt.traj pt.p];
         end
 
-        function control(pt)
+        function control(pt,dt)
             if ~isempty(pt.algorithm)
-                eval(['pt.' pt.algorithm '();']);
+                eval(['pt.' pt.algorithm '(dt);']);
             end
         end
     end
