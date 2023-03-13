@@ -1,10 +1,9 @@
-close all
-clear
+function mas = gcs_simu()
 
 % 单位：km，km/s
 
 % 区域边界长度lx=ly=Rb=8km
-Rb = 2; 
+Rb = 2;
 % 我方飞机位置
 p = [randlim([0,0,-2,-2;2,2,0,0]);
     randlim([-2,0,0,-2;0,2,2,0])]/2;
@@ -48,13 +47,13 @@ end
 mref = struct('pr',pr,'pr_dot',zeros(size(pr)),'p_lb',p_lb,'p_ub',p_ub,...
     'pc',pc,'pc_dot',zeros(size(pr)),'pc_lb',pc_lb,'pc_ub',pc_ub,...
     'eta',eta,'eta_dot',zeros(size(pr)),'lam_p',lam_p,'lam_p_dot',zeros(size(pr)),...
-    'lam_pc',lam_pc,'lam_pc_dot',zeros(size(pr)),'formation',formation,...    
+    'lam_pc',lam_pc,'lam_pc_dot',zeros(size(pr)),'formation',formation,...
     'update',@mptr_update,'show',@mptr_show);
 mpt = MultiAgent(pt,'order',1,'D',D,'Omega',Omega,'algorithm','opt_affine_alloc','percept',mref,'formation',formation);
 % 设置仿真�?
-mas = Mascot('model',mpt,'dt',0.02,'T',200,'xlim',[-1,1]*Rb,'ylim',[-1,1]*Rb);
-% �?始仿�?
-mas.run();
+mas = Mascot('model',mpt,'dt',0.02,'T',200,'xlim',[-1,1]*Rb,'ylim',[-1,1]*Rb,'start',0);
+end
+
 
 function ref = ptr_update(ref,dt)
 ref.pr = ref.pr+ref.pr_dot*dt;

@@ -44,15 +44,15 @@ classdef Unicycle < handle
             opt.v = 0;
             opt.w = 0;
             opt.a = 0;
-            opt.v_min = 0.02;
+            opt.rad = 0.02;
+            opt.ahead = opt.rad;
+            opt.v_min = opt.rad*3;
             opt.w_min = -1;
-            opt.a_min = -1;
+            opt.a_min = -2;
             opt.v_max = 1;
             opt.w_max = 1;
-            opt.a_max = 1;
+            opt.a_max = 2;
             opt.order = 1;
-            opt.ahead = 0.02;
-            opt.rad = 0.02;
             opt.algorithm = '';
             opt.color = 'b';
             opt.percept = struct('update',[],'show',[]);
@@ -82,14 +82,14 @@ classdef Unicycle < handle
             uni.traj = uni.q;
         end
 
-        function show(uni)
+        function show(uni,gcs)
             if ~isempty(uni.percept.show)
-                uni.percept.show(uni.percept,uni.color); hold on;
+                uni.percept.show(uni.percept,uni.color,gcs); hold(gcs.SimuAxes,'on');
             end
-%             plot(uni.q(1),uni.q(2),[uni.color 'o']);
-            circle(uni.q(1:2),uni.rad,[uni.color '-']);
-            plot([uni.p(1) uni.q(1)],[uni.p(2) uni.q(2)],[uni.color '-']);
-            plot(uni.traj(1,:),uni.traj(2,:),[uni.color '-']);
+            plot(gcs.SimuAxes,uni.q(1),uni.q(2),[uni.color 'o']);
+%             circle(uni.q(1:2),uni.rad,[uni.color '-']);
+            plot(gcs.SimuAxes,[uni.p(1) uni.q(1)],[uni.p(2) uni.q(2)],[uni.color '-']);
+            plot(gcs.SimuAxes,uni.traj(1,:),uni.traj(2,:),[uni.color '-']);
         end
 
         function step(uni,dt)

@@ -63,13 +63,13 @@ classdef Point2D < handle
             pt.traj = pt.p;
         end
 
-        function show(pt)
+        function show(pt,gcs)
             if ~isempty(pt.percept.show)
-                pt.percept.show(pt.percept,pt.color); hold on;
+                pt.percept.show(pt.percept,pt.color,gcs); hold(gcs.SimuAxes,'on');
             end
-%             plot(pt.p(1),pt.p(2),[pt.color 'o']);
-            circle(pt.p,pt.rad,[pt.color '-']);
-            plot(pt.traj(1,:),pt.traj(2,:),[pt.color '-']);
+            plot(gcs.SimuAxes,pt.p(1),pt.p(2),[pt.color 'o']);
+%             circle_(pt.p,pt.rad,[pt.color '-']);
+            plot(gcs.SimuAxes,pt.traj(1,:),pt.traj(2,:),[pt.color '-']);
         end
 
         function step(pt,dt)

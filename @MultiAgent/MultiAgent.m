@@ -56,14 +56,14 @@ classdef MultiAgent < handle
             ma.traj = [];
         end
 
-        function show(ma)         
+        function show(ma,gcs)         
             if ~isempty(ma.percept.show)
-                ma.percept.show(ma.percept,ma.color); hold on;
+                ma.percept.show(ma.percept,ma.color,gcs); hold(gcs.SimuAxes,'on');
             end
             for i=1:ma.n
-                ma.model(i).show();
+                ma.model(i).show(gcs);
                 if ~isempty(ma.traj)
-                    plot(ma.traj.pp(1,:,i),ma.traj.pp(2,:,i),[ma.color(i) '-']);
+                    plot(gcs.SimuAxes,ma.traj.pp(1,:,i),ma.traj.pp(2,:,i),[ma.color(i) '-']);
                 end
             end
         end
