@@ -1,30 +1,31 @@
 close all
 clear
 
-% å•ä½ï¼škmï¼Œkm/s
+% µ¥Î»£ºkm£¬km/s
 
-% åŒºåŸŸè¾¹ç•Œé•¿åº¦lx=ly=Rb=8km
+% ÇøÓò±ß½ç³¤¶Èlx=ly=Rb=8km
 Rb = 2; 
-% æˆ‘æ–¹é£æœºä½ç½®
+% ÎÒ·½·É»úÎ»ÖÃ
 p = [randlim([0,0,-2,-2;2,2,0,0]);
     randlim([-2,0,0,-2;0,2,2,0])]/2;
-% æˆ‘æ–¹æœŸæœ›é˜Ÿå½¢
+th = randlim([-pi;pi]*ones(1,4));
+% ÎÒ·½ÆÚÍû¶ÓĞÎ
 formation = 9;
 pr = get_pr_from_f(formation);
 
-% é˜Ÿå½¢ä¸­å¿ƒä½ç½®
+% ¶ÓĞÎÖĞĞÄÎ»ÖÃ
 pc = [randlim([-1;1]*ones(1,size(p,2)));
     randlim([-1;1]*ones(1,size(p,2)))];
-% ä½ç½®çº¦æŸ
+% Î»ÖÃÔ¼Êø
 p_lb = [-1;-1]*Rb*ones(1,size(p,2));
 p_ub = [1;1]*Rb*ones(1,size(p,2));
 pc_lb = p_lb;
 pc_ub = p_ub;
-% æ‹‰æ ¼æœ—æ—¥ä¹˜å­
+% À­¸ñÀÊÈÕ³Ë×Ó
 lam_p = zeros(size(p));
 lam_pc = lam_p;
 eta = lam_p;
-% ç½‘ç»œæ‹“æ‰‘å›¾
+% ÍøÂçÍØÆËÍ¼
 Omega = [1,-1,1,-1;
     -1,1,-1,1;
     1,-1,1,-1;
@@ -36,23 +37,25 @@ D = [-1,0,0,1,-1,0;
 if size(p,2)<4
     Omega = D*D';
 end
+% remote control
+joy = vrjoystick(1);
 
-% åˆå§‹åŒ–ä»¿çœŸå¯¹è±¡
+% ³õÊ¼»¯·ÂÕæ¶ÔÏó
 n = size(p,2);
 cl = ['r','g','b','c'];
 for i=1:n
     ref = struct('pr',p(:,i),'pr_dot',[0;0],'update',@ptr_update,'show',@ptr_show,'color',cl(i));
-    pt(i) = Point2D('p',p(:,i),'order',2,'algorithm','pd_stablize','percept',ref,'color',cl(i));
+    pt(i) = Unicycle('q',[p(:,i);th(i)],'order',2,'algorithm','pd_stablize','percept',ref,'color',cl(i));
 end
 mref = struct('pr',pr,'pr_dot',zeros(size(pr)),'p_lb',p_lb,'p_ub',p_ub,...
     'pc',pc,'pc_dot',zeros(size(pr)),'pc_lb',pc_lb,'pc_ub',pc_ub,'color',cl,...
     'eta',eta,'eta_dot',zeros(size(pr)),'lam_p',lam_p,'lam_p_dot',zeros(size(pr)),...
     'lam_pc',lam_pc,'lam_pc_dot',zeros(size(pr)),'f_curr',formation,'f_prev',formation,...    
-    'update',@mptr_update,'show',@mptr_show,'stop',0);
+    'update',@mptr_update,'show',@mptr_show,'joy',joy,'stop',false,'pr_reset',@get_pr_from_f);
 mpt = MultiAgent(pt,'order',1,'D',D,'Omega',Omega,'algorithm','opt_affine_alloc','percept',mref);
-% è®¾ç½®ä»¿çœŸå™¨
+% ÉèÖÃ·ÂÕæÆ÷
 mas = Mascot('model',mpt,'dt',0.02,'T',200,'xlim',[-1,1]*Rb,'ylim',[-1,1]*Rb);
-% å¼€å§‹ä»¿çœŸ
+% ¿ªÊ¼·ÂÕæ
 mas.run();
 
 function ref = ptr_update(ref,dt)
@@ -64,8 +67,24 @@ plot(gcs.SimuAxes,ref.pr(1),ref.pr(2),[ref.color '*']);
 end
 
 function ref = mptr_update(ref,dt)
-% ref.pr = ref.pr+ref.pr_dot*dt;
-ref.pr = get_pr_from_f(ref.f_curr);
+ax = axis(ref.joy);
+btn = button(ref.joy);
+ref.pr_dot = kron(ones(1,size(ref.pr,2)),[ax(1);-ax(2)]);
+ref.pr = ref.pr+ref.pr_dot*dt;
+ref.stop = btn(9);
+if btn(1)
+    ref.f_curr = 1;
+end
+if btn(2)
+    ref.f_curr = 2;
+end
+if btn(3)
+    ref.f_curr = 5;
+end
+if btn(4)
+    ref.f_curr = 7;
+end
+% ref.pr = get_pr_from_f(ref.formation);
 ref.pc = ref.pc+ref.pc_dot*dt;
 ref.lam_p = ref.lam_p+ref.lam_p_dot*dt;
 ref.lam_pc = ref.lam_pc+ref.lam_pc_dot*dt;
@@ -82,32 +101,32 @@ end
 function pr = get_pr_from_f(f)
 switch f
     case 1
-        % æˆ‘æ–¹æœŸæœ›é˜Ÿå½¢ï¼ˆåŠå¾„2kmè±å½¢ç¼–é˜Ÿï¼‰
+        % ÎÒ·½ÆÚÍû¶ÓĞÎ£¨°ë¾¶2kmÁâĞÎ±à¶Ó£©
         pr = [2,0,-2,0;0,2,0,-2];
     case 2
-        % æˆ‘æ–¹æœŸæœ›é˜Ÿå½¢ï¼ˆé—´è·2kmæ¨ªä¸€å­—å‹ç¼–é˜Ÿï¼‰
+        % ÎÒ·½ÆÚÍû¶ÓĞÎ£¨¼ä¾à2kmºáÒ»×ÖĞÍ±à¶Ó£©
         pr = [3,-1,-3,1;0,0,0,0];
     case 3
-        % æˆ‘æ–¹æœŸæœ›é˜Ÿå½¢ï¼ˆé—´è·2kmç«–ä¸€å­—å‹ç¼–é˜Ÿï¼‰
+        % ÎÒ·½ÆÚÍû¶ÓĞÎ£¨¼ä¾à2kmÊúÒ»×ÖĞÍ±à¶Ó£©
         pr = [0,0,0,0;1,3,-1,-3];
     case 4
-        % æˆ‘æ–¹æœŸæœ›é˜Ÿå½¢ï¼ˆé—´è·2kmå¹³è¡Œå››è¾¹å½¢(æ¢¯)ç¼–é˜Ÿï¼‰
+        % ÎÒ·½ÆÚÍû¶ÓĞÎ£¨¼ä¾à2kmÆ½ĞĞËÄ±ßĞÎ(Ìİ)±à¶Ó£©
         pr = [2,-1,-2,1;0,2,0,-2];
     case 5
-        % æˆ‘æ–¹æœŸæœ›é˜Ÿå½¢ï¼ˆé—´è·2kmæ¢¯å‹ç¼–é˜Ÿï¼‰
+        % ÎÒ·½ÆÚÍû¶ÓĞÎ£¨¼ä¾à2kmÌİĞÍ±à¶Ó£©
         pr = [2,-1,-2,1;-1,1,-1,1];
     case 6
-        % æˆ‘æ–¹æœŸæœ›é˜Ÿå½¢ï¼ˆé—´è·2kmå¹³è¡Œå››è¾¹å½¢(æ¥”)ç¼–é˜Ÿï¼‰
+        % ÎÒ·½ÆÚÍû¶ÓĞÎ£¨¼ä¾à2kmÆ½ĞĞËÄ±ßĞÎ(Ğ¨)±à¶Ó£©
         pr = [1.5,-0.5,-1.5,0.5;1,1,-1,-1];
     case 7
-        % æˆ‘æ–¹æœŸæœ›é˜Ÿå½¢ï¼ˆé—´è·2kmå·¦æ¥”å½¢ç¼–é˜Ÿï¼‰
+        % ÎÒ·½ÆÚÍû¶ÓĞÎ£¨¼ä¾à2km×óĞ¨ĞÎ±à¶Ó£©
         pr = [1.5,-0.5,-1.5,0.5;-2,2,0,0];
     case 8
-        % æˆ‘æ–¹æœŸæœ›é˜Ÿå½¢ï¼ˆé—´è·2kmå³æ¥”å½¢ç¼–é˜Ÿï¼‰
+        % ÎÒ·½ÆÚÍû¶ÓĞÎ£¨¼ä¾à2kmÓÒĞ¨ĞÎ±à¶Ó£©
         pr = [1.5,-0.5,-1.5,0.5;0,0,-2,2];
     otherwise
-        % æˆ‘æ–¹æœŸæœ›é˜Ÿå½¢ï¼ˆåŠå¾„2kmæ­£æ–¹å½¢ç¼–é˜Ÿï¼‰
-        pr = [1,-1,-1,1;1,1,-1,-1];
+        % ÎÒ·½ÆÚÍû¶ÓĞÎ£¨°ë¾¶2kmÕı·½ĞÎ±à¶Ó£©
+        pr = [1,-1,-1,1;1,1,-1,-1]*2;
 end
-pr = pr/2;
+pr = pr/4;
 end

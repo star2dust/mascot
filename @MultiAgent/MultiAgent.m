@@ -20,8 +20,6 @@ classdef MultiAgent < handle
         algorithm
         % percept (struct) with function 'update' and 'show'
         percept
-        % trajactory
-        traj
         % color
         color
     end
@@ -53,18 +51,14 @@ classdef MultiAgent < handle
             ma.Omega = opt.Omega;
             ma.algorithm = opt.algorithm;
             ma.percept = opt.percept;
-            ma.traj = [];
         end
 
         function show(ma,gcs)         
             if ~isempty(ma.percept.show)
-                ma.percept.show(ma.percept,ma.color,gcs); hold(gcs.SimuAxes,'on');
+                ma.percept.show(ma.percept,gcs); hold(gcs.SimuAxes,'on');
             end
             for i=1:ma.n
                 ma.model(i).show(gcs);
-                if ~isempty(ma.traj)
-                    plot(gcs.SimuAxes,ma.traj.pp(1,:,i),ma.traj.pp(2,:,i),[ma.color(i) '-']);
-                end
             end
         end
 

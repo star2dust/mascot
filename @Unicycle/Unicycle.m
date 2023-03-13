@@ -33,6 +33,7 @@ classdef Unicycle < handle
         algorithm
         % save trajectory
         traj
+        ntrj
     end
 
     methods
@@ -46,7 +47,7 @@ classdef Unicycle < handle
             opt.a = 0;
             opt.rad = 0.02;
             opt.ahead = opt.rad;
-            opt.v_min = opt.rad*3;
+            opt.v_min = 0.12;
             opt.w_min = -1;
             opt.a_min = -2;
             opt.v_max = 1;
@@ -55,6 +56,7 @@ classdef Unicycle < handle
             opt.order = 1;
             opt.algorithm = '';
             opt.color = 'b';
+            opt.ntrj = 300;
             opt.percept = struct('update',[],'show',[]);
             [opt,arg] = tb_optparse(opt, varargin);
             % check arg validity
@@ -80,16 +82,21 @@ classdef Unicycle < handle
             uni.get_ahead_point();
             % traj init
             uni.traj = uni.q;
+            uni.ntrj = opt.ntrj;
         end
 
         function show(uni,gcs)
             if ~isempty(uni.percept.show)
-                uni.percept.show(uni.percept,uni.color,gcs); hold(gcs.SimuAxes,'on');
+                uni.percept.show(uni.percept,gcs); hold(gcs.SimuAxes,'on');
             end
             plot(gcs.SimuAxes,uni.q(1),uni.q(2),[uni.color 'o']);
 %             circle(uni.q(1:2),uni.rad,[uni.color '-']);
             plot(gcs.SimuAxes,[uni.p(1) uni.q(1)],[uni.p(2) uni.q(2)],[uni.color '-']);
-            plot(gcs.SimuAxes,uni.traj(1,:),uni.traj(2,:),[uni.color '-']);
+            if size(uni.traj,2)<=uni.ntrj
+                plot(gcs.SimuAxes,uni.traj(1,:),uni.traj(2,:),[uni.color '-']);
+            else
+                plot(gcs.SimuAxes,uni.traj(1,end-uni.ntrj:end),uni.traj(2,end-uni.ntrj:end),[uni.color '-']);
+            end
         end
 
         function step(uni,dt)

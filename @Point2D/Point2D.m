@@ -65,7 +65,7 @@ classdef Point2D < handle
 
         function show(pt,gcs)
             if ~isempty(pt.percept.show)
-                pt.percept.show(pt.percept,pt.color,gcs); hold(gcs.SimuAxes,'on');
+                pt.percept.show(pt.percept,gcs); hold(gcs.SimuAxes,'on');
             end
             plot(gcs.SimuAxes,pt.p(1),pt.p(2),[pt.color 'o']);
 %             circle_(pt.p,pt.rad,[pt.color '-']);

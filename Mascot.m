@@ -88,6 +88,9 @@ classdef Mascot < handle
             while mas.t0<=mas.T
                 mas.show(gcs);
                 mas.t0 = mas.t0+mas.dt;
+                if mas.model.percept.stop
+                    break;
+                end
             end
         end
         
@@ -111,7 +114,7 @@ classdef Mascot < handle
             % draw now
             pause(mas.dt);
             % data display
-            data = [{['algo: ' mas.model.algorithm]},{['time: ' num2str(mas.t0) 's']}];
+            data = [{['algo: ' mas.model.algorithm]},{['time: ' second_change(mas.t0*10)]}];
         end
     end
 end

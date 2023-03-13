@@ -30,4 +30,10 @@ else
         end
     end
 end
+if pt.q(3)>pi
+    pt.q(3) = pt.q(3)-2*pi;
+end
+if pt.q(3)<-pi
+    pt.q(3) = pt.q(3)+2*pi;
+end
 end
