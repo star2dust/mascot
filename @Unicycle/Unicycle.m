@@ -34,10 +34,12 @@ classdef Unicycle < handle
         % save trajectory
         traj
         ntrj
+        % appearance
+        appear
     end
 
     methods
-        function uni = Unicycle(varargin)
+        function pt = Unicycle(varargin)
             % Unicycle  Create 2D simple unicyle
 
             % opt parse: only stated fields are chosen to opt, otherwise to arg
@@ -45,84 +47,95 @@ classdef Unicycle < handle
             opt.v = 0;
             opt.w = 0;
             opt.a = 0;
-            opt.rad = 0.02;
-            opt.ahead = opt.rad;
+            opt.rad = 0.002;
             opt.v_min = 0.12;
             opt.w_min = -1;
-            opt.a_min = -2;
+            opt.a_min = -1*0.5;
             opt.v_max = 1;
             opt.w_max = 1;
-            opt.a_max = 2;
+            opt.a_max = 1*0.5;
             opt.order = 1;
             opt.algorithm = '';
             opt.color = 'b';
+            opt.appear = 'o';
             opt.ntrj = 300;
             opt.percept = struct('update',[],'show',[]);
             [opt,arg] = tb_optparse(opt, varargin);
             % check arg validity
             
-            % uni init
-            uni.q = opt.q;
-            uni.v = opt.v;
-            uni.w = opt.w;
-            uni.a = opt.a;
-            uni.v_min = opt.v_min;
-            uni.w_min = opt.w_min;
-            uni.a_min = opt.a_min;
-            uni.v_max = opt.v_max;
-            uni.w_max = opt.w_max;
-            uni.a_max = opt.a_max;
-            uni.order = opt.order;
-            uni.algorithm = opt.algorithm;
-            uni.percept = opt.percept;
-            uni.color = opt.color;
-            uni.rad = opt.rad;
+            % pt init
+            pt.q = opt.q;
+            pt.v = opt.v;
+            pt.w = opt.w;
+            pt.a = opt.a;
+            pt.v_min = opt.v_min;
+            pt.w_min = opt.w_min;
+            pt.a_min = opt.a_min;
+            pt.v_max = opt.v_max;
+            pt.w_max = opt.w_max;
+            pt.a_max = opt.a_max;
+            pt.order = opt.order;
+            pt.algorithm = opt.algorithm;
+            pt.percept = opt.percept;
+            pt.color = opt.color;
+            pt.appear = opt.appear;
+            pt.rad = opt.rad;
             % head init
-            uni.ahead = opt.ahead;
-            uni.get_ahead_point();
+            pt.ahead = pt.rad;
+            pt.get_ahead_point();
             % traj init
-            uni.traj = uni.q;
-            uni.ntrj = opt.ntrj;
+            pt.traj = pt.q;
+            pt.ntrj = opt.ntrj;
         end
 
-        function show(uni,gcs)
-            if ~isempty(uni.percept.show)
-                uni.percept.show(uni.percept,gcs); hold(gcs.SimuAxes,'on');
+        function show(pt,gcs)
+            if ~isempty(pt.percept.show)
+                pt.percept.show(pt.percept,gcs); hold(gcs.SimuAxes,'on');
             end
-            plot(gcs.SimuAxes,uni.q(1),uni.q(2),[uni.color 'o']);
-%             circle(uni.q(1:2),uni.rad,[uni.color '-']);
-            plot(gcs.SimuAxes,[uni.p(1) uni.q(1)],[uni.p(2) uni.q(2)],[uni.color '-']);
-            if size(uni.traj,2)<=uni.ntrj
-                plot(gcs.SimuAxes,uni.traj(1,:),uni.traj(2,:),[uni.color '-']);
+            if isempty(pt.rad)
+                h1 = plot(gcs.SimuAxes,pt.q(1),pt.q(2),[pt.color pt.appear]);
             else
-                plot(gcs.SimuAxes,uni.traj(1,end-uni.ntrj:end),uni.traj(2,end-uni.ntrj:end),[uni.color '-']);
+                h1 = plot(gcs.SimuAxes,pt.q(1)+pt.rad*cos(0:pi/20:2*pi),pt.q(2)+pt.rad*sin(0:pi/20:2*pi),pt.color);
+            end
+            h2 = plot(gcs.SimuAxes,[pt.p(1) pt.q(1)],[pt.p(2) pt.q(2)],[pt.color '-']);
+            if size(pt.traj,2)<=pt.ntrj
+                h3 = plot(gcs.SimuAxes,pt.traj(1,:),pt.traj(2,:),[pt.color ':']);
+            else
+                h3 = plot(gcs.SimuAxes,pt.traj(1,end-pt.ntrj:end),pt.traj(2,end-pt.ntrj:end),[pt.color ':']);
+            end
+            if pt.color=='y'
+                set(h1,'Color',[1 0.5 0]);
+                set(h2,'Color',[1 0.5 0]);
+                set(h3,'Color',[1 0.5 0]);
             end
         end
 
-        function step(uni,dt)
+        function step(pt,dt)
             % get ahead point
-            uni.get_ahead_point();
+            pt.get_ahead_point();
             % run ctrl algo
-            uni.control(dt);
+            pt.control(dt);
             % set ctrl bound
-            uni.set_ctrl_bound();
-            if ~isempty(uni.percept.update)
-                uni.percept = uni.percept.update(uni.percept,dt);
+            pt.set_ctrl_bound();
+            if ~isempty(pt.percept.update)
+                pt.percept = pt.percept.update(pt.percept,dt);
             end
-            if uni.order==2
-                uni.v = uni.v+uni.a*dt;
-                uni.q = uni.q+[cos(uni.q(3)),0;sin(uni.q(3)),0;0,1]*[uni.v;uni.w]*dt;
-            elseif uni.order==1
-                uni.q = uni.q+[cos(uni.q(3)),0;sin(uni.q(3)),0;0,1]*[uni.v;uni.w]*dt;
+            if pt.order==2
+                pt.v = pt.v+pt.a*dt;
+                pt.q = pt.q+[cos(pt.q(3)),0;sin(pt.q(3)),0;0,1]*[pt.v;pt.w]*dt;
+            elseif pt.order==1
+                pt.q = pt.q+[cos(pt.q(3)),0;sin(pt.q(3)),0;0,1]*[pt.v;pt.w]*dt;
             else
                 error('Order should be 1 or 2!');
             end
-            uni.traj = [uni.traj uni.q];
+            pt.traj = [pt.traj pt.q];
         end
 
-        function control(uni,dt)
-            if ~isempty(uni.algorithm)
-                eval(['uni.' uni.algorithm '(dt);']);
+        function control(pt,dt)
+            if ~isempty(pt.algorithm)
+                % old version code
+                % eval(['pt.' pt.algorithm '(dt);']);
+                pt.(pt.algorithm)(dt)
             end
         end
     end

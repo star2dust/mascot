@@ -22,6 +22,11 @@ classdef MultiAgent < handle
         percept
         % color
         color
+        % closed loop
+        closed_loop
+        dist_in_loop
+        % v keep space
+        v_space
     end
 
     methods
@@ -32,6 +37,9 @@ classdef MultiAgent < handle
             opt.D = [];
             opt.Omega = [];
             opt.order = 1;
+            opt.closed_loop = 1;
+            opt.dist_in_loop = 0.5;
+            opt.v_space = 0.2;
             opt.algorithm = '';
             opt.percept = struct('update',[],'show',[]);
             [opt,arg] = tb_optparse(opt, varargin);
@@ -46,11 +54,18 @@ classdef MultiAgent < handle
                 ma.color(i) = ma.model(i).color;
             end
             ma.order = opt.order;
+            ma.closed_loop = opt.closed_loop;
+            ma.dist_in_loop = opt.dist_in_loop;
+            ma.v_space = opt.v_space;
             ma.D = opt.D;
             ma.L = ma.D*ma.D';
             ma.Omega = opt.Omega;
             ma.algorithm = opt.algorithm;
             ma.percept = opt.percept;
+            % pr init
+            pr_ave = sum(ma.percept.pr,2)/size(ma.percept.pr,2);
+            pr_ave = kron(ones(1,size(pr_ave,2)),pr_ave);
+            ma.percept.pr = ma.get_pr_from_f()+pr_ave;
         end
 
         function show(ma,gcs)         
@@ -64,7 +79,9 @@ classdef MultiAgent < handle
 
         function step(ma,dt)
             % get model state
-            ma.get_model_state();
+            if ma.closed_loop
+                ma.get_model_state();
+            end
             % run ctrl algo
             ma.control(dt);
             % set ctrl bound
@@ -90,7 +107,9 @@ classdef MultiAgent < handle
 
         function control(ma,dt)
             if ~isempty(ma.algorithm)
-                eval(['ma.' ma.algorithm '(dt);']);
+                % old version code
+                % eval(['ma.' ma.algorithm '(dt);']);
+                ma.(ma.algorithm)(dt);
             end
         end
     end

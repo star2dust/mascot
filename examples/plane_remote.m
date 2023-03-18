@@ -44,7 +44,7 @@ joy = vrjoystick(1);
 n = size(p,2);
 cl = ['r','g','b','c'];
 for i=1:n
-    ref = struct('pr',p(:,i),'pr_dot',[0;0],'update',@ptr_update,'show',@ptr_show,'color',cl(i));
+    ref = struct('pr',p(:,i),'pr_dot',[0;0],'update',@ptr_update,'show',@ptr_show,'color',cl(i),'headfree',0);
     pt(i) = Unicycle('q',[p(:,i);th(i)],'order',2,'algorithm','pd_stablize','percept',ref,'color',cl(i));
 end
 mref = struct('pr',pr,'pr_dot',zeros(size(pr)),'p_lb',p_lb,'p_ub',p_ub,...

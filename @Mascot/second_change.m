@@ -1,6 +1,6 @@
 % 函数功能：将秒转化为小时，分钟，秒
 % 例如：'08:20:00'  = second_change(30000)
-function Output = second_change(num)
+function Output = second_change(mas,num)
 
     hour = floor(num/3600);              % floor: 向下取整
     minute = floor(mod(num,3600)/60);  % mod： 求余数
