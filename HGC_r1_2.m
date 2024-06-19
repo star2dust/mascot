@@ -1,4 +1,4 @@
-classdef HGC_r1_1 < matlab.apps.AppBase
+classdef HGC_r1_2 < matlab.apps.AppBase
 
     % Properties that correspond to app components
     properties (Access = public)
@@ -220,6 +220,10 @@ classdef HGC_r1_1 < matlab.apps.AppBase
         ConfigLabelNorth      matlab.ui.control.Label
         LinkPanel             matlab.ui.container.Panel
         LinkGrid              matlab.ui.container.GridLayout
+        WorkAltErrLabel_2     matlab.ui.control.Label
+        AirspdMin             matlab.ui.control.NumericEditField
+        AirspdMax             matlab.ui.control.NumericEditField
+        WorkAltMinLabel_2     matlab.ui.control.Label
         IPAddr                matlab.ui.control.DropDown
         IPAddrLabel           matlab.ui.control.Label
         YawErr                matlab.ui.control.NumericEditField
@@ -292,7 +296,6 @@ classdef HGC_r1_1 < matlab.apps.AppBase
         TimeErr
         % Color
         ColorList
-        AirspdInit
     end
     
     methods (Access = private)
@@ -311,7 +314,6 @@ classdef HGC_r1_1 < matlab.apps.AppBase
             app.NorthLimit = [app.ConfigNorthLeft.Value; app.ConfigNorthRight.Value];
             app.EastLimit = [app.ConfigEastLeft.Value; app.ConfigEastRight.Value];
             app.ColorList = 'bgmcry';
-            app.AirspdInit = 0;
             % 飞机状态相关初始化
             app.APMVehicle = cell(1,length(app.LinkID.Items));
             app.TkoffAll = 0;
@@ -413,6 +415,8 @@ classdef HGC_r1_1 < matlab.apps.AppBase
                             % 如果ListID为空，i=0
                             i = 0;
                         end
+                        pt3d = Pt3D('id',id,'airspd_min',app.AirspdMin.Value,'airspd_max',app.AirspdMax.Value);
+                        plan_canvas = Canvas(app.UIFigure,app.UIAxes,app.EastLimit,app.NorthLimit);
                         if i<=0
                             % 地图原点仅在连接第一个飞机时更新
                             app.MapGPSOrigin = home_gps(:);
@@ -424,6 +428,7 @@ classdef HGC_r1_1 < matlab.apps.AppBase
                                 app.RealHomeGPS = 0;
                                 app.MapGPSUnify.Enable = "off";
                             end
+                            % 初始化第一个飞机
                             app.VehicleListID = id;
                             app.VehicleMode = "连接";
                             app.VehiclePosX = 0;
@@ -431,15 +436,12 @@ classdef HGC_r1_1 < matlab.apps.AppBase
                             app.VehicleAirspd = 0;
                             app.VehicleGroundspd = 0;
                             app.VehicleAlt = 0;
-                            % 读取飞控参数，必须在VehicleListID赋值之后运行
-%                             app.PilotButtonReadPushed();
                             % 类数值初始化必须直接赋值一次，否则默认为double数组
-%                             app.VehicleGuidedPoint = Pt3D('id',id,'airspd_min',app.APMParams{id}.AIRSPEED_MIN,'airspd_max',app.APMParams{id}.AIRSPEED_MAX);
-                            app.VehicleGuidedPoint = Pt3D('id',id,'airspd_min',25,'airspd_max',33);
+                            app.VehicleGuidedPoint = pt3d;
                             % ***canvas画布使用方法***
                             % select_point启动，cancel_point结束
                             % 设置mode选择模式：选点、删除、移动、插入
-                            app.PlanCanvas = Canvas(app.UIFigure,app.UIAxes,app.EastLimit,app.NorthLimit);
+                            app.PlanCanvas = plan_canvas;
                         else
                             app.VehicleListID = [app.VehicleListID(1:i-1) id app.VehicleListID(i:end)];
                             app.VehicleMode = [app.VehicleMode(1:i-1) "连接" app.VehicleMode(i:end)];
@@ -448,15 +450,12 @@ classdef HGC_r1_1 < matlab.apps.AppBase
                             app.VehicleAirspd = [app.VehicleAirspd(1:i-1) 0 app.VehicleAirspd(i:end)];
                             app.VehicleGroundspd = [app.VehicleGroundspd(1:i-1) 0 app.VehicleGroundspd(i:end)];
                             app.VehicleAlt = [app.VehicleAlt(1:i-1) 0 app.VehicleAlt(i:end)];
-                            % 读取飞控参数，必须在VehicleListID赋值之后运行
-%                             app.PilotButtonReadPushed();
                             % 类数值初始化必须直接赋值一次，否则默认为double数组
-%                             app.VehicleGuidedPoint = [app.VehicleGuidedPoint(1:i-1) Pt3D('id',id,'airspd_min',app.APMParams{id}.AIRSPEED_MIN,'airspd_max',app.APMParams{id}.AIRSPEED_MAX) app.VehicleGuidedPoint(i:end)];
-                            app.VehicleGuidedPoint = [app.VehicleGuidedPoint(1:i-1) Pt3D('id',id,'airspd_min',25,'airspd_max',33) app.VehicleGuidedPoint(i:end)];
+                            app.VehicleGuidedPoint = [app.VehicleGuidedPoint(1:i-1) pt3d app.VehicleGuidedPoint(i:end)];
                             % ***canvas画布使用方法***
                             % select_point启动，cancel_point结束
                             % 设置mode选择模式：选点、删除、移动、插入
-                            app.PlanCanvas = [app.PlanCanvas(1:i-1) Canvas(app.UIFigure,app.UIAxes,app.EastLimit,app.NorthLimit) app.PlanCanvas(i:end)];
+                            app.PlanCanvas = [app.PlanCanvas(1:i-1) plan_canvas app.PlanCanvas(i:end)];
                         end
                     end
                     % 使能"断开"，禁用"连接"
@@ -485,8 +484,6 @@ classdef HGC_r1_1 < matlab.apps.AppBase
                     app.APMVehicle{id}.close();
                     delete(app.APMVehicle{id});
                     app.APMVehicle{id} = [];
-                    % 删除飞控参数
-%                     app.APMParams{id} = [];
                     % 使能"连接"，禁用"断开"
                     app.LinkButtonOn.Enable = "on";
                     % 如果ListID非空，且存在该ID，则找到该ID所在索引并删除
@@ -738,15 +735,10 @@ classdef HGC_r1_1 < matlab.apps.AppBase
                             app.(['Alt_' num2str(panel_count)]).Value = [num2str(ceil(alt*10)/10) 'm'];
                             app.(['Airspd_' num2str(panel_count)]).Value = [num2str(ceil(airspd*10)/10) 'm/s'];
                             app.(['Groundspd_' num2str(panel_count)]).Value = [num2str(ceil(groundspd*10)/10) 'm/s'];
-                            if app.AirspdInit==0
+                            if ~app.VehicleGuidedPoint(ind).airspd_flag
                                 app.(['AirspdSelect_' num2str(panel_count)]).Value = ceil((app.VehicleGuidedPoint(ind).airspd_max+app.VehicleGuidedPoint(ind).airspd_min)*10)/20;
-                                app.AirspdInit = 1;
+                                app.VehicleGuidedPoint(ind).airspd_flag = 1;
                             end
-%                             if ~isempty(app.APMParams)&&~app.APMParams{id}.GCS_AIRSPD_INIT
-%                                 app.(['AirspdSelect_' num2str(panel_count)]).Value = ceil((app.VehicleGuidedPoint(ind).airspd_max+app.VehicleGuidedPoint(ind).airspd_min)*10)/20;
-%                                 app.APMParams{id}.GCS_AIRSPD_INIT = 1;
-%                             end
-                            % 各个飞机仪表状态显示
                             color = app.VehicleGuidedPoint(ind).color;
                             if armed
                                 % char inside [], not string 
@@ -1018,7 +1010,7 @@ classdef HGC_r1_1 < matlab.apps.AppBase
             % 中断保护：连接MAVLINK之前停止计时器
             app.SetTimerDisplay(false);
 %             guided_start = app.GuidedStart.Value;
-            app.SetTimerGuided(false);
+%             app.SetTimerGuided(false);
             % 连接飞控端口，建立VehicleList
             app.OpenAPMVehicle(id,port);
             % 还原计时器状态
@@ -1383,21 +1375,20 @@ classdef HGC_r1_1 < matlab.apps.AppBase
             ind = find(linkid == app.VehicleListID);
             if ind<=length(app.VehicleListID)&&~isempty(ind)
                 id = app.VehicleListID(ind);
-%                 try
-%                     app.APMParams{id} = struct(app.APMVehicle{id}.vehicle.parameters);
-%                     app.PilotAirspdMax.Value = app.APMParams{id}.(app.PilotAirspdMaxLabel.Text);
-%                     app.PilotAirspdMin.Value = app.APMParams{id}.(app.PilotAirspdMinLabel.Text);
-%                     app.PilotAirspdWork.Value = app.APMParams{id}.(app.PilotAirspdWorkLabel.Text);
-%                     app.PilotRTLRad.Value = app.APMParams{id}.(app.PilotRTLRadLabel.Text);
-%                     app.PilotLoiterRad.Value = app.APMParams{id}.(app.PilotLoiterRadLabel.Text);
-%                     app.PilotWPRad.Value = app.APMParams{id}.(app.PilotWPRadLabel.Text);
-%                     app.PilotSysID.Value = app.APMParams{id}.(app.PilotSysIDLabel.Text);
-%                     app.PilotTkoffAlt.Value = app.APMParams{id}.(app.PilotTkoffAltLabel.Text);
-%                     app.PilotRTLAlt.Value = app.APMParams{id}.(app.PilotRTLAltLabel.Text);
-%                     app.APMParams{id}.GCS_AIRSPD_INIT = 0;
-%                 catch
-%                     warning(['[ ' num2str(id) 'plane ] Cannot read Parameters'])
-%                 end
+                try
+                    app.APMParams{id} = struct(app.APMVehicle{id}.vehicle.parameters);
+                    app.PilotAirspdMax.Value = app.APMParams{id}.(app.PilotAirspdMaxLabel.Text);
+                    app.PilotAirspdMin.Value = app.APMParams{id}.(app.PilotAirspdMinLabel.Text);
+                    app.PilotAirspdWork.Value = app.APMParams{id}.(app.PilotAirspdWorkLabel.Text);
+                    app.PilotRTLRad.Value = app.APMParams{id}.(app.PilotRTLRadLabel.Text);
+                    app.PilotLoiterRad.Value = app.APMParams{id}.(app.PilotLoiterRadLabel.Text);
+                    app.PilotWPRad.Value = app.APMParams{id}.(app.PilotWPRadLabel.Text);
+                    app.PilotSysID.Value = app.APMParams{id}.(app.PilotSysIDLabel.Text);
+                    app.PilotTkoffAlt.Value = app.APMParams{id}.(app.PilotTkoffAltLabel.Text);
+                    app.PilotRTLAlt.Value = app.APMParams{id}.(app.PilotRTLAltLabel.Text);
+                catch
+                    warning(['[ ' num2str(id) 'plane ] Cannot read Parameters'])
+                end
             end
         end
 
@@ -2574,15 +2565,15 @@ classdef HGC_r1_1 < matlab.apps.AppBase
             % Create LinkPanel
             app.LinkPanel = uipanel(app.TabSetting);
             app.LinkPanel.Title = '连接';
-            app.LinkPanel.Position = [12 405 128 366];
+            app.LinkPanel.Position = [12 341 128 430];
 
             % Create LinkGrid
             app.LinkGrid = uigridlayout(app.LinkPanel);
             app.LinkGrid.ColumnWidth = {56, 56};
-            app.LinkGrid.RowHeight = {22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 23};
+            app.LinkGrid.RowHeight = {22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 23};
             app.LinkGrid.ColumnSpacing = 4.66666666666667;
-            app.LinkGrid.RowSpacing = 8.44444529215495;
-            app.LinkGrid.Padding = [4.66666666666667 8.44444529215495 4.66666666666667 8.44444529215495];
+            app.LinkGrid.RowSpacing = 8.66666739327567;
+            app.LinkGrid.Padding = [4.66666666666667 8.66666739327567 4.66666666666667 8.66666739327567];
 
             % Create LinkButtonOn
             app.LinkButtonOn = uibutton(app.LinkGrid, 'push');
@@ -2601,14 +2592,14 @@ classdef HGC_r1_1 < matlab.apps.AppBase
             % Create WorkButtonWrite
             app.WorkButtonWrite = uibutton(app.LinkGrid, 'push');
             app.WorkButtonWrite.Enable = 'off';
-            app.WorkButtonWrite.Layout.Row = 11;
+            app.WorkButtonWrite.Layout.Row = 13;
             app.WorkButtonWrite.Layout.Column = 1;
             app.WorkButtonWrite.Text = '写入';
 
             % Create WorkButtonRead
             app.WorkButtonRead = uibutton(app.LinkGrid, 'push');
             app.WorkButtonRead.Enable = 'off';
-            app.WorkButtonRead.Layout.Row = 11;
+            app.WorkButtonRead.Layout.Row = 13;
             app.WorkButtonRead.Layout.Column = 2;
             app.WorkButtonRead.Text = '读取';
 
@@ -2703,28 +2694,28 @@ classdef HGC_r1_1 < matlab.apps.AppBase
             % Create GPSErrLabel
             app.GPSErrLabel = uilabel(app.LinkGrid);
             app.GPSErrLabel.HorizontalAlignment = 'right';
-            app.GPSErrLabel.Layout.Row = 9;
+            app.GPSErrLabel.Layout.Row = 11;
             app.GPSErrLabel.Layout.Column = 1;
             app.GPSErrLabel.Text = 'GPS误差';
 
             % Create GPSErr
             app.GPSErr = uieditfield(app.LinkGrid, 'numeric');
             app.GPSErr.Limits = [0 Inf];
-            app.GPSErr.Layout.Row = 9;
+            app.GPSErr.Layout.Row = 11;
             app.GPSErr.Layout.Column = 2;
             app.GPSErr.Value = 1;
 
             % Create YawErrLabel
             app.YawErrLabel = uilabel(app.LinkGrid);
             app.YawErrLabel.HorizontalAlignment = 'right';
-            app.YawErrLabel.Layout.Row = 10;
+            app.YawErrLabel.Layout.Row = 12;
             app.YawErrLabel.Layout.Column = 1;
             app.YawErrLabel.Text = '偏航误差';
 
             % Create YawErr
             app.YawErr = uieditfield(app.LinkGrid, 'numeric');
             app.YawErr.Limits = [0 Inf];
-            app.YawErr.Layout.Row = 10;
+            app.YawErr.Layout.Row = 12;
             app.YawErr.Layout.Column = 2;
             app.YawErr.Value = 0.07;
 
@@ -2741,6 +2732,34 @@ classdef HGC_r1_1 < matlab.apps.AppBase
             app.IPAddr.Layout.Row = 1;
             app.IPAddr.Layout.Column = 2;
             app.IPAddr.Value = '虚拟';
+
+            % Create WorkAltMinLabel_2
+            app.WorkAltMinLabel_2 = uilabel(app.LinkGrid);
+            app.WorkAltMinLabel_2.HorizontalAlignment = 'right';
+            app.WorkAltMinLabel_2.Layout.Row = 10;
+            app.WorkAltMinLabel_2.Layout.Column = 1;
+            app.WorkAltMinLabel_2.Text = '最大空速';
+
+            % Create AirspdMax
+            app.AirspdMax = uieditfield(app.LinkGrid, 'numeric');
+            app.AirspdMax.Limits = [0 Inf];
+            app.AirspdMax.Layout.Row = 10;
+            app.AirspdMax.Layout.Column = 2;
+            app.AirspdMax.Value = 30;
+
+            % Create AirspdMin
+            app.AirspdMin = uieditfield(app.LinkGrid, 'numeric');
+            app.AirspdMin.Limits = [0 Inf];
+            app.AirspdMin.Layout.Row = 9;
+            app.AirspdMin.Layout.Column = 2;
+            app.AirspdMin.Value = 20;
+
+            % Create WorkAltErrLabel_2
+            app.WorkAltErrLabel_2 = uilabel(app.LinkGrid);
+            app.WorkAltErrLabel_2.HorizontalAlignment = 'right';
+            app.WorkAltErrLabel_2.Layout.Row = 9;
+            app.WorkAltErrLabel_2.Layout.Column = 1;
+            app.WorkAltErrLabel_2.Text = '最小空速';
 
             % Create ConfigPanel
             app.ConfigPanel = uipanel(app.TabSetting);
@@ -2955,11 +2974,11 @@ classdef HGC_r1_1 < matlab.apps.AppBase
             % Create NetworkPanel
             app.NetworkPanel = uipanel(app.TabSetting);
             app.NetworkPanel.Title = '网络IP';
-            app.NetworkPanel.Position = [369 652 160 119];
+            app.NetworkPanel.Position = [365 652 160 119];
 
             % Create NetworkGrid
             app.NetworkGrid = uigridlayout(app.NetworkPanel);
-            app.NetworkGrid.ColumnWidth = {29, '1x'};
+            app.NetworkGrid.ColumnWidth = {29, 100};
             app.NetworkGrid.RowHeight = {22, 22, 22};
             app.NetworkGrid.ColumnSpacing = 9.66666666666667;
             app.NetworkGrid.RowSpacing = 7.83333396911621;
@@ -3013,7 +3032,7 @@ classdef HGC_r1_1 < matlab.apps.AppBase
     methods (Access = public)
 
         % Construct app
-        function app = HGC_r1_1
+        function app = HGC_r1_2
 
             % Create UIFigure and components
             createComponents(app)

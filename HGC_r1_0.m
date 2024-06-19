@@ -290,6 +290,7 @@ classdef HGC_r1_0 < matlab.apps.AppBase
         TimeErr
         % Color
         ColorList
+        AirspdInit
     end
     
     methods (Access = private)
@@ -308,6 +309,7 @@ classdef HGC_r1_0 < matlab.apps.AppBase
             app.NorthLimit = [app.ConfigNorthLeft.Value; app.ConfigNorthRight.Value];
             app.EastLimit = [app.ConfigEastLeft.Value; app.ConfigEastRight.Value];
             app.ColorList = 'bgmcry';
+            app.AirspdInit = 0;
             % 飞机状态相关初始化
             app.APMVehicle = cell(1,length(app.LinkID.Items));
             app.TkoffAll = 0;
@@ -403,23 +405,6 @@ classdef HGC_r1_0 < matlab.apps.AppBase
                             i = 0;
                         end
                         if i<=0
-                            app.VehicleListID = id;
-                            app.VehicleMode = "连接";
-                            app.VehiclePosX = 0;
-                            app.VehiclePosY = 0;
-                            app.VehicleAirspd = 0;
-                            app.VehicleGroundspd = 0;
-                            app.VehicleYaw = 0;
-                            app.VehicleYawspd = 0;
-                            app.VehicleAlt = 0;
-                            % 读取飞控参数，必须在VehicleListID赋值之后运行
-                            app.PilotButtonReadPushed();
-                            % 类数值初始化必须直接赋值一次，否则默认为double数组
-                            app.VehicleGuidedPoint = Pt3D('id',id,'airspd_min',app.APMParams{id}.AIRSPEED_MIN,'airspd_max',app.APMParams{id}.AIRSPEED_MAX);
-                            % ***canvas画布使用方法***
-                            % select_point启动，cancel_point结束
-                            % 设置mode选择模式：选点、删除、移动、插入
-                            app.PlanCanvas = Canvas(app.UIFigure,app.UIAxes,app.EastLimit,app.NorthLimit);
                             % 地图原点仅在连接第一个飞机时更新
                             app.MapGPSOrigin = home_gps(:);
                             % 如果是真实GPS坐标，可设置为默认地图原点
@@ -430,6 +415,23 @@ classdef HGC_r1_0 < matlab.apps.AppBase
                                 app.RealHomeGPS = 0;
                                 app.MapGPSUnify.Enable = "off";
                             end
+                            app.VehicleListID = id;
+                            app.VehicleMode = "连接";
+                            app.VehiclePosX = 0;
+                            app.VehiclePosY = 0;
+                            app.VehicleAirspd = 0;
+                            app.VehicleGroundspd = 0;
+                            app.VehicleYaw = 0;
+                            app.VehicleYawspd = 0;
+                            app.VehicleAlt = 0;
+                            % 读取飞控参数，必须在VehicleListID赋值之后运行
+%                             app.PilotButtonReadPushed();
+                            % 类数值初始化必须直接赋值一次，否则默认为double数组
+                            app.VehicleGuidedPoint = Pt3D('id',id,'airspd_min',25,'airspd_max',33);
+                            % ***canvas画布使用方法***
+                            % select_point启动，cancel_point结束
+                            % 设置mode选择模式：选点、删除、移动、插入
+                            app.PlanCanvas = Canvas(app.UIFigure,app.UIAxes,app.EastLimit,app.NorthLimit);
                         else
                             app.VehicleListID = [app.VehicleListID(1:i-1) id app.VehicleListID(i:end)];
                             app.VehicleMode = [app.VehicleMode(1:i-1) "连接" app.VehicleMode(i:end)];
@@ -441,9 +443,9 @@ classdef HGC_r1_0 < matlab.apps.AppBase
                             app.VehicleYawspd = [app.VehicleYawspd(1:i-1) 0 app.VehicleYawspd(i:end)];
                             app.VehicleAlt = [app.VehicleAlt(1:i-1) 0 app.VehicleAlt(i:end)];
                             % 读取飞控参数，必须在VehicleListID赋值之后运行
-                            app.PilotButtonReadPushed();
+%                             app.PilotButtonReadPushed();
                             % 类数值初始化必须直接赋值一次，否则默认为double数组
-                            app.VehicleGuidedPoint = [app.VehicleGuidedPoint(1:i-1) Pt3D('id',id,'airspd_min',app.APMParams{id}.AIRSPEED_MIN,'airspd_max',app.APMParams{id}.AIRSPEED_MAX) app.VehicleGuidedPoint(i:end)];
+                            app.VehicleGuidedPoint = [app.VehicleGuidedPoint(1:i-1) Pt3D('id',id,'airspd_min',25,'airspd_max',33) app.VehicleGuidedPoint(i:end)];
                             % ***canvas画布使用方法***
                             % select_point启动，cancel_point结束
                             % 设置mode选择模式：选点、删除、移动、插入
@@ -476,7 +478,7 @@ classdef HGC_r1_0 < matlab.apps.AppBase
                     delete(app.APMVehicle{id});
                     app.APMVehicle{id} = [];
                     % 删除飞控参数
-                    app.APMParams{id} = [];
+%                     app.APMParams{id} = [];
                     % 使能"连接"，禁用"断开"
                     app.LinkButtonOn.Enable = "on";
                     % 如果ListID非空，且存在该ID，则找到该ID所在索引并删除
@@ -704,10 +706,14 @@ classdef HGC_r1_0 < matlab.apps.AppBase
                         app.(['Alt_' num2str(panel_count)]).Value = [num2str(ceil(alt*10)/10) 'm'];
                         app.(['Airspd_' num2str(panel_count)]).Value = [num2str(ceil(airspd*10)/10) 'm/s'];
                         app.(['Groundspd_' num2str(panel_count)]).Value = [num2str(ceil(groundspd*10)/10) 'm/s'];
-                        if ~isempty(app.APMParams)&&~app.APMParams{id}.GCS_AIRSPD_INIT
+                        if app.AirspdInit==0
                             app.(['AirspdSelect_' num2str(panel_count)]).Value = ceil((app.VehicleGuidedPoint(ind).airspd_max+app.VehicleGuidedPoint(ind).airspd_min)*10)/20;
-                            app.APMParams{id}.GCS_AIRSPD_INIT = 1;
+                            app.AirspdInit = 1;
                         end
+%                         if ~isempty(app.APMParams)&&~app.APMParams{id}.GCS_AIRSPD_INIT
+%                             app.(['AirspdSelect_' num2str(panel_count)]).Value = ceil((app.VehicleGuidedPoint(ind).airspd_max+app.VehicleGuidedPoint(ind).airspd_min)*10)/20;
+%                             app.APMParams{id}.GCS_AIRSPD_INIT = 1;
+%                         end
                         color = app.VehicleGuidedPoint(ind).color;
                         if armed
                             % char inside [], not string 
@@ -1337,18 +1343,18 @@ classdef HGC_r1_0 < matlab.apps.AppBase
                 linkid = app.ValueIndexInItems(app.LinkID.Value,app.LinkID.Items);
                 ind = find(linkid == app.VehicleListID);
                 if ind<=length(app.VehicleListID)&&~isempty(ind)
-                    id = app.VehicleListID(ind);
-                    app.APMParams{id} = struct(app.APMVehicle{id}.vehicle.parameters);
-                    app.PilotAirspdMax.Value = app.APMParams{id}.(app.PilotAirspdMaxLabel.Text);
-                    app.PilotAirspdMin.Value = app.APMParams{id}.(app.PilotAirspdMinLabel.Text);
-                    app.PilotAirspdWork.Value = app.APMParams{id}.(app.PilotAirspdWorkLabel.Text);
-                    app.PilotRTLRad.Value = app.APMParams{id}.(app.PilotRTLRadLabel.Text);
-                    app.PilotLoiterRad.Value = app.APMParams{id}.(app.PilotLoiterRadLabel.Text);
-                    app.PilotWPRad.Value = app.APMParams{id}.(app.PilotWPRadLabel.Text);
-                    app.PilotSysID.Value = app.APMParams{id}.(app.PilotSysIDLabel.Text);
-                    app.PilotTkoffAlt.Value = app.APMParams{id}.(app.PilotTkoffAltLabel.Text);
-                    app.PilotRTLAlt.Value = app.APMParams{id}.(app.PilotRTLAltLabel.Text);
-                    app.APMParams{id}.GCS_AIRSPD_INIT = 0;
+%                     id = app.VehicleListID(ind);
+%                     app.APMParams{id} = struct(app.APMVehicle{id}.vehicle.parameters);
+%                     app.PilotAirspdMax.Value = app.APMParams{id}.(app.PilotAirspdMaxLabel.Text);
+%                     app.PilotAirspdMin.Value = app.APMParams{id}.(app.PilotAirspdMinLabel.Text);
+%                     app.PilotAirspdWork.Value = app.APMParams{id}.(app.PilotAirspdWorkLabel.Text);
+%                     app.PilotRTLRad.Value = app.APMParams{id}.(app.PilotRTLRadLabel.Text);
+%                     app.PilotLoiterRad.Value = app.APMParams{id}.(app.PilotLoiterRadLabel.Text);
+%                     app.PilotWPRad.Value = app.APMParams{id}.(app.PilotWPRadLabel.Text);
+%                     app.PilotSysID.Value = app.APMParams{id}.(app.PilotSysIDLabel.Text);
+%                     app.PilotTkoffAlt.Value = app.APMParams{id}.(app.PilotTkoffAltLabel.Text);
+%                     app.PilotRTLAlt.Value = app.APMParams{id}.(app.PilotRTLAltLabel.Text);
+%                     app.APMParams{id}.GCS_AIRSPD_INIT = 0;
                 end
             catch
                 warning(['[ ' num2str(id) 'plane ] Cannot read Parameters'])

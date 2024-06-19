@@ -1,247 +1,255 @@
-classdef HGC_r1_1 < matlab.apps.AppBase
+classdef HGC_r1_3 < matlab.apps.AppBase
 
     % Properties that correspond to app components
     properties (Access = public)
-        UIFigure              matlab.ui.Figure
-        TabGroupMap           matlab.ui.container.TabGroup
-        TabMap                matlab.ui.container.Tab
-        MapGPSUnify           matlab.ui.control.Button
-        MapGPSSet             matlab.ui.control.Button
-        MapGPSLon             matlab.ui.control.NumericEditField
-        MapGPSLonLabel        matlab.ui.control.Label
-        MapGPSLat             matlab.ui.control.NumericEditField
-        MapGPSLatLabel        matlab.ui.control.Label
-        UAVIDList             matlab.ui.control.EditField
-        UAVIDListLabel        matlab.ui.control.Label
-        CtrlTimeLabel         matlab.ui.control.Label
-        CopyrightLabel        matlab.ui.control.Label
-        TabGroupFlight        matlab.ui.container.TabGroup
-        TabFlight             matlab.ui.container.Tab
-        CmdPanel              matlab.ui.container.Panel
-        SwitchNavStart        matlab.ui.control.Button
-        GuidedStart           matlab.ui.control.StateButton
-        DisplayStart          matlab.ui.control.StateButton
-        PageScroll            matlab.ui.control.Button
-        UAVPanel_4            matlab.ui.container.Panel
-        GridLayout_4          matlab.ui.container.GridLayout
-        AirspdSelect_4        matlab.ui.control.NumericEditField
-        AirspdSelectLabel_4   matlab.ui.control.Label
-        Climbspd_4            matlab.ui.control.EditField
-        ClimbspdLabel_4       matlab.ui.control.Label
-        Alt_4                 matlab.ui.control.EditField
-        AltLabel_4            matlab.ui.control.Label
-        Airspd_4              matlab.ui.control.EditField
-        AirspdLabel_4         matlab.ui.control.Label
-        Groundspd_4           matlab.ui.control.EditField
-        GroundspdLabel_4      matlab.ui.control.Label
-        AirspdSet_4           matlab.ui.control.Button
-        ModeList_4            matlab.ui.control.DropDown
-        ModeSet_4             matlab.ui.control.Button
-        HudDeg_4              Aero.ui.control.ArtificialHorizon
-        AngleDeg_4            Aero.ui.control.HeadingIndicator
-        UAVPanel_3            matlab.ui.container.Panel
-        GridLayout_3          matlab.ui.container.GridLayout
-        AirspdSet_3           matlab.ui.control.Button
-        AirspdSelect_3        matlab.ui.control.NumericEditField
-        AirspdSelectLabel_3   matlab.ui.control.Label
-        Climbspd_3            matlab.ui.control.EditField
-        ClimbspdLabel_3       matlab.ui.control.Label
-        Alt_3                 matlab.ui.control.EditField
-        AltLabel_3            matlab.ui.control.Label
-        Airspd_3              matlab.ui.control.EditField
-        AirspdLabel_3         matlab.ui.control.Label
-        Groundspd_3           matlab.ui.control.EditField
-        GroundspdLabel_3      matlab.ui.control.Label
-        ModeList_3            matlab.ui.control.DropDown
-        ModeSet_3             matlab.ui.control.Button
-        HudDeg_3              Aero.ui.control.ArtificialHorizon
-        AngleDeg_3            Aero.ui.control.HeadingIndicator
-        UAVPanel_2            matlab.ui.container.Panel
-        GridLayout_2          matlab.ui.container.GridLayout
-        AirspdSelect_2        matlab.ui.control.NumericEditField
-        AirspdSelectLabel_2   matlab.ui.control.Label
-        Climbspd_2            matlab.ui.control.EditField
-        ClimbspdLabel_2       matlab.ui.control.Label
-        Alt_2                 matlab.ui.control.EditField
-        AltLabel_2            matlab.ui.control.Label
-        Airspd_2              matlab.ui.control.EditField
-        AirspdLabel_2         matlab.ui.control.Label
-        Groundspd_2           matlab.ui.control.EditField
-        GroundspdLabel_2      matlab.ui.control.Label
-        AirspdSet_2           matlab.ui.control.Button
-        ModeList_2            matlab.ui.control.DropDown
-        ModeSet_2             matlab.ui.control.Button
-        HudDeg_2              Aero.ui.control.ArtificialHorizon
-        AngleDeg_2            Aero.ui.control.HeadingIndicator
-        UAVPanel_1            matlab.ui.container.Panel
-        GridLayout_1          matlab.ui.container.GridLayout
-        AirspdSelect_1        matlab.ui.control.NumericEditField
-        AirspdSelectLabel_1   matlab.ui.control.Label
-        Climbspd_1            matlab.ui.control.EditField
-        ClimbspdLabel_1       matlab.ui.control.Label
-        Alt_1                 matlab.ui.control.EditField
-        AltLabel_1            matlab.ui.control.Label
-        Airspd_1              matlab.ui.control.EditField
-        AirspdLabel_1         matlab.ui.control.Label
-        Groundspd_1           matlab.ui.control.EditField
-        GroundspdLabel_1      matlab.ui.control.Label
-        AirspdSet_1           matlab.ui.control.Button
-        ModeList_1            matlab.ui.control.DropDown
-        ModeSet_1             matlab.ui.control.Button
-        HudDeg_1              Aero.ui.control.ArtificialHorizon
-        AngleDeg_1            Aero.ui.control.HeadingIndicator
-        TabPlanning           matlab.ui.container.Tab
-        FormationPanel        matlab.ui.container.Panel
-        FormationGrid         matlab.ui.container.GridLayout
-        FormAltKeep           matlab.ui.control.DropDown
-        FormAltKeepLabel      matlab.ui.control.Label
-        FormDispZ             matlab.ui.control.NumericEditField
-        FormDispZLabel        matlab.ui.control.Label
-        FormDispY             matlab.ui.control.NumericEditField
-        FormDispYLabel        matlab.ui.control.Label
-        FormDispX             matlab.ui.control.NumericEditField
-        FormDispXLabel        matlab.ui.control.Label
-        FormCenTrack          matlab.ui.control.DropDown
-        FormCenTrackLabel     matlab.ui.control.Label
-        FormRadSlider         matlab.ui.control.Slider
-        FormRadSliderLabel    matlab.ui.control.Label
-        FormType              matlab.ui.control.DropDown
-        FormTypeLabel         matlab.ui.control.Label
-        FormAng               matlab.ui.control.DropDown
-        FormAngLabel          matlab.ui.control.Label
-        FormScale             matlab.ui.control.DropDown
-        FormScaleLabel        matlab.ui.control.Label
-        FormDispRead          matlab.ui.control.Button
-        FormDispModify        matlab.ui.control.Button
-        FormDispUpload        matlab.ui.control.Button
-        FormDispDownload      matlab.ui.control.Button
-        FormClear             matlab.ui.control.Button
-        FormationStart        matlab.ui.control.StateButton
-        FormationGroup        matlab.ui.container.ButtonGroup
-        FormationMode_5       matlab.ui.control.RadioButton
-        FormationMode_4       matlab.ui.control.RadioButton
-        FormationMode_3       matlab.ui.control.RadioButton
-        FormationMode_2       matlab.ui.control.RadioButton
-        FormationMode_1       matlab.ui.control.RadioButton
-        TaskPanel             matlab.ui.container.Panel
-        TaskGrid              matlab.ui.container.GridLayout
-        PlanUAVTeamLabel      matlab.ui.control.Label
-        PlanUAVTeam           matlab.ui.control.DropDown
-        TaskAltSet            matlab.ui.control.Button
-        TaskAng               matlab.ui.control.NumericEditField
-        TaskAngLabel          matlab.ui.control.Label
-        TaskRad               matlab.ui.control.NumericEditField
-        TaskRadLabel          matlab.ui.control.Label
-        TaskAlt               matlab.ui.control.NumericEditField
-        TaskAltLabel          matlab.ui.control.Label
-        PlanTaskID            matlab.ui.control.DropDown
-        PlanTaskIDLabel       matlab.ui.control.Label
-        PlanUAVID             matlab.ui.control.DropDown
-        PlanUAVIDLabel        matlab.ui.control.Label
-        TaskModify            matlab.ui.control.Button
-        TaskSwitch            matlab.ui.control.Button
-        TaskUpload            matlab.ui.control.Button
-        TaskDownload          matlab.ui.control.Button
-        TaskClear             matlab.ui.control.Button
-        CanvasPanel           matlab.ui.container.Panel
-        CanvasGrid            matlab.ui.container.GridLayout
-        NavModify             matlab.ui.control.StateButton
-        NavSwitch             matlab.ui.control.Button
-        NavTime               matlab.ui.control.NumericEditField
-        NavTimeLabel          matlab.ui.control.Label
-        NavSpd                matlab.ui.control.NumericEditField
-        NavSpdLabel           matlab.ui.control.Label
-        NavRad                matlab.ui.control.NumericEditField
-        NavRadLabel           matlab.ui.control.Label
-        NavAlt                matlab.ui.control.NumericEditField
-        NavAltLabel           matlab.ui.control.Label
-        NavCmd                matlab.ui.control.DropDown
-        NavCmdLabel           matlab.ui.control.Label
-        NavID                 matlab.ui.control.DropDown
-        NavIDLabel            matlab.ui.control.Label
-        NavUpload             matlab.ui.control.Button
-        NavDownload           matlab.ui.control.Button
-        CanvasClear           matlab.ui.control.Button
-        CanvasStart           matlab.ui.control.StateButton
-        TaskGroup             matlab.ui.container.ButtonGroup
-        TaskMode_5            matlab.ui.control.RadioButton
-        TaskMode_4            matlab.ui.control.RadioButton
-        TaskMode_3            matlab.ui.control.RadioButton
-        TaskMode_2            matlab.ui.control.RadioButton
-        TaskMode_1            matlab.ui.control.RadioButton
-        CanvasGroup           matlab.ui.container.ButtonGroup
-        CanvasMode_4          matlab.ui.control.RadioButton
-        CanvasMode_3          matlab.ui.control.RadioButton
-        CanvasMode_2          matlab.ui.control.RadioButton
-        CanvasMode_1          matlab.ui.control.RadioButton
-        TabDecision           matlab.ui.container.Tab
-        UIAxes                matlab.ui.control.UIAxes
-        TabSetting            matlab.ui.container.Tab
-        NetworkPanel          matlab.ui.container.Panel
-        NetworkGrid           matlab.ui.container.GridLayout
-        IP_3                  matlab.ui.control.EditField
-        IPLabel_3             matlab.ui.control.Label
-        IP_2                  matlab.ui.control.EditField
-        IPLabel_2             matlab.ui.control.Label
-        IP_1                  matlab.ui.control.EditField
-        IPLabel_1             matlab.ui.control.Label
-        PilotPanel            matlab.ui.container.Panel
-        PilotGrid             matlab.ui.container.GridLayout
-        PilotRTLAltLabel      matlab.ui.control.Label
-        PilotRTLAlt           matlab.ui.control.NumericEditField
-        PilotTkoffAltLabel    matlab.ui.control.Label
-        PilotTkoffAlt         matlab.ui.control.NumericEditField
-        PilotAirspdMaxLabel   matlab.ui.control.Label
-        PilotAirspdMax        matlab.ui.control.NumericEditField
-        PilotAirspdMinLabel   matlab.ui.control.Label
-        PilotAirspdMin        matlab.ui.control.NumericEditField
-        PilotAirspdWorkLabel  matlab.ui.control.Label
-        PilotAirspdWork       matlab.ui.control.NumericEditField
-        PilotRTLRadLabel      matlab.ui.control.Label
-        PilotRTLRad           matlab.ui.control.NumericEditField
-        PilotLoiterRadLabel   matlab.ui.control.Label
-        PilotLoiterRad        matlab.ui.control.NumericEditField
-        PilotWPRadLabel       matlab.ui.control.Label
-        PilotWPRad            matlab.ui.control.NumericEditField
-        PilotSysIDLabel       matlab.ui.control.Label
-        PilotSysID            matlab.ui.control.NumericEditField
-        PilotButtonRead       matlab.ui.control.Button
-        PilotButtonWrite      matlab.ui.control.Button
-        ConfigPanel           matlab.ui.container.Panel
-        ConfigGrid            matlab.ui.container.GridLayout
-        ConfigDebug           matlab.ui.control.StateButton
-        ConfigEastRight       matlab.ui.control.NumericEditField
-        ConfigEastLeft        matlab.ui.control.NumericEditField
-        ConfigNorthRight      matlab.ui.control.NumericEditField
-        ConfigNorthLeft       matlab.ui.control.NumericEditField
-        ConfigButtonRead      matlab.ui.control.Button
-        ConfigButtonWrite     matlab.ui.control.Button
-        ConfigLabelEast       matlab.ui.control.Label
-        ConfigLabelNorth      matlab.ui.control.Label
-        LinkPanel             matlab.ui.container.Panel
-        LinkGrid              matlab.ui.container.GridLayout
-        IPAddr                matlab.ui.control.DropDown
-        IPAddrLabel           matlab.ui.control.Label
-        YawErr                matlab.ui.control.NumericEditField
-        YawErrLabel           matlab.ui.control.Label
-        GPSErr                matlab.ui.control.NumericEditField
-        GPSErrLabel           matlab.ui.control.Label
-        WorkAltLabel          matlab.ui.control.Label
-        WorkAlt               matlab.ui.control.NumericEditField
-        WorkAltDistLabel      matlab.ui.control.Label
-        WorkAltDist           matlab.ui.control.NumericEditField
-        WorkAltErrLabel       matlab.ui.control.Label
-        WorkAltErr            matlab.ui.control.NumericEditField
-        WorkAltMin            matlab.ui.control.NumericEditField
-        WorkAltMinLabel       matlab.ui.control.Label
-        LinkPort              matlab.ui.control.NumericEditField
-        LinkPortLabel         matlab.ui.control.Label
-        LinkID                matlab.ui.control.DropDown
-        LinkIDLabel           matlab.ui.control.Label
-        WorkButtonRead        matlab.ui.control.Button
-        WorkButtonWrite       matlab.ui.control.Button
-        LinkButtonOff         matlab.ui.control.Button
-        LinkButtonOn          matlab.ui.control.Button
+        UIFigure                matlab.ui.Figure
+        TabGroupMap             matlab.ui.container.TabGroup
+        TabMap                  matlab.ui.container.Tab
+        MapGPSUnify             matlab.ui.control.Button
+        MapGPSSet               matlab.ui.control.Button
+        MapGPSLon               matlab.ui.control.NumericEditField
+        MapGPSLonLabel          matlab.ui.control.Label
+        MapGPSLat               matlab.ui.control.NumericEditField
+        MapGPSLatLabel          matlab.ui.control.Label
+        UAVIDList               matlab.ui.control.EditField
+        UAVIDListLabel          matlab.ui.control.Label
+        CtrlTimeLabel           matlab.ui.control.Label
+        CopyrightLabel          matlab.ui.control.Label
+        TabGroupFlight          matlab.ui.container.TabGroup
+        TabFlight               matlab.ui.container.Tab
+        CmdPanel                matlab.ui.container.Panel
+        SwitchNavStart          matlab.ui.control.Button
+        GuidedStart             matlab.ui.control.StateButton
+        DisplayStart            matlab.ui.control.StateButton
+        PageScroll              matlab.ui.control.Button
+        UAVPanel_4              matlab.ui.container.Panel
+        GridLayout_4            matlab.ui.container.GridLayout
+        AirspdSelect_4          matlab.ui.control.NumericEditField
+        AirspdSelectLabel_4     matlab.ui.control.Label
+        Climbspd_4              matlab.ui.control.EditField
+        ClimbspdLabel_4         matlab.ui.control.Label
+        Alt_4                   matlab.ui.control.EditField
+        AltLabel_4              matlab.ui.control.Label
+        Airspd_4                matlab.ui.control.EditField
+        AirspdLabel_4           matlab.ui.control.Label
+        Groundspd_4             matlab.ui.control.EditField
+        GroundspdLabel_4        matlab.ui.control.Label
+        AirspdSet_4             matlab.ui.control.Button
+        ModeList_4              matlab.ui.control.DropDown
+        ModeSet_4               matlab.ui.control.Button
+        HudDeg_4                Aero.ui.control.ArtificialHorizon
+        AngleDeg_4              Aero.ui.control.HeadingIndicator
+        UAVPanel_3              matlab.ui.container.Panel
+        GridLayout_3            matlab.ui.container.GridLayout
+        AirspdSet_3             matlab.ui.control.Button
+        AirspdSelect_3          matlab.ui.control.NumericEditField
+        AirspdSelectLabel_3     matlab.ui.control.Label
+        Climbspd_3              matlab.ui.control.EditField
+        ClimbspdLabel_3         matlab.ui.control.Label
+        Alt_3                   matlab.ui.control.EditField
+        AltLabel_3              matlab.ui.control.Label
+        Airspd_3                matlab.ui.control.EditField
+        AirspdLabel_3           matlab.ui.control.Label
+        Groundspd_3             matlab.ui.control.EditField
+        GroundspdLabel_3        matlab.ui.control.Label
+        ModeList_3              matlab.ui.control.DropDown
+        ModeSet_3               matlab.ui.control.Button
+        HudDeg_3                Aero.ui.control.ArtificialHorizon
+        AngleDeg_3              Aero.ui.control.HeadingIndicator
+        UAVPanel_2              matlab.ui.container.Panel
+        GridLayout_2            matlab.ui.container.GridLayout
+        AirspdSelect_2          matlab.ui.control.NumericEditField
+        AirspdSelectLabel_2     matlab.ui.control.Label
+        Climbspd_2              matlab.ui.control.EditField
+        ClimbspdLabel_2         matlab.ui.control.Label
+        Alt_2                   matlab.ui.control.EditField
+        AltLabel_2              matlab.ui.control.Label
+        Airspd_2                matlab.ui.control.EditField
+        AirspdLabel_2           matlab.ui.control.Label
+        Groundspd_2             matlab.ui.control.EditField
+        GroundspdLabel_2        matlab.ui.control.Label
+        AirspdSet_2             matlab.ui.control.Button
+        ModeList_2              matlab.ui.control.DropDown
+        ModeSet_2               matlab.ui.control.Button
+        HudDeg_2                Aero.ui.control.ArtificialHorizon
+        AngleDeg_2              Aero.ui.control.HeadingIndicator
+        UAVPanel_1              matlab.ui.container.Panel
+        GridLayout_1            matlab.ui.container.GridLayout
+        AirspdSelect_1          matlab.ui.control.NumericEditField
+        AirspdSelectLabel_1     matlab.ui.control.Label
+        Climbspd_1              matlab.ui.control.EditField
+        ClimbspdLabel_1         matlab.ui.control.Label
+        Alt_1                   matlab.ui.control.EditField
+        AltLabel_1              matlab.ui.control.Label
+        Airspd_1                matlab.ui.control.EditField
+        AirspdLabel_1           matlab.ui.control.Label
+        Groundspd_1             matlab.ui.control.EditField
+        GroundspdLabel_1        matlab.ui.control.Label
+        AirspdSet_1             matlab.ui.control.Button
+        ModeList_1              matlab.ui.control.DropDown
+        ModeSet_1               matlab.ui.control.Button
+        HudDeg_1                Aero.ui.control.ArtificialHorizon
+        AngleDeg_1              Aero.ui.control.HeadingIndicator
+        TabPlanning             matlab.ui.container.Tab
+        FormationPanel          matlab.ui.container.Panel
+        FormationGrid           matlab.ui.container.GridLayout
+        FormAltKeep             matlab.ui.control.DropDown
+        FormAltKeepLabel        matlab.ui.control.Label
+        FormDispZ               matlab.ui.control.NumericEditField
+        FormDispZLabel          matlab.ui.control.Label
+        FormDispY               matlab.ui.control.NumericEditField
+        FormDispYLabel          matlab.ui.control.Label
+        FormDispX               matlab.ui.control.NumericEditField
+        FormDispXLabel          matlab.ui.control.Label
+        FormCenTrack            matlab.ui.control.DropDown
+        FormCenTrackLabel       matlab.ui.control.Label
+        FormRadSlider           matlab.ui.control.Slider
+        FormRadSliderLabel      matlab.ui.control.Label
+        FormType                matlab.ui.control.DropDown
+        FormTypeLabel           matlab.ui.control.Label
+        FormAng                 matlab.ui.control.DropDown
+        FormAngLabel            matlab.ui.control.Label
+        FormScale               matlab.ui.control.DropDown
+        FormScaleLabel          matlab.ui.control.Label
+        FormDispRead            matlab.ui.control.Button
+        FormDispModify          matlab.ui.control.Button
+        FormDispUpload          matlab.ui.control.Button
+        FormDispDownload        matlab.ui.control.Button
+        FormClear               matlab.ui.control.Button
+        FormationStart          matlab.ui.control.StateButton
+        FormationGroup          matlab.ui.container.ButtonGroup
+        FormationMode_5         matlab.ui.control.RadioButton
+        FormationMode_4         matlab.ui.control.RadioButton
+        FormationMode_3         matlab.ui.control.RadioButton
+        FormationMode_2         matlab.ui.control.RadioButton
+        FormationMode_1         matlab.ui.control.RadioButton
+        TaskPanel               matlab.ui.container.Panel
+        TaskGrid                matlab.ui.container.GridLayout
+        PlanUAVTeamLabel        matlab.ui.control.Label
+        PlanUAVTeam             matlab.ui.control.DropDown
+        TaskAltSet              matlab.ui.control.Button
+        TaskAng                 matlab.ui.control.NumericEditField
+        TaskAngLabel            matlab.ui.control.Label
+        TaskRad                 matlab.ui.control.NumericEditField
+        TaskRadLabel            matlab.ui.control.Label
+        TaskAlt                 matlab.ui.control.NumericEditField
+        TaskAltLabel            matlab.ui.control.Label
+        PlanTaskID              matlab.ui.control.DropDown
+        PlanTaskIDLabel         matlab.ui.control.Label
+        PlanUAVID               matlab.ui.control.DropDown
+        PlanUAVIDLabel          matlab.ui.control.Label
+        TaskModify              matlab.ui.control.Button
+        TaskSwitch              matlab.ui.control.Button
+        TaskUpload              matlab.ui.control.Button
+        TaskDownload            matlab.ui.control.Button
+        TaskClear               matlab.ui.control.Button
+        CanvasPanel             matlab.ui.container.Panel
+        CanvasGrid              matlab.ui.container.GridLayout
+        NavModify               matlab.ui.control.StateButton
+        NavSwitch               matlab.ui.control.Button
+        NavTime                 matlab.ui.control.NumericEditField
+        NavTimeLabel            matlab.ui.control.Label
+        NavSpd                  matlab.ui.control.NumericEditField
+        NavSpdLabel             matlab.ui.control.Label
+        NavRad                  matlab.ui.control.NumericEditField
+        NavRadLabel             matlab.ui.control.Label
+        NavAlt                  matlab.ui.control.NumericEditField
+        NavAltLabel             matlab.ui.control.Label
+        NavCmd                  matlab.ui.control.DropDown
+        NavCmdLabel             matlab.ui.control.Label
+        NavID                   matlab.ui.control.DropDown
+        NavIDLabel              matlab.ui.control.Label
+        NavUpload               matlab.ui.control.Button
+        NavDownload             matlab.ui.control.Button
+        CanvasClear             matlab.ui.control.Button
+        CanvasStart             matlab.ui.control.StateButton
+        TaskGroup               matlab.ui.container.ButtonGroup
+        TaskMode_5              matlab.ui.control.RadioButton
+        TaskMode_4              matlab.ui.control.RadioButton
+        TaskMode_3              matlab.ui.control.RadioButton
+        TaskMode_2              matlab.ui.control.RadioButton
+        TaskMode_1              matlab.ui.control.RadioButton
+        CanvasGroup             matlab.ui.container.ButtonGroup
+        CanvasMode_4            matlab.ui.control.RadioButton
+        CanvasMode_3            matlab.ui.control.RadioButton
+        CanvasMode_2            matlab.ui.control.RadioButton
+        CanvasMode_1            matlab.ui.control.RadioButton
+        TabDecision             matlab.ui.container.Tab
+        UIAxes                  matlab.ui.control.UIAxes
+        TabSetting              matlab.ui.container.Tab
+        NetworkPanel            matlab.ui.container.Panel
+        NetworkGrid             matlab.ui.container.GridLayout
+        IP_3                    matlab.ui.control.EditField
+        IPLabel_3               matlab.ui.control.Label
+        IP_2                    matlab.ui.control.EditField
+        IPLabel_2               matlab.ui.control.Label
+        IP_1                    matlab.ui.control.EditField
+        IPLabel_1               matlab.ui.control.Label
+        PilotPanel              matlab.ui.container.Panel
+        PilotGrid               matlab.ui.container.GridLayout
+        PilotAirspdUseLabel     matlab.ui.control.Label
+        PilotAirspdUse          matlab.ui.control.NumericEditField
+        PilotTrimThrottleLabel  matlab.ui.control.Label
+        PilotTrimThrottle       matlab.ui.control.NumericEditField
+        PilotRTLAltLabel        matlab.ui.control.Label
+        PilotRTLAlt             matlab.ui.control.NumericEditField
+        PilotTkoffAltLabel      matlab.ui.control.Label
+        PilotTkoffAlt           matlab.ui.control.NumericEditField
+        PilotAirspdMaxLabel     matlab.ui.control.Label
+        PilotAirspdMax          matlab.ui.control.NumericEditField
+        PilotAirspdMinLabel     matlab.ui.control.Label
+        PilotAirspdMin          matlab.ui.control.NumericEditField
+        PilotAirspdWorkLabel    matlab.ui.control.Label
+        PilotTrimAirspd         matlab.ui.control.NumericEditField
+        PilotRTLRadLabel        matlab.ui.control.Label
+        PilotRTLRad             matlab.ui.control.NumericEditField
+        PilotLoiterRadLabel     matlab.ui.control.Label
+        PilotLoiterRad          matlab.ui.control.NumericEditField
+        PilotWPRadLabel         matlab.ui.control.Label
+        PilotWPRad              matlab.ui.control.NumericEditField
+        PilotSysIDLabel         matlab.ui.control.Label
+        PilotSysID              matlab.ui.control.NumericEditField
+        PilotButtonRead         matlab.ui.control.Button
+        PilotButtonWrite        matlab.ui.control.Button
+        ConfigPanel             matlab.ui.container.Panel
+        ConfigGrid              matlab.ui.container.GridLayout
+        ConfigDebug             matlab.ui.control.StateButton
+        ConfigEastRight         matlab.ui.control.NumericEditField
+        ConfigEastLeft          matlab.ui.control.NumericEditField
+        ConfigNorthRight        matlab.ui.control.NumericEditField
+        ConfigNorthLeft         matlab.ui.control.NumericEditField
+        ConfigButtonRead        matlab.ui.control.Button
+        ConfigButtonWrite       matlab.ui.control.Button
+        ConfigLabelEast         matlab.ui.control.Label
+        ConfigLabelNorth        matlab.ui.control.Label
+        LinkPanel               matlab.ui.container.Panel
+        LinkGrid                matlab.ui.container.GridLayout
+        WorkAltErrLabel_2       matlab.ui.control.Label
+        AirspdMin               matlab.ui.control.NumericEditField
+        AirspdMax               matlab.ui.control.NumericEditField
+        WorkAltMinLabel_2       matlab.ui.control.Label
+        IPAddr                  matlab.ui.control.DropDown
+        IPAddrLabel             matlab.ui.control.Label
+        YawErr                  matlab.ui.control.NumericEditField
+        YawErrLabel             matlab.ui.control.Label
+        GPSErr                  matlab.ui.control.NumericEditField
+        GPSErrLabel             matlab.ui.control.Label
+        WorkAltLabel            matlab.ui.control.Label
+        WorkAlt                 matlab.ui.control.NumericEditField
+        WorkAltDistLabel        matlab.ui.control.Label
+        WorkAltDist             matlab.ui.control.NumericEditField
+        WorkAltErrLabel         matlab.ui.control.Label
+        WorkAltErr              matlab.ui.control.NumericEditField
+        WorkAltMin              matlab.ui.control.NumericEditField
+        WorkAltMinLabel         matlab.ui.control.Label
+        LinkPort                matlab.ui.control.NumericEditField
+        LinkPortLabel           matlab.ui.control.Label
+        LinkID                  matlab.ui.control.DropDown
+        LinkIDLabel             matlab.ui.control.Label
+        WorkButtonRead          matlab.ui.control.Button
+        WorkButtonWrite         matlab.ui.control.Button
+        LinkButtonOff           matlab.ui.control.Button
+        LinkButtonOn            matlab.ui.control.Button
     end
 
     
@@ -292,7 +300,6 @@ classdef HGC_r1_1 < matlab.apps.AppBase
         TimeErr
         % Color
         ColorList
-        AirspdInit
     end
     
     methods (Access = private)
@@ -311,7 +318,6 @@ classdef HGC_r1_1 < matlab.apps.AppBase
             app.NorthLimit = [app.ConfigNorthLeft.Value; app.ConfigNorthRight.Value];
             app.EastLimit = [app.ConfigEastLeft.Value; app.ConfigEastRight.Value];
             app.ColorList = 'bgmcry';
-            app.AirspdInit = 0;
             % 飞机状态相关初始化
             app.APMVehicle = cell(1,length(app.LinkID.Items));
             app.TkoffAll = 0;
@@ -413,6 +419,8 @@ classdef HGC_r1_1 < matlab.apps.AppBase
                             % 如果ListID为空，i=0
                             i = 0;
                         end
+                        pt3d = Pt3D('id',id,'airspd_min',app.AirspdMin.Value,'airspd_max',app.AirspdMax.Value);
+                        plan_canvas = Canvas(app.UIFigure,app.UIAxes,app.EastLimit,app.NorthLimit);
                         if i<=0
                             % 地图原点仅在连接第一个飞机时更新
                             app.MapGPSOrigin = home_gps(:);
@@ -424,6 +432,7 @@ classdef HGC_r1_1 < matlab.apps.AppBase
                                 app.RealHomeGPS = 0;
                                 app.MapGPSUnify.Enable = "off";
                             end
+                            % 初始化第一个飞机
                             app.VehicleListID = id;
                             app.VehicleMode = "连接";
                             app.VehiclePosX = 0;
@@ -431,15 +440,12 @@ classdef HGC_r1_1 < matlab.apps.AppBase
                             app.VehicleAirspd = 0;
                             app.VehicleGroundspd = 0;
                             app.VehicleAlt = 0;
-                            % 读取飞控参数，必须在VehicleListID赋值之后运行
-%                             app.PilotButtonReadPushed();
                             % 类数值初始化必须直接赋值一次，否则默认为double数组
-%                             app.VehicleGuidedPoint = Pt3D('id',id,'airspd_min',app.APMParams{id}.AIRSPEED_MIN,'airspd_max',app.APMParams{id}.AIRSPEED_MAX);
-                            app.VehicleGuidedPoint = Pt3D('id',id,'airspd_min',25,'airspd_max',33);
+                            app.VehicleGuidedPoint = pt3d;
                             % ***canvas画布使用方法***
                             % select_point启动，cancel_point结束
                             % 设置mode选择模式：选点、删除、移动、插入
-                            app.PlanCanvas = Canvas(app.UIFigure,app.UIAxes,app.EastLimit,app.NorthLimit);
+                            app.PlanCanvas = plan_canvas;
                         else
                             app.VehicleListID = [app.VehicleListID(1:i-1) id app.VehicleListID(i:end)];
                             app.VehicleMode = [app.VehicleMode(1:i-1) "连接" app.VehicleMode(i:end)];
@@ -448,15 +454,12 @@ classdef HGC_r1_1 < matlab.apps.AppBase
                             app.VehicleAirspd = [app.VehicleAirspd(1:i-1) 0 app.VehicleAirspd(i:end)];
                             app.VehicleGroundspd = [app.VehicleGroundspd(1:i-1) 0 app.VehicleGroundspd(i:end)];
                             app.VehicleAlt = [app.VehicleAlt(1:i-1) 0 app.VehicleAlt(i:end)];
-                            % 读取飞控参数，必须在VehicleListID赋值之后运行
-%                             app.PilotButtonReadPushed();
                             % 类数值初始化必须直接赋值一次，否则默认为double数组
-%                             app.VehicleGuidedPoint = [app.VehicleGuidedPoint(1:i-1) Pt3D('id',id,'airspd_min',app.APMParams{id}.AIRSPEED_MIN,'airspd_max',app.APMParams{id}.AIRSPEED_MAX) app.VehicleGuidedPoint(i:end)];
-                            app.VehicleGuidedPoint = [app.VehicleGuidedPoint(1:i-1) Pt3D('id',id,'airspd_min',25,'airspd_max',33) app.VehicleGuidedPoint(i:end)];
+                            app.VehicleGuidedPoint = [app.VehicleGuidedPoint(1:i-1) pt3d app.VehicleGuidedPoint(i:end)];
                             % ***canvas画布使用方法***
                             % select_point启动，cancel_point结束
                             % 设置mode选择模式：选点、删除、移动、插入
-                            app.PlanCanvas = [app.PlanCanvas(1:i-1) Canvas(app.UIFigure,app.UIAxes,app.EastLimit,app.NorthLimit) app.PlanCanvas(i:end)];
+                            app.PlanCanvas = [app.PlanCanvas(1:i-1) plan_canvas app.PlanCanvas(i:end)];
                         end
                     end
                     % 使能"断开"，禁用"连接"
@@ -485,8 +488,6 @@ classdef HGC_r1_1 < matlab.apps.AppBase
                     app.APMVehicle{id}.close();
                     delete(app.APMVehicle{id});
                     app.APMVehicle{id} = [];
-                    % 删除飞控参数
-%                     app.APMParams{id} = [];
                     % 使能"连接"，禁用"断开"
                     app.LinkButtonOn.Enable = "on";
                     % 如果ListID非空，且存在该ID，则找到该ID所在索引并删除
@@ -600,10 +601,15 @@ classdef HGC_r1_1 < matlab.apps.AppBase
                     app.TkoffCount = app.TkoffCount+1;
                 end
                 % Auto模式航点更新（MasterID）
-                mastet_ind = find(app.MasterID==app.VehicleListID,1);
-                if ~isempty(mastet_ind)&&app.VehicleGuidedPoint(mastet_ind).tkoff_flag
-                    countnext = double(app.APMVehicle{app.MasterID}.get_waypoint(0));  
-                    app.PlanCanvas(mastet_ind).navid = countnext(2);
+                master_ind = find(app.MasterID==app.VehicleListID,1);
+                if isempty(master_ind)
+                    % 如果不满足选举簇头条件，则选择PlanUAVID指定的UAV
+                    master_ind = app.ValueIndexInItems(app.PlanUAVID.Value,app.PlanUAVID.Items);
+                end 
+                if app.VehicleGuidedPoint(master_ind).tkoff_flag
+                    % 对当前路点进行显示
+                    countnext = double(app.APMVehicle{app.VehicleListID(master_ind)}.get_waypoint(0));  
+                    app.PlanCanvas(master_ind).navid = countnext(2);
                 end
                 % 按下之后显示控制时间
                 if app.GuidedStart.Value
@@ -738,15 +744,10 @@ classdef HGC_r1_1 < matlab.apps.AppBase
                             app.(['Alt_' num2str(panel_count)]).Value = [num2str(ceil(alt*10)/10) 'm'];
                             app.(['Airspd_' num2str(panel_count)]).Value = [num2str(ceil(airspd*10)/10) 'm/s'];
                             app.(['Groundspd_' num2str(panel_count)]).Value = [num2str(ceil(groundspd*10)/10) 'm/s'];
-                            if app.AirspdInit==0
+                            if ~app.VehicleGuidedPoint(ind).airspd_flag
                                 app.(['AirspdSelect_' num2str(panel_count)]).Value = ceil((app.VehicleGuidedPoint(ind).airspd_max+app.VehicleGuidedPoint(ind).airspd_min)*10)/20;
-                                app.AirspdInit = 1;
+                                app.VehicleGuidedPoint(ind).airspd_flag = 1;
                             end
-%                             if ~isempty(app.APMParams)&&~app.APMParams{id}.GCS_AIRSPD_INIT
-%                                 app.(['AirspdSelect_' num2str(panel_count)]).Value = ceil((app.VehicleGuidedPoint(ind).airspd_max+app.VehicleGuidedPoint(ind).airspd_min)*10)/20;
-%                                 app.APMParams{id}.GCS_AIRSPD_INIT = 1;
-%                             end
-                            % 各个飞机仪表状态显示
                             color = app.VehicleGuidedPoint(ind).color;
                             if armed
                                 % char inside [], not string 
@@ -1018,7 +1019,7 @@ classdef HGC_r1_1 < matlab.apps.AppBase
             % 中断保护：连接MAVLINK之前停止计时器
             app.SetTimerDisplay(false);
 %             guided_start = app.GuidedStart.Value;
-            app.SetTimerGuided(false);
+%             app.SetTimerGuided(false);
             % 连接飞控端口，建立VehicleList
             app.OpenAPMVehicle(id,port);
             % 还原计时器状态
@@ -1381,24 +1382,28 @@ classdef HGC_r1_1 < matlab.apps.AppBase
             % ind表示飞机id在VehicleListID中的索引，linkid表示可连接飞机ID
             linkid = app.ValueIndexInItems(app.LinkID.Value,app.LinkID.Items);
             ind = find(linkid == app.VehicleListID);
-            if ind<=length(app.VehicleListID)&&~isempty(ind)
+            if ~isempty(ind)&&ind<=length(app.VehicleListID)
                 id = app.VehicleListID(ind);
-%                 try
-%                     app.APMParams{id} = struct(app.APMVehicle{id}.vehicle.parameters);
-%                     app.PilotAirspdMax.Value = app.APMParams{id}.(app.PilotAirspdMaxLabel.Text);
-%                     app.PilotAirspdMin.Value = app.APMParams{id}.(app.PilotAirspdMinLabel.Text);
-%                     app.PilotAirspdWork.Value = app.APMParams{id}.(app.PilotAirspdWorkLabel.Text);
-%                     app.PilotRTLRad.Value = app.APMParams{id}.(app.PilotRTLRadLabel.Text);
-%                     app.PilotLoiterRad.Value = app.APMParams{id}.(app.PilotLoiterRadLabel.Text);
-%                     app.PilotWPRad.Value = app.APMParams{id}.(app.PilotWPRadLabel.Text);
-%                     app.PilotSysID.Value = app.APMParams{id}.(app.PilotSysIDLabel.Text);
-%                     app.PilotTkoffAlt.Value = app.APMParams{id}.(app.PilotTkoffAltLabel.Text);
-%                     app.PilotRTLAlt.Value = app.APMParams{id}.(app.PilotRTLAltLabel.Text);
-%                     app.APMParams{id}.GCS_AIRSPD_INIT = 0;
-%                 catch
-%                     warning(['[ ' num2str(id) 'plane ] Cannot read Parameters'])
-%                 end
+                try
+                    app.APMParams{id} = struct(app.APMVehicle{id}.get_params());
+                    disp(['[ ' num2str(id) 'plane ] Reading Params...'])
+                    for i=length(app.PilotGrid.Children):-2:3
+                        if isa(app.PilotGrid.Children(i),'matlab.ui.control.Label')&&isa(app.PilotGrid.Children(i-1),'matlab.ui.control.NumericEditField')
+                            app.PilotGrid.Children(i-1).Value = app.APMParams{id}.(app.PilotGrid.Children(i).Text);
+                            disp(['  ' app.PilotGrid.Children(i).Text]);
+                        end
+                    end
+                    app.PilotButtonRead.Text = '成功';
+                catch
+                    app.PilotPanel.Title = '飞控参数|仅支持Plane-4.3.7';
+                    warning(['[ ' num2str(id) 'plane ] Cannot read Parameters'])
+                end
+            else
+                app.PilotPanel.Title = '飞控参数|未连接';
             end
+            pause(0.1)
+            app.PilotPanel.Title = '飞控参数';
+            app.PilotButtonRead.Text = '读取';
         end
 
         % Button pushed function: AirspdSet_1
@@ -1486,6 +1491,40 @@ classdef HGC_r1_1 < matlab.apps.AppBase
                 pause(0.1)
                 app.MapGPSSet.Text = '设置原点';
             end
+        end
+
+        % Button pushed function: PilotButtonWrite
+        function PilotButtonWritePushed(app, event)
+            % ind表示飞机id在VehicleListID中的索引，linkid表示可连接飞机ID
+            linkid = app.ValueIndexInItems(app.LinkID.Value,app.LinkID.Items);
+            ind = find(linkid == app.VehicleListID);
+            if ~isempty(ind)&&ind<=length(app.VehicleListID)
+                id = app.VehicleListID(ind);
+                if id<=length(app.APMParams)&&~isempty(app.APMParams{id})
+                    try
+                        disp(['[ ' num2str(id) 'plane ] Writting Params...'])
+                        for i=length(app.PilotGrid.Children):-2:3
+                            if isa(app.PilotGrid.Children(i),'matlab.ui.control.Label')&&isa(app.PilotGrid.Children(i-1),'matlab.ui.control.NumericEditField')
+                                if app.PilotGrid.Children(i-1).Value ~= app.APMParams{id}.(app.PilotGrid.Children(i).Text)
+                                    app.APMVehicle{id}.set_params(app.PilotGrid.Children(i).Text,floor(app.PilotGrid.Children(i-1).Value));
+                                    disp(['  ' app.PilotGrid.Children(i).Text]);
+                                end
+                            end
+                        end
+                        app.PilotButtonWrite.Text = '成功';
+                    catch
+                        app.PilotPanel.Title = '飞控参数|仅支持Plane-4.3.7';
+                        warning(['[ ' num2str(id) 'plane ] Cannot read Parameters'])
+                    end
+                else
+                    app.PilotPanel.Title = '飞控参数|未读取';
+                end
+            else
+                app.PilotPanel.Title = '飞控参数|未连接';
+            end
+            pause(0.1)
+            app.PilotPanel.Title = '飞控参数';
+            app.PilotButtonWrite.Text = '写入';
         end
     end
 
@@ -2574,15 +2613,15 @@ classdef HGC_r1_1 < matlab.apps.AppBase
             % Create LinkPanel
             app.LinkPanel = uipanel(app.TabSetting);
             app.LinkPanel.Title = '连接';
-            app.LinkPanel.Position = [12 405 128 366];
+            app.LinkPanel.Position = [12 341 128 430];
 
             % Create LinkGrid
             app.LinkGrid = uigridlayout(app.LinkPanel);
             app.LinkGrid.ColumnWidth = {56, 56};
-            app.LinkGrid.RowHeight = {22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 23};
+            app.LinkGrid.RowHeight = {22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 23};
             app.LinkGrid.ColumnSpacing = 4.66666666666667;
-            app.LinkGrid.RowSpacing = 8.44444529215495;
-            app.LinkGrid.Padding = [4.66666666666667 8.44444529215495 4.66666666666667 8.44444529215495];
+            app.LinkGrid.RowSpacing = 8.66666739327567;
+            app.LinkGrid.Padding = [4.66666666666667 8.66666739327567 4.66666666666667 8.66666739327567];
 
             % Create LinkButtonOn
             app.LinkButtonOn = uibutton(app.LinkGrid, 'push');
@@ -2601,14 +2640,14 @@ classdef HGC_r1_1 < matlab.apps.AppBase
             % Create WorkButtonWrite
             app.WorkButtonWrite = uibutton(app.LinkGrid, 'push');
             app.WorkButtonWrite.Enable = 'off';
-            app.WorkButtonWrite.Layout.Row = 11;
+            app.WorkButtonWrite.Layout.Row = 13;
             app.WorkButtonWrite.Layout.Column = 1;
             app.WorkButtonWrite.Text = '写入';
 
             % Create WorkButtonRead
             app.WorkButtonRead = uibutton(app.LinkGrid, 'push');
             app.WorkButtonRead.Enable = 'off';
-            app.WorkButtonRead.Layout.Row = 11;
+            app.WorkButtonRead.Layout.Row = 13;
             app.WorkButtonRead.Layout.Column = 2;
             app.WorkButtonRead.Text = '读取';
 
@@ -2703,28 +2742,28 @@ classdef HGC_r1_1 < matlab.apps.AppBase
             % Create GPSErrLabel
             app.GPSErrLabel = uilabel(app.LinkGrid);
             app.GPSErrLabel.HorizontalAlignment = 'right';
-            app.GPSErrLabel.Layout.Row = 9;
+            app.GPSErrLabel.Layout.Row = 11;
             app.GPSErrLabel.Layout.Column = 1;
             app.GPSErrLabel.Text = 'GPS误差';
 
             % Create GPSErr
             app.GPSErr = uieditfield(app.LinkGrid, 'numeric');
             app.GPSErr.Limits = [0 Inf];
-            app.GPSErr.Layout.Row = 9;
+            app.GPSErr.Layout.Row = 11;
             app.GPSErr.Layout.Column = 2;
             app.GPSErr.Value = 1;
 
             % Create YawErrLabel
             app.YawErrLabel = uilabel(app.LinkGrid);
             app.YawErrLabel.HorizontalAlignment = 'right';
-            app.YawErrLabel.Layout.Row = 10;
+            app.YawErrLabel.Layout.Row = 12;
             app.YawErrLabel.Layout.Column = 1;
             app.YawErrLabel.Text = '偏航误差';
 
             % Create YawErr
             app.YawErr = uieditfield(app.LinkGrid, 'numeric');
             app.YawErr.Limits = [0 Inf];
-            app.YawErr.Layout.Row = 10;
+            app.YawErr.Layout.Row = 12;
             app.YawErr.Layout.Column = 2;
             app.YawErr.Value = 0.07;
 
@@ -2741,6 +2780,34 @@ classdef HGC_r1_1 < matlab.apps.AppBase
             app.IPAddr.Layout.Row = 1;
             app.IPAddr.Layout.Column = 2;
             app.IPAddr.Value = '虚拟';
+
+            % Create WorkAltMinLabel_2
+            app.WorkAltMinLabel_2 = uilabel(app.LinkGrid);
+            app.WorkAltMinLabel_2.HorizontalAlignment = 'right';
+            app.WorkAltMinLabel_2.Layout.Row = 10;
+            app.WorkAltMinLabel_2.Layout.Column = 1;
+            app.WorkAltMinLabel_2.Text = '最大空速';
+
+            % Create AirspdMax
+            app.AirspdMax = uieditfield(app.LinkGrid, 'numeric');
+            app.AirspdMax.Limits = [0 Inf];
+            app.AirspdMax.Layout.Row = 10;
+            app.AirspdMax.Layout.Column = 2;
+            app.AirspdMax.Value = 30;
+
+            % Create AirspdMin
+            app.AirspdMin = uieditfield(app.LinkGrid, 'numeric');
+            app.AirspdMin.Limits = [0 Inf];
+            app.AirspdMin.Layout.Row = 9;
+            app.AirspdMin.Layout.Column = 2;
+            app.AirspdMin.Value = 20;
+
+            % Create WorkAltErrLabel_2
+            app.WorkAltErrLabel_2 = uilabel(app.LinkGrid);
+            app.WorkAltErrLabel_2.HorizontalAlignment = 'right';
+            app.WorkAltErrLabel_2.Layout.Row = 9;
+            app.WorkAltErrLabel_2.Layout.Column = 1;
+            app.WorkAltErrLabel_2.Text = '最小空速';
 
             % Create ConfigPanel
             app.ConfigPanel = uipanel(app.TabSetting);
@@ -2820,33 +2887,33 @@ classdef HGC_r1_1 < matlab.apps.AppBase
             % Create PilotPanel
             app.PilotPanel = uipanel(app.TabSetting);
             app.PilotPanel.Title = '飞控参数';
-            app.PilotPanel.Position = [152 281 200 352];
+            app.PilotPanel.Position = [152 224 200 409];
 
             % Create PilotGrid
             app.PilotGrid = uigridlayout(app.PilotPanel);
             app.PilotGrid.ColumnWidth = {115, 60};
-            app.PilotGrid.RowHeight = {22, 22, 22, 22, 22, 22, 22, 22, 22, 23};
+            app.PilotGrid.RowHeight = {22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 23};
             app.PilotGrid.ColumnSpacing = 7.66666666666667;
-            app.PilotGrid.RowSpacing = 9.93939486416903;
-            app.PilotGrid.Padding = [7.66666666666667 9.93939486416903 7.66666666666667 9.93939486416903];
+            app.PilotGrid.RowSpacing = 9.41025719275841;
+            app.PilotGrid.Padding = [7.66666666666667 9.41025719275841 7.66666666666667 9.41025719275841];
 
             % Create PilotButtonWrite
             app.PilotButtonWrite = uibutton(app.PilotGrid, 'push');
-            app.PilotButtonWrite.Enable = 'off';
-            app.PilotButtonWrite.Layout.Row = 10;
+            app.PilotButtonWrite.ButtonPushedFcn = createCallbackFcn(app, @PilotButtonWritePushed, true);
+            app.PilotButtonWrite.Layout.Row = 12;
             app.PilotButtonWrite.Layout.Column = 1;
             app.PilotButtonWrite.Text = '写入';
 
             % Create PilotButtonRead
             app.PilotButtonRead = uibutton(app.PilotGrid, 'push');
             app.PilotButtonRead.ButtonPushedFcn = createCallbackFcn(app, @PilotButtonReadPushed, true);
-            app.PilotButtonRead.Layout.Row = 10;
+            app.PilotButtonRead.Layout.Row = 12;
             app.PilotButtonRead.Layout.Column = 2;
             app.PilotButtonRead.Text = '读取';
 
             % Create PilotSysID
             app.PilotSysID = uieditfield(app.PilotGrid, 'numeric');
-            app.PilotSysID.Limits = [0 Inf];
+            app.PilotSysID.Limits = [0 255];
             app.PilotSysID.Layout.Row = 1;
             app.PilotSysID.Layout.Column = 2;
 
@@ -2858,9 +2925,10 @@ classdef HGC_r1_1 < matlab.apps.AppBase
 
             % Create PilotWPRad
             app.PilotWPRad = uieditfield(app.PilotGrid, 'numeric');
-            app.PilotWPRad.Limits = [0 Inf];
+            app.PilotWPRad.Limits = [1 32767];
             app.PilotWPRad.Layout.Row = 2;
             app.PilotWPRad.Layout.Column = 2;
+            app.PilotWPRad.Value = 1;
 
             % Create PilotWPRadLabel
             app.PilotWPRadLabel = uilabel(app.PilotGrid);
@@ -2870,7 +2938,7 @@ classdef HGC_r1_1 < matlab.apps.AppBase
 
             % Create PilotLoiterRad
             app.PilotLoiterRad = uieditfield(app.PilotGrid, 'numeric');
-            app.PilotLoiterRad.Limits = [0 Inf];
+            app.PilotLoiterRad.Limits = [-32767 32767];
             app.PilotLoiterRad.Layout.Row = 3;
             app.PilotLoiterRad.Layout.Column = 2;
 
@@ -2882,7 +2950,7 @@ classdef HGC_r1_1 < matlab.apps.AppBase
 
             % Create PilotRTLRad
             app.PilotRTLRad = uieditfield(app.PilotGrid, 'numeric');
-            app.PilotRTLRad.Limits = [0 Inf];
+            app.PilotRTLRad.Limits = [-32767 32767];
             app.PilotRTLRad.Layout.Row = 4;
             app.PilotRTLRad.Layout.Column = 2;
 
@@ -2892,74 +2960,103 @@ classdef HGC_r1_1 < matlab.apps.AppBase
             app.PilotRTLRadLabel.Layout.Column = 1;
             app.PilotRTLRadLabel.Text = 'RTL_RADIUS';
 
-            % Create PilotAirspdWork
-            app.PilotAirspdWork = uieditfield(app.PilotGrid, 'numeric');
-            app.PilotAirspdWork.Limits = [0 Inf];
-            app.PilotAirspdWork.Layout.Row = 5;
-            app.PilotAirspdWork.Layout.Column = 2;
+            % Create PilotTrimAirspd
+            app.PilotTrimAirspd = uieditfield(app.PilotGrid, 'numeric');
+            app.PilotTrimAirspd.Limits = [0 32767];
+            app.PilotTrimAirspd.Layout.Row = 5;
+            app.PilotTrimAirspd.Layout.Column = 2;
 
             % Create PilotAirspdWorkLabel
             app.PilotAirspdWorkLabel = uilabel(app.PilotGrid);
             app.PilotAirspdWorkLabel.Layout.Row = 5;
             app.PilotAirspdWorkLabel.Layout.Column = 1;
-            app.PilotAirspdWorkLabel.Text = 'AIRSPEED_CRUISE';
+            app.PilotAirspdWorkLabel.Text = 'TRIM_ARSPD_CM';
 
             % Create PilotAirspdMin
             app.PilotAirspdMin = uieditfield(app.PilotGrid, 'numeric');
-            app.PilotAirspdMin.Limits = [0 Inf];
-            app.PilotAirspdMin.Layout.Row = 6;
+            app.PilotAirspdMin.Limits = [5 100];
+            app.PilotAirspdMin.Layout.Row = 8;
             app.PilotAirspdMin.Layout.Column = 2;
+            app.PilotAirspdMin.Value = 5;
 
             % Create PilotAirspdMinLabel
             app.PilotAirspdMinLabel = uilabel(app.PilotGrid);
-            app.PilotAirspdMinLabel.Layout.Row = 6;
+            app.PilotAirspdMinLabel.Layout.Row = 8;
             app.PilotAirspdMinLabel.Layout.Column = 1;
-            app.PilotAirspdMinLabel.Text = 'AIRSPEED_MIN';
+            app.PilotAirspdMinLabel.Text = 'ARSPD_FBW_MIN';
 
             % Create PilotAirspdMax
             app.PilotAirspdMax = uieditfield(app.PilotGrid, 'numeric');
-            app.PilotAirspdMax.Limits = [0 Inf];
-            app.PilotAirspdMax.Layout.Row = 7;
+            app.PilotAirspdMax.Limits = [5 100];
+            app.PilotAirspdMax.ValueDisplayFormat = '%.0f';
+            app.PilotAirspdMax.Layout.Row = 9;
             app.PilotAirspdMax.Layout.Column = 2;
+            app.PilotAirspdMax.Value = 5;
 
             % Create PilotAirspdMaxLabel
             app.PilotAirspdMaxLabel = uilabel(app.PilotGrid);
-            app.PilotAirspdMaxLabel.Layout.Row = 7;
+            app.PilotAirspdMaxLabel.Layout.Row = 9;
             app.PilotAirspdMaxLabel.Layout.Column = 1;
-            app.PilotAirspdMaxLabel.Text = 'AIRSPEED_MAX';
+            app.PilotAirspdMaxLabel.Text = 'ARSPD_FBW_MAX';
 
             % Create PilotTkoffAlt
             app.PilotTkoffAlt = uieditfield(app.PilotGrid, 'numeric');
-            app.PilotTkoffAlt.Limits = [0 Inf];
-            app.PilotTkoffAlt.Layout.Row = 8;
+            app.PilotTkoffAlt.Limits = [0 200];
+            app.PilotTkoffAlt.ValueDisplayFormat = '%.0f';
+            app.PilotTkoffAlt.Layout.Row = 10;
             app.PilotTkoffAlt.Layout.Column = 2;
 
             % Create PilotTkoffAltLabel
             app.PilotTkoffAltLabel = uilabel(app.PilotGrid);
-            app.PilotTkoffAltLabel.Layout.Row = 8;
+            app.PilotTkoffAltLabel.Layout.Row = 10;
             app.PilotTkoffAltLabel.Layout.Column = 1;
             app.PilotTkoffAltLabel.Text = 'TKOFF_ALT';
 
             % Create PilotRTLAlt
             app.PilotRTLAlt = uieditfield(app.PilotGrid, 'numeric');
-            app.PilotRTLAlt.Limits = [0 Inf];
-            app.PilotRTLAlt.Layout.Row = 9;
+            app.PilotRTLAlt.Limits = [-1 32767];
+            app.PilotRTLAlt.ValueDisplayFormat = '%.0f';
+            app.PilotRTLAlt.Layout.Row = 11;
             app.PilotRTLAlt.Layout.Column = 2;
 
             % Create PilotRTLAltLabel
             app.PilotRTLAltLabel = uilabel(app.PilotGrid);
-            app.PilotRTLAltLabel.Layout.Row = 9;
+            app.PilotRTLAltLabel.Layout.Row = 11;
             app.PilotRTLAltLabel.Layout.Column = 1;
-            app.PilotRTLAltLabel.Text = 'RTL_ALTITUDE';
+            app.PilotRTLAltLabel.Text = 'ALT_HOLD_RTL';
+
+            % Create PilotTrimThrottle
+            app.PilotTrimThrottle = uieditfield(app.PilotGrid, 'numeric');
+            app.PilotTrimThrottle.Limits = [0 100];
+            app.PilotTrimThrottle.Layout.Row = 6;
+            app.PilotTrimThrottle.Layout.Column = 2;
+
+            % Create PilotTrimThrottleLabel
+            app.PilotTrimThrottleLabel = uilabel(app.PilotGrid);
+            app.PilotTrimThrottleLabel.Layout.Row = 6;
+            app.PilotTrimThrottleLabel.Layout.Column = 1;
+            app.PilotTrimThrottleLabel.Text = 'TRIM_THROTTLE';
+
+            % Create PilotAirspdUse
+            app.PilotAirspdUse = uieditfield(app.PilotGrid, 'numeric');
+            app.PilotAirspdUse.Limits = [0 2];
+            app.PilotAirspdUse.Layout.Row = 7;
+            app.PilotAirspdUse.Layout.Column = 2;
+
+            % Create PilotAirspdUseLabel
+            app.PilotAirspdUseLabel = uilabel(app.PilotGrid);
+            app.PilotAirspdUseLabel.Layout.Row = 7;
+            app.PilotAirspdUseLabel.Layout.Column = 1;
+            app.PilotAirspdUseLabel.Text = 'ARSPD_USE';
 
             % Create NetworkPanel
             app.NetworkPanel = uipanel(app.TabSetting);
             app.NetworkPanel.Title = '网络IP';
-            app.NetworkPanel.Position = [369 652 160 119];
+            app.NetworkPanel.Position = [365 652 160 119];
 
             % Create NetworkGrid
             app.NetworkGrid = uigridlayout(app.NetworkPanel);
-            app.NetworkGrid.ColumnWidth = {29, '1x'};
+            app.NetworkGrid.ColumnWidth = {29, 100};
             app.NetworkGrid.RowHeight = {22, 22, 22};
             app.NetworkGrid.ColumnSpacing = 9.66666666666667;
             app.NetworkGrid.RowSpacing = 7.83333396911621;
@@ -3013,7 +3110,7 @@ classdef HGC_r1_1 < matlab.apps.AppBase
     methods (Access = public)
 
         % Construct app
-        function app = HGC_r1_1
+        function app = HGC_r1_3
 
             % Create UIFigure and components
             createComponents(app)

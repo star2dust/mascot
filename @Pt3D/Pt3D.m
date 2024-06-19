@@ -48,6 +48,7 @@ classdef Pt3D < handle
         mission_flag
         guided_flag
         tkoff_flag
+        airspd_flag
         % mission traj
         xlist
         ylist
@@ -94,6 +95,7 @@ classdef Pt3D < handle
             pt.mission_flag = 1;
             pt.guided_flag = 0;
             pt.tkoff_flag = 0;
+            pt.airspd_flag = 0;
         end
 
         function show(pt,axes)
