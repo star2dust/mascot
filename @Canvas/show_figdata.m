@@ -15,6 +15,12 @@ function show_figdata(cav)
             else
                 cav.hnavid = cav.simple_plot(cav.SimuAxes,cav.xlist(cav.navid),cav.ylist(cav.navid),'k','Marker','o','MarkerSize',30,'UserData',5);
             end
+        else
+            if ~isempty(cav.hnavid)&&isvalid(cav.hnavid)
+                set(cav.hnavid,'XData',[],'YData',[]);
+            else
+                cav.hnavid = cav.simple_plot(cav.SimuAxes,[],[],'k','Marker','o','MarkerSize',30,'UserData',5);
+            end
         end
         set(cav.SimuAxes,'XLim',xlim,'YLim',ylim);
     else

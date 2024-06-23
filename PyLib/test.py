@@ -1,5 +1,12 @@
 from apm_vehicle import Plane
 a = Plane("192.168.80.1:12551")
+print(" Autopilot Firmware version: %s" % a.vehicle.version)
+print("   Major version number: %s" % a.vehicle.version.major)
+print("   Minor version number: %s" % a.vehicle.version.minor)
+print("   Patch version number: %s" % a.vehicle.version.patch)
+print("   Release type: %s" % a.vehicle.version.release_type())
+print("   Release version: %s" % a.vehicle.version.release_version())
+print("   Stable release?: %s" % a.vehicle.version.is_stable())
 # print(a.wait_home_GPS())
 # print(a.wait_curr_GPS())
 
@@ -14,7 +21,9 @@ a = Plane("192.168.80.1:12551")
 # a.clear_waypoint()
 # a.upload_waypoint()
 
-count,next = a.get_waypoint()
-for i in range(1,count+1):
-    print(a.get_waypoint(i))
+# count,next = a.get_waypoint()
+# for i in range(1,count+1):
+#     print(a.get_waypoint(i))
+
+print(a.get_waypoint(0))  
 a.close()

@@ -474,7 +474,7 @@ class Plane:
         self.yaw_err = yaw_err
         self.wp_list = []
         self.connect()
-        self.init_map_origin_GPS(30.392654222833386,114.33210876882845)
+        self.init_map_origin_GPS(30.3415366,113.8083823)
         # self.vehicle.parameters['SYSID_THISMAV']
         # self.vehicle.parameters['WP_RADIUS']
         # self.vehicle.parameters['WP_LOITER_RAD']
@@ -494,6 +494,16 @@ class Plane:
         # Connect to the Vehicle
         self.vehicle = connect(self.connection_string, wait_ready=True)
         print('[ %s ] Connect to %s' % (self.name, self.connection_string))
+
+    def get_params(self):
+        return self.vehicle.parameters
+
+    def set_params(self,key,value):
+        try:
+            self.vehicle.parameters[key] = value
+            return 1
+        except:
+            return 0
                 
     def init_map_origin_GPS(self,ref_lat,ref_lon):
         self.map_origin = LocationProjection(ref_lat,ref_lon)
@@ -529,12 +539,13 @@ class Plane:
     def get_curr_RPY(self):
         return self.vehicle.attitude.yaw,self.vehicle.attitude.roll,self.vehicle.attitude.pitch
     
-    def get_waypoint(self,i=0):
+    def get_waypoint(self,i=0,load=1):
         cmds = self.vehicle.commands
         # i<=0 更新并输出count,next
         if i<=0:
-            cmds.download()
-            cmds.wait_ready()
+            if load>0:
+                cmds.download()
+                cmds.wait_ready()
             return cmds.count,cmds.next
         # i>0 输出相应航点信息 cmds[0]~cmds[count-1]
         else:
@@ -549,8 +560,11 @@ class Plane:
         cmds.wait_ready()
         return cmds
             
-    def set_waypoint(self,i=0):
-        cmds = self.get_waypoint_cmds()
+    def set_waypoint(self,i=0,load=0):
+        cmds = self.vehicle.commands
+        if load>0:
+            cmds.download()
+            cmds.wait_ready()
         cmds.next = i
 
     def clear_waypoint(self):
@@ -841,7 +855,7 @@ class Plane:
         wp = self.map_origin.GPSOffsetMeters(x,y,z)
         self.goto_point_GPS(wp,speed,use_spd)
     
-    def goto_point_GPS(self, point, use_spd=0, speed=25.0):
+    def goto_point_GPS(self, lat, lon, alt, use_spd=0, speed=25.0):
         # vehicle.groundspeed/vehicle.airspeed变量可读可写，且读、写时的含义不同。
         # 读取时，为无人机的当前地/空速；写入时，设定无人机在执行航点任务时的默认速度（后设置的为准）
         # airspeed优先用，groundspeed有时候无法覆盖航点速度
@@ -849,7 +863,7 @@ class Plane:
         self.set_speed(speed, use_spd)
         # 设置GPS目标点LocationGlobalRelative
         # LocationGlobalRelative是一个类，它由经纬度(WGS84)和相对于home点的高度组成
-        # point = LocationGlobalRelative(lat_tar, lon_tar, alt_tar_to_home)
+        point = LocationGlobalRelative(lat, lon, alt)
         print(" Set GPS point to (lat: %s, lon: %s, alt: %s)" % (point.lat, point.lon, point.alt))
         # simple_goto函数将位置发送给无人机，生成一个目标航点
         if self.get_mode()!="GUIDED":

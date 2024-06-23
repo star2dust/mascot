@@ -9,19 +9,17 @@ classdef Pt3D < handle
         p_heading
         p_vehicle
         % 航线轨迹存储
-        p_traj
-        p_next
-        v_traj
+        p_track
+        v_track
     end
 
     properties
-        % 飞控参数
-        wp_radius
-        wp_loiter_rad
+        % 空速范围
         airspd_max
         airspd_min
-        % 航点提前距离
+        % 航点前置距离
         heading_dist
+        navpt_dist
         % color
         color
         % algorithm (string) choose which algo to use
@@ -48,6 +46,8 @@ classdef Pt3D < handle
         mission_flag
         guided_flag
         tkoff_flag
+        track_flag
+        % airspd init
         airspd_flag
         % mission traj
         xlist
@@ -66,8 +66,6 @@ classdef Pt3D < handle
             opt.p = [0;0;0];
             opt.airspd_min = 20;
             opt.airspd_max = 30;
-            opt.wp_radius = 200;
-            opt.wp_loiter_rad = 250;
             opt.heading_dist = 300;
             opt.algorithm = '';
             opt.color = 'b';
@@ -82,11 +80,11 @@ classdef Pt3D < handle
             pt.p_dot = [0;0;0];
             pt.p_heading = [0;0;0];
             pt.p_vehicle = [0;0;0];
+            pt.p_track = [0;0;0];
             pt.airspd_min = opt.airspd_min;
             pt.airspd_max = opt.airspd_max;
-            pt.wp_radius = opt.wp_radius;
-            pt.wp_loiter_rad = opt.wp_loiter_rad;
             pt.heading_dist = opt.heading_dist;
+            pt.navpt_dist = 100000;
             pt.algorithm = opt.algorithm;
             pt.color = opt.color;
             pt.appear = opt.appear;
@@ -95,32 +93,41 @@ classdef Pt3D < handle
             pt.mission_flag = 1;
             pt.guided_flag = 0;
             pt.tkoff_flag = 0;
+            pt.track_flag = 0;
             pt.airspd_flag = 0;
         end
 
         function show(pt,axes)
-            % plane traj (old->new) -> heading pt -> guided pt
+            % plane traj: (old->new) -> heading pt -> guided pt
             if size(pt.traj,2)<=pt.ntrj
-                xtraj = [pt.traj(1,:),pt.p(1)];
-                ytraj = [pt.traj(2,:),pt.p(1)];
+                xtraj = pt.traj(1,:);
+                ytraj = pt.traj(2,:);
             else
-                xtraj = [pt.traj(1,end-pt.ntrj:end),pt.p(1)];
-                ytraj = [pt.traj(2,end-pt.ntrj:end),pt.p(1)];
+                xtraj = pt.traj(1,end-pt.ntrj:end);
+                ytraj = pt.traj(2,end-pt.ntrj:end);
             end
-            if ~pt.guided_flag
-                xtraj(end) = [];
-                ytraj(end) = [];
+            if pt.guided_flag
+                xtraj(end+1) = pt.p(1);
+                ytraj(end+1) = pt.p(2);
             end
             if isempty(pt.htraj)
+                % 注意xy倒置
                 pt.htraj = Canvas.simple_plot(axes,ytraj,xtraj,[pt.color pt.appear],'LineWidth',2.5,'UserData',4);
             else
                 set(pt.htraj,'XData',ytraj,'YData',xtraj);
             end
+            % plane head: curr pt -> heading pt -> wp traj pt
+            xhead = [pt.traj(1,end) pt.p_heading(1)];
+            yhead = [pt.traj(2,end) pt.p_heading(2)];
+            if pt.track_flag
+                xhead(end+1) = pt.p_track(1);
+                yhead(end+1) = pt.p_track(2);
+            end
             if isempty(pt.hhead)
-                pt.hhead = Canvas.simple_plot(axes,[pt.traj(2,end) pt.p_heading(2)],[pt.traj(1,end) pt.p_heading(1)],...
-                    [pt.color '-'],'LineWidth',1.5,'UserData',3);
+                % 注意xy倒置
+                pt.hhead = Canvas.simple_plot(axes,yhead,xhead,[pt.color '-'],'LineWidth',1.5,'UserData',3);
             else
-                set(pt.hhead,'XData',[pt.traj(2,end) pt.p_heading(2)],'YData',[pt.traj(1,end) pt.p_heading(1)]);
+                set(pt.hhead,'XData',yhead,'YData',xhead);
             end
             if isempty(pt.htext)
                 pt.htext = text(axes,pt.traj(2,end),pt.traj(1,end),num2str(pt.id),...
@@ -133,15 +140,22 @@ classdef Pt3D < handle
             end
         end
 
-        function t_ind = track(pt,tnow)
+        function track(pt,tnow)
+            % 约束tnow范围，保证xyz不为NaN
+            if tnow>pt.tlist(end-1)
+                tnow = pt.tlist(end-1);
+            else
+                if tnow<pt.tlist(2)
+                    tnow = pt.tlist(2);
+                end
+            end
+            % 插值法取xyz
             x = interp1(pt.tlist(2:end-1),pt.xlist(2:end-1),tnow);
             y = interp1(pt.tlist(2:end-1),pt.ylist(2:end-1),tnow);
             z = interp1(pt.tlist(2:end-1),pt.zlist(2:end-1),tnow);
             v = interp1(pt.tlist(2:end-1),pt.vlist(2:end-1),tnow);
-            pt.p_traj = [x;y;z];
-            pt.v_traj = v;
-            t_ind = find(1==(tnow-pt.tlist(2:end-1)<0),1)+1;
-            pt.p_next = [pt.xlist(t_ind);pt.ylist(t_ind);pt.zlist(t_ind)];
+            pt.p_track = [x;y;z];
+            pt.v_track = v;
         end
 
         function step(pt,dt,pr,pr_dot)
@@ -151,13 +165,13 @@ classdef Pt3D < handle
             pt.set_ctrl_bound();
             % update states
             pt.p = pt.p+pt.p_dot*dt;
-            pt.p = pt.p_heading;
         end
 
         function update(pt,p_vehicle,p_heading)
             pt.p_vehicle = p_vehicle;
             pt.p_heading = p_heading;
             if pt.tkoff_flag
+                % pt.traj为3xN格式，如果第一个为0向量可删除
                 pt.traj = [pt.traj pt.p_vehicle];
                 if sum(pt.traj(:,1))==0
                     pt.traj(:,1) = [];
