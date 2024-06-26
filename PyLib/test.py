@@ -1,5 +1,5 @@
 from apm_vehicle import Plane
-a = Plane("192.168.80.1:12551")
+a = Plane("127.0.0.1:13551")
 print(" Autopilot Firmware version: %s" % a.vehicle.version)
 print("   Major version number: %s" % a.vehicle.version.major)
 print("   Minor version number: %s" % a.vehicle.version.minor)

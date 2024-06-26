@@ -400,13 +400,13 @@ classdef HGC_r1_4 < matlab.apps.AppBase
         
         function OpenAPMVehicle(app,id,port)
             if isempty(app.APMVehicle)||isempty(app.APMVehicle{id})
+                % 连接IP
+                ip_ind = app.ValueIndexInItems(app.IPAddr.Value,app.IPAddr.Items);
+                ip_str = app.(['IP_' num2str(ip_ind)]).Value;
                 try
                     % 用户提醒
                     app.LinkButtonOn.Text = '连接中';
                     pause(0.1)
-                    % 连接IP
-                    ip_ind = app.ValueIndexInItems(app.IPAddr.Value,app.IPAddr.Items);
-                    ip_str = app.(['IP_' num2str(ip_ind)]).Value;
                     % py.(py文件名).(类名/函数名)
                     % YawErr函数输入为rad，界面显示为deg，注意区分
                     app.APMVehicle{id} = py.apm_vehicle.Plane([ip_str ':' num2str(port)], ...
@@ -504,7 +504,7 @@ classdef HGC_r1_4 < matlab.apps.AppBase
                             warning(['[ ' num2str(id) 'plane ] Cannot close APM vehicle'])
                         end
                     end
-                    warning(['[ ' num2str(id) 'plane ] Cannot connect to 192.168.80.1:' num2str(port)])
+                    warning(['[ ' num2str(id) 'plane ] Cannot connect to ' ip_str ':' num2str(port)])
                 end
             end
             app.LinkButtonOn.Text = '连接';

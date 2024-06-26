@@ -1,255 +1,284 @@
-classdef HGC_r1_3 < matlab.apps.AppBase
+classdef HGC_r1_5 < matlab.apps.AppBase
 
     % Properties that correspond to app components
     properties (Access = public)
-        UIFigure                matlab.ui.Figure
-        TabGroupMap             matlab.ui.container.TabGroup
-        TabMap                  matlab.ui.container.Tab
-        MapGPSUnify             matlab.ui.control.Button
-        MapGPSSet               matlab.ui.control.Button
-        MapGPSLon               matlab.ui.control.NumericEditField
-        MapGPSLonLabel          matlab.ui.control.Label
-        MapGPSLat               matlab.ui.control.NumericEditField
-        MapGPSLatLabel          matlab.ui.control.Label
-        UAVIDList               matlab.ui.control.EditField
-        UAVIDListLabel          matlab.ui.control.Label
-        CtrlTimeLabel           matlab.ui.control.Label
-        CopyrightLabel          matlab.ui.control.Label
-        TabGroupFlight          matlab.ui.container.TabGroup
-        TabFlight               matlab.ui.container.Tab
-        CmdPanel                matlab.ui.container.Panel
-        SwitchNavStart          matlab.ui.control.Button
-        GuidedStart             matlab.ui.control.StateButton
-        DisplayStart            matlab.ui.control.StateButton
-        PageScroll              matlab.ui.control.Button
-        UAVPanel_4              matlab.ui.container.Panel
-        GridLayout_4            matlab.ui.container.GridLayout
-        AirspdSelect_4          matlab.ui.control.NumericEditField
-        AirspdSelectLabel_4     matlab.ui.control.Label
-        Climbspd_4              matlab.ui.control.EditField
-        ClimbspdLabel_4         matlab.ui.control.Label
-        Alt_4                   matlab.ui.control.EditField
-        AltLabel_4              matlab.ui.control.Label
-        Airspd_4                matlab.ui.control.EditField
-        AirspdLabel_4           matlab.ui.control.Label
-        Groundspd_4             matlab.ui.control.EditField
-        GroundspdLabel_4        matlab.ui.control.Label
-        AirspdSet_4             matlab.ui.control.Button
-        ModeList_4              matlab.ui.control.DropDown
-        ModeSet_4               matlab.ui.control.Button
-        HudDeg_4                Aero.ui.control.ArtificialHorizon
-        AngleDeg_4              Aero.ui.control.HeadingIndicator
-        UAVPanel_3              matlab.ui.container.Panel
-        GridLayout_3            matlab.ui.container.GridLayout
-        AirspdSet_3             matlab.ui.control.Button
-        AirspdSelect_3          matlab.ui.control.NumericEditField
-        AirspdSelectLabel_3     matlab.ui.control.Label
-        Climbspd_3              matlab.ui.control.EditField
-        ClimbspdLabel_3         matlab.ui.control.Label
-        Alt_3                   matlab.ui.control.EditField
-        AltLabel_3              matlab.ui.control.Label
-        Airspd_3                matlab.ui.control.EditField
-        AirspdLabel_3           matlab.ui.control.Label
-        Groundspd_3             matlab.ui.control.EditField
-        GroundspdLabel_3        matlab.ui.control.Label
-        ModeList_3              matlab.ui.control.DropDown
-        ModeSet_3               matlab.ui.control.Button
-        HudDeg_3                Aero.ui.control.ArtificialHorizon
-        AngleDeg_3              Aero.ui.control.HeadingIndicator
-        UAVPanel_2              matlab.ui.container.Panel
-        GridLayout_2            matlab.ui.container.GridLayout
-        AirspdSelect_2          matlab.ui.control.NumericEditField
-        AirspdSelectLabel_2     matlab.ui.control.Label
-        Climbspd_2              matlab.ui.control.EditField
-        ClimbspdLabel_2         matlab.ui.control.Label
-        Alt_2                   matlab.ui.control.EditField
-        AltLabel_2              matlab.ui.control.Label
-        Airspd_2                matlab.ui.control.EditField
-        AirspdLabel_2           matlab.ui.control.Label
-        Groundspd_2             matlab.ui.control.EditField
-        GroundspdLabel_2        matlab.ui.control.Label
-        AirspdSet_2             matlab.ui.control.Button
-        ModeList_2              matlab.ui.control.DropDown
-        ModeSet_2               matlab.ui.control.Button
-        HudDeg_2                Aero.ui.control.ArtificialHorizon
-        AngleDeg_2              Aero.ui.control.HeadingIndicator
-        UAVPanel_1              matlab.ui.container.Panel
-        GridLayout_1            matlab.ui.container.GridLayout
-        AirspdSelect_1          matlab.ui.control.NumericEditField
-        AirspdSelectLabel_1     matlab.ui.control.Label
-        Climbspd_1              matlab.ui.control.EditField
-        ClimbspdLabel_1         matlab.ui.control.Label
-        Alt_1                   matlab.ui.control.EditField
-        AltLabel_1              matlab.ui.control.Label
-        Airspd_1                matlab.ui.control.EditField
-        AirspdLabel_1           matlab.ui.control.Label
-        Groundspd_1             matlab.ui.control.EditField
-        GroundspdLabel_1        matlab.ui.control.Label
-        AirspdSet_1             matlab.ui.control.Button
-        ModeList_1              matlab.ui.control.DropDown
-        ModeSet_1               matlab.ui.control.Button
-        HudDeg_1                Aero.ui.control.ArtificialHorizon
-        AngleDeg_1              Aero.ui.control.HeadingIndicator
-        TabPlanning             matlab.ui.container.Tab
-        FormationPanel          matlab.ui.container.Panel
-        FormationGrid           matlab.ui.container.GridLayout
-        FormAltKeep             matlab.ui.control.DropDown
-        FormAltKeepLabel        matlab.ui.control.Label
-        FormDispZ               matlab.ui.control.NumericEditField
-        FormDispZLabel          matlab.ui.control.Label
-        FormDispY               matlab.ui.control.NumericEditField
-        FormDispYLabel          matlab.ui.control.Label
-        FormDispX               matlab.ui.control.NumericEditField
-        FormDispXLabel          matlab.ui.control.Label
-        FormCenTrack            matlab.ui.control.DropDown
-        FormCenTrackLabel       matlab.ui.control.Label
-        FormRadSlider           matlab.ui.control.Slider
-        FormRadSliderLabel      matlab.ui.control.Label
-        FormType                matlab.ui.control.DropDown
-        FormTypeLabel           matlab.ui.control.Label
-        FormAng                 matlab.ui.control.DropDown
-        FormAngLabel            matlab.ui.control.Label
-        FormScale               matlab.ui.control.DropDown
-        FormScaleLabel          matlab.ui.control.Label
-        FormDispRead            matlab.ui.control.Button
-        FormDispModify          matlab.ui.control.Button
-        FormDispUpload          matlab.ui.control.Button
-        FormDispDownload        matlab.ui.control.Button
-        FormClear               matlab.ui.control.Button
-        FormationStart          matlab.ui.control.StateButton
-        FormationGroup          matlab.ui.container.ButtonGroup
-        FormationMode_5         matlab.ui.control.RadioButton
-        FormationMode_4         matlab.ui.control.RadioButton
-        FormationMode_3         matlab.ui.control.RadioButton
-        FormationMode_2         matlab.ui.control.RadioButton
-        FormationMode_1         matlab.ui.control.RadioButton
-        TaskPanel               matlab.ui.container.Panel
-        TaskGrid                matlab.ui.container.GridLayout
-        PlanUAVTeamLabel        matlab.ui.control.Label
-        PlanUAVTeam             matlab.ui.control.DropDown
-        TaskAltSet              matlab.ui.control.Button
-        TaskAng                 matlab.ui.control.NumericEditField
-        TaskAngLabel            matlab.ui.control.Label
-        TaskRad                 matlab.ui.control.NumericEditField
-        TaskRadLabel            matlab.ui.control.Label
-        TaskAlt                 matlab.ui.control.NumericEditField
-        TaskAltLabel            matlab.ui.control.Label
-        PlanTaskID              matlab.ui.control.DropDown
-        PlanTaskIDLabel         matlab.ui.control.Label
-        PlanUAVID               matlab.ui.control.DropDown
-        PlanUAVIDLabel          matlab.ui.control.Label
-        TaskModify              matlab.ui.control.Button
-        TaskSwitch              matlab.ui.control.Button
-        TaskUpload              matlab.ui.control.Button
-        TaskDownload            matlab.ui.control.Button
-        TaskClear               matlab.ui.control.Button
-        CanvasPanel             matlab.ui.container.Panel
-        CanvasGrid              matlab.ui.container.GridLayout
-        NavModify               matlab.ui.control.StateButton
-        NavSwitch               matlab.ui.control.Button
-        NavTime                 matlab.ui.control.NumericEditField
-        NavTimeLabel            matlab.ui.control.Label
-        NavSpd                  matlab.ui.control.NumericEditField
-        NavSpdLabel             matlab.ui.control.Label
-        NavRad                  matlab.ui.control.NumericEditField
-        NavRadLabel             matlab.ui.control.Label
-        NavAlt                  matlab.ui.control.NumericEditField
-        NavAltLabel             matlab.ui.control.Label
-        NavCmd                  matlab.ui.control.DropDown
-        NavCmdLabel             matlab.ui.control.Label
-        NavID                   matlab.ui.control.DropDown
-        NavIDLabel              matlab.ui.control.Label
-        NavUpload               matlab.ui.control.Button
-        NavDownload             matlab.ui.control.Button
-        CanvasClear             matlab.ui.control.Button
-        CanvasStart             matlab.ui.control.StateButton
-        TaskGroup               matlab.ui.container.ButtonGroup
-        TaskMode_5              matlab.ui.control.RadioButton
-        TaskMode_4              matlab.ui.control.RadioButton
-        TaskMode_3              matlab.ui.control.RadioButton
-        TaskMode_2              matlab.ui.control.RadioButton
-        TaskMode_1              matlab.ui.control.RadioButton
-        CanvasGroup             matlab.ui.container.ButtonGroup
-        CanvasMode_4            matlab.ui.control.RadioButton
-        CanvasMode_3            matlab.ui.control.RadioButton
-        CanvasMode_2            matlab.ui.control.RadioButton
-        CanvasMode_1            matlab.ui.control.RadioButton
-        TabDecision             matlab.ui.container.Tab
-        UIAxes                  matlab.ui.control.UIAxes
-        TabSetting              matlab.ui.container.Tab
-        NetworkPanel            matlab.ui.container.Panel
-        NetworkGrid             matlab.ui.container.GridLayout
-        IP_3                    matlab.ui.control.EditField
-        IPLabel_3               matlab.ui.control.Label
-        IP_2                    matlab.ui.control.EditField
-        IPLabel_2               matlab.ui.control.Label
-        IP_1                    matlab.ui.control.EditField
-        IPLabel_1               matlab.ui.control.Label
-        PilotPanel              matlab.ui.container.Panel
-        PilotGrid               matlab.ui.container.GridLayout
-        PilotAirspdUseLabel     matlab.ui.control.Label
-        PilotAirspdUse          matlab.ui.control.NumericEditField
-        PilotTrimThrottleLabel  matlab.ui.control.Label
-        PilotTrimThrottle       matlab.ui.control.NumericEditField
-        PilotRTLAltLabel        matlab.ui.control.Label
-        PilotRTLAlt             matlab.ui.control.NumericEditField
-        PilotTkoffAltLabel      matlab.ui.control.Label
-        PilotTkoffAlt           matlab.ui.control.NumericEditField
-        PilotAirspdMaxLabel     matlab.ui.control.Label
-        PilotAirspdMax          matlab.ui.control.NumericEditField
-        PilotAirspdMinLabel     matlab.ui.control.Label
-        PilotAirspdMin          matlab.ui.control.NumericEditField
-        PilotAirspdWorkLabel    matlab.ui.control.Label
-        PilotTrimAirspd         matlab.ui.control.NumericEditField
-        PilotRTLRadLabel        matlab.ui.control.Label
-        PilotRTLRad             matlab.ui.control.NumericEditField
-        PilotLoiterRadLabel     matlab.ui.control.Label
-        PilotLoiterRad          matlab.ui.control.NumericEditField
-        PilotWPRadLabel         matlab.ui.control.Label
-        PilotWPRad              matlab.ui.control.NumericEditField
-        PilotSysIDLabel         matlab.ui.control.Label
-        PilotSysID              matlab.ui.control.NumericEditField
-        PilotButtonRead         matlab.ui.control.Button
-        PilotButtonWrite        matlab.ui.control.Button
-        ConfigPanel             matlab.ui.container.Panel
-        ConfigGrid              matlab.ui.container.GridLayout
-        ConfigDebug             matlab.ui.control.StateButton
-        ConfigEastRight         matlab.ui.control.NumericEditField
-        ConfigEastLeft          matlab.ui.control.NumericEditField
-        ConfigNorthRight        matlab.ui.control.NumericEditField
-        ConfigNorthLeft         matlab.ui.control.NumericEditField
-        ConfigButtonRead        matlab.ui.control.Button
-        ConfigButtonWrite       matlab.ui.control.Button
-        ConfigLabelEast         matlab.ui.control.Label
-        ConfigLabelNorth        matlab.ui.control.Label
-        LinkPanel               matlab.ui.container.Panel
-        LinkGrid                matlab.ui.container.GridLayout
-        WorkAltErrLabel_2       matlab.ui.control.Label
-        AirspdMin               matlab.ui.control.NumericEditField
-        AirspdMax               matlab.ui.control.NumericEditField
-        WorkAltMinLabel_2       matlab.ui.control.Label
-        IPAddr                  matlab.ui.control.DropDown
-        IPAddrLabel             matlab.ui.control.Label
-        YawErr                  matlab.ui.control.NumericEditField
-        YawErrLabel             matlab.ui.control.Label
-        GPSErr                  matlab.ui.control.NumericEditField
-        GPSErrLabel             matlab.ui.control.Label
-        WorkAltLabel            matlab.ui.control.Label
-        WorkAlt                 matlab.ui.control.NumericEditField
-        WorkAltDistLabel        matlab.ui.control.Label
-        WorkAltDist             matlab.ui.control.NumericEditField
-        WorkAltErrLabel         matlab.ui.control.Label
-        WorkAltErr              matlab.ui.control.NumericEditField
-        WorkAltMin              matlab.ui.control.NumericEditField
-        WorkAltMinLabel         matlab.ui.control.Label
-        LinkPort                matlab.ui.control.NumericEditField
-        LinkPortLabel           matlab.ui.control.Label
-        LinkID                  matlab.ui.control.DropDown
-        LinkIDLabel             matlab.ui.control.Label
-        WorkButtonRead          matlab.ui.control.Button
-        WorkButtonWrite         matlab.ui.control.Button
-        LinkButtonOff           matlab.ui.control.Button
-        LinkButtonOn            matlab.ui.control.Button
+        UIFigure                 matlab.ui.Figure
+        TabGroupMap              matlab.ui.container.TabGroup
+        TabMap                   matlab.ui.container.Tab
+        MapGPSUnify              matlab.ui.control.Button
+        MapGPSSet                matlab.ui.control.Button
+        MapGPSLon                matlab.ui.control.NumericEditField
+        MapGPSLonLabel           matlab.ui.control.Label
+        MapGPSLat                matlab.ui.control.NumericEditField
+        MapGPSLatLabel           matlab.ui.control.Label
+        UAVIDList                matlab.ui.control.EditField
+        UAVIDListLabel           matlab.ui.control.Label
+        CtrlTimeLabel            matlab.ui.control.Label
+        CopyrightLabel           matlab.ui.control.Label
+        TabGroupFlight           matlab.ui.container.TabGroup
+        TabFlight                matlab.ui.container.Tab
+        CmdPanel                 matlab.ui.container.Panel
+        SwitchNavStart           matlab.ui.control.Button
+        GuidedStart              matlab.ui.control.StateButton
+        DisplayStart             matlab.ui.control.StateButton
+        PageScroll               matlab.ui.control.Button
+        UAVPanel_4               matlab.ui.container.Panel
+        GridLayout_4             matlab.ui.container.GridLayout
+        AirspdSelect_4           matlab.ui.control.NumericEditField
+        AirspdSelectLabel_4      matlab.ui.control.Label
+        Climbspd_4               matlab.ui.control.EditField
+        ClimbspdLabel_4          matlab.ui.control.Label
+        Alt_4                    matlab.ui.control.EditField
+        AltLabel_4               matlab.ui.control.Label
+        Airspd_4                 matlab.ui.control.EditField
+        AirspdLabel_4            matlab.ui.control.Label
+        Groundspd_4              matlab.ui.control.EditField
+        GroundspdLabel_4         matlab.ui.control.Label
+        AirspdSet_4              matlab.ui.control.Button
+        ModeList_4               matlab.ui.control.DropDown
+        ModeSet_4                matlab.ui.control.Button
+        HudDeg_4                 Aero.ui.control.ArtificialHorizon
+        AngleDeg_4               Aero.ui.control.HeadingIndicator
+        UAVPanel_3               matlab.ui.container.Panel
+        GridLayout_3             matlab.ui.container.GridLayout
+        AirspdSet_3              matlab.ui.control.Button
+        AirspdSelect_3           matlab.ui.control.NumericEditField
+        AirspdSelectLabel_3      matlab.ui.control.Label
+        Climbspd_3               matlab.ui.control.EditField
+        ClimbspdLabel_3          matlab.ui.control.Label
+        Alt_3                    matlab.ui.control.EditField
+        AltLabel_3               matlab.ui.control.Label
+        Airspd_3                 matlab.ui.control.EditField
+        AirspdLabel_3            matlab.ui.control.Label
+        Groundspd_3              matlab.ui.control.EditField
+        GroundspdLabel_3         matlab.ui.control.Label
+        ModeList_3               matlab.ui.control.DropDown
+        ModeSet_3                matlab.ui.control.Button
+        HudDeg_3                 Aero.ui.control.ArtificialHorizon
+        AngleDeg_3               Aero.ui.control.HeadingIndicator
+        UAVPanel_2               matlab.ui.container.Panel
+        GridLayout_2             matlab.ui.container.GridLayout
+        AirspdSelect_2           matlab.ui.control.NumericEditField
+        AirspdSelectLabel_2      matlab.ui.control.Label
+        Climbspd_2               matlab.ui.control.EditField
+        ClimbspdLabel_2          matlab.ui.control.Label
+        Alt_2                    matlab.ui.control.EditField
+        AltLabel_2               matlab.ui.control.Label
+        Airspd_2                 matlab.ui.control.EditField
+        AirspdLabel_2            matlab.ui.control.Label
+        Groundspd_2              matlab.ui.control.EditField
+        GroundspdLabel_2         matlab.ui.control.Label
+        AirspdSet_2              matlab.ui.control.Button
+        ModeList_2               matlab.ui.control.DropDown
+        ModeSet_2                matlab.ui.control.Button
+        HudDeg_2                 Aero.ui.control.ArtificialHorizon
+        AngleDeg_2               Aero.ui.control.HeadingIndicator
+        UAVPanel_1               matlab.ui.container.Panel
+        GridLayout_1             matlab.ui.container.GridLayout
+        AirspdSelect_1           matlab.ui.control.NumericEditField
+        AirspdSelectLabel_1      matlab.ui.control.Label
+        Climbspd_1               matlab.ui.control.EditField
+        ClimbspdLabel_1          matlab.ui.control.Label
+        Alt_1                    matlab.ui.control.EditField
+        AltLabel_1               matlab.ui.control.Label
+        Airspd_1                 matlab.ui.control.EditField
+        AirspdLabel_1            matlab.ui.control.Label
+        Groundspd_1              matlab.ui.control.EditField
+        GroundspdLabel_1         matlab.ui.control.Label
+        AirspdSet_1              matlab.ui.control.Button
+        ModeList_1               matlab.ui.control.DropDown
+        ModeSet_1                matlab.ui.control.Button
+        HudDeg_1                 Aero.ui.control.ArtificialHorizon
+        AngleDeg_1               Aero.ui.control.HeadingIndicator
+        TabPlanning              matlab.ui.container.Tab
+        BehaviorPanel            matlab.ui.container.Panel
+        UseGuidedMode            matlab.ui.control.Button
+        AddLoiterRad             matlab.ui.control.NumericEditField
+        HeadingErrDeadzoneLabel  matlab.ui.control.Label
+        RestoreLoiterRad         matlab.ui.control.Button
+        IncreaseLoiterRad        matlab.ui.control.Button
+        FormationPanel           matlab.ui.container.Panel
+        FormationGrid            matlab.ui.container.GridLayout
+        FormAltKeep              matlab.ui.control.DropDown
+        FormAltKeepLabel         matlab.ui.control.Label
+        FormDispZ                matlab.ui.control.NumericEditField
+        FormDispZLabel           matlab.ui.control.Label
+        FormDispY                matlab.ui.control.NumericEditField
+        FormDispYLabel           matlab.ui.control.Label
+        FormDispX                matlab.ui.control.NumericEditField
+        FormDispXLabel           matlab.ui.control.Label
+        FormCenTrack             matlab.ui.control.DropDown
+        FormCenTrackLabel        matlab.ui.control.Label
+        FormRadSlider            matlab.ui.control.Slider
+        FormRadSliderLabel       matlab.ui.control.Label
+        FormType                 matlab.ui.control.DropDown
+        FormTypeLabel            matlab.ui.control.Label
+        FormAng                  matlab.ui.control.DropDown
+        FormAngLabel             matlab.ui.control.Label
+        FormScale                matlab.ui.control.DropDown
+        FormScaleLabel           matlab.ui.control.Label
+        FormDispRead             matlab.ui.control.Button
+        FormDispModify           matlab.ui.control.Button
+        FormDispUpload           matlab.ui.control.Button
+        FormDispDownload         matlab.ui.control.Button
+        FormClear                matlab.ui.control.Button
+        FormationStart           matlab.ui.control.StateButton
+        FormationGroup           matlab.ui.container.ButtonGroup
+        FormationMode_5          matlab.ui.control.RadioButton
+        FormationMode_4          matlab.ui.control.RadioButton
+        FormationMode_3          matlab.ui.control.RadioButton
+        FormationMode_2          matlab.ui.control.RadioButton
+        FormationMode_1          matlab.ui.control.RadioButton
+        TaskPanel                matlab.ui.container.Panel
+        TaskGrid                 matlab.ui.container.GridLayout
+        PlanUAVTeamLabel         matlab.ui.control.Label
+        PlanUAVTeam              matlab.ui.control.DropDown
+        TaskAltSet               matlab.ui.control.Button
+        TaskAng                  matlab.ui.control.NumericEditField
+        TaskAngLabel             matlab.ui.control.Label
+        TaskRad                  matlab.ui.control.NumericEditField
+        TaskRadLabel             matlab.ui.control.Label
+        TaskAlt                  matlab.ui.control.NumericEditField
+        TaskAltLabel             matlab.ui.control.Label
+        PlanTaskID               matlab.ui.control.DropDown
+        PlanTaskIDLabel          matlab.ui.control.Label
+        PlanUAVID                matlab.ui.control.DropDown
+        PlanUAVIDLabel           matlab.ui.control.Label
+        TaskModify               matlab.ui.control.Button
+        TaskSwitch               matlab.ui.control.Button
+        TaskUpload               matlab.ui.control.Button
+        TaskDownload             matlab.ui.control.Button
+        TaskClear                matlab.ui.control.Button
+        CanvasPanel              matlab.ui.container.Panel
+        CanvasGrid               matlab.ui.container.GridLayout
+        NavModify                matlab.ui.control.StateButton
+        NavSwitch                matlab.ui.control.Button
+        NavTime                  matlab.ui.control.NumericEditField
+        NavTimeLabel             matlab.ui.control.Label
+        NavSpd                   matlab.ui.control.NumericEditField
+        NavSpdLabel              matlab.ui.control.Label
+        NavRad                   matlab.ui.control.NumericEditField
+        NavRadLabel              matlab.ui.control.Label
+        NavAlt                   matlab.ui.control.NumericEditField
+        NavAltLabel              matlab.ui.control.Label
+        NavCmd                   matlab.ui.control.DropDown
+        NavCmdLabel              matlab.ui.control.Label
+        NavID                    matlab.ui.control.DropDown
+        NavIDLabel               matlab.ui.control.Label
+        NavUpload                matlab.ui.control.Button
+        NavDownload              matlab.ui.control.Button
+        CanvasClear              matlab.ui.control.Button
+        CanvasStart              matlab.ui.control.StateButton
+        TaskGroup                matlab.ui.container.ButtonGroup
+        TaskMode_5               matlab.ui.control.RadioButton
+        TaskMode_4               matlab.ui.control.RadioButton
+        TaskMode_3               matlab.ui.control.RadioButton
+        TaskMode_2               matlab.ui.control.RadioButton
+        TaskMode_1               matlab.ui.control.RadioButton
+        CanvasGroup              matlab.ui.container.ButtonGroup
+        CanvasMode_4             matlab.ui.control.RadioButton
+        CanvasMode_3             matlab.ui.control.RadioButton
+        CanvasMode_2             matlab.ui.control.RadioButton
+        CanvasMode_1             matlab.ui.control.RadioButton
+        TabDecision              matlab.ui.container.Tab
+        ExpPanel                 matlab.ui.container.Panel
+        ExpWayptRad              matlab.ui.control.NumericEditField
+        ExpWayptRadLabel         matlab.ui.control.Label
+        ExpLoiterRad             matlab.ui.control.NumericEditField
+        ExpLoiterRadLabel        matlab.ui.control.Label
+        ExpCloseDist             matlab.ui.control.NumericEditField
+        ExpCloseDistLabel        matlab.ui.control.Label
+        ExpNavGenerate           matlab.ui.control.Button
+        ExpLoiterSide            matlab.ui.control.DropDown
+        ExpLoiterSideLabel       matlab.ui.control.Label
+        ExpShootHeading          matlab.ui.control.NumericEditField
+        ExpShootHeadingLabel     matlab.ui.control.Label
+        ExpRegionRad             matlab.ui.control.NumericEditField
+        ExpRegionRadLabel        matlab.ui.control.Label
+        LinkPanel                matlab.ui.container.Panel
+        LinkGrid                 matlab.ui.container.GridLayout
+        HeadingDist              matlab.ui.control.NumericEditField
+        HeadingDistLabel         matlab.ui.control.Label
+        AirspdMinLabel           matlab.ui.control.Label
+        AirspdMin                matlab.ui.control.NumericEditField
+        AirspdMax                matlab.ui.control.NumericEditField
+        AirspdMaxLabel           matlab.ui.control.Label
+        IPAddr                   matlab.ui.control.DropDown
+        IPAddrLabel              matlab.ui.control.Label
+        YawErr                   matlab.ui.control.NumericEditField
+        YawErrLabel              matlab.ui.control.Label
+        GPSErr                   matlab.ui.control.NumericEditField
+        GPSErrLabel              matlab.ui.control.Label
+        WorkAltLabel             matlab.ui.control.Label
+        WorkAlt                  matlab.ui.control.NumericEditField
+        WorkAltDistLabel         matlab.ui.control.Label
+        WorkAltDist              matlab.ui.control.NumericEditField
+        WorkAltErrLabel          matlab.ui.control.Label
+        WorkAltErr               matlab.ui.control.NumericEditField
+        WorkAltMin               matlab.ui.control.NumericEditField
+        WorkAltMinLabel          matlab.ui.control.Label
+        LinkPort                 matlab.ui.control.NumericEditField
+        LinkPortLabel            matlab.ui.control.Label
+        LinkID                   matlab.ui.control.DropDown
+        LinkIDLabel              matlab.ui.control.Label
+        WorkButtonRead           matlab.ui.control.Button
+        WorkButtonWrite          matlab.ui.control.Button
+        LinkButtonOff            matlab.ui.control.Button
+        LinkButtonOn             matlab.ui.control.Button
+        PilotPanel               matlab.ui.container.Panel
+        PilotGrid                matlab.ui.container.GridLayout
+        PilotAirspdUseLabel      matlab.ui.control.Label
+        PilotAirspdUse           matlab.ui.control.NumericEditField
+        PilotTrimThrottleLabel   matlab.ui.control.Label
+        PilotTrimThrottle        matlab.ui.control.NumericEditField
+        PilotRTLAltLabel         matlab.ui.control.Label
+        PilotRTLAlt              matlab.ui.control.NumericEditField
+        PilotTkoffAltLabel       matlab.ui.control.Label
+        PilotTkoffAlt            matlab.ui.control.NumericEditField
+        PilotAirspdMaxLabel      matlab.ui.control.Label
+        PilotAirspdMax           matlab.ui.control.NumericEditField
+        PilotAirspdMinLabel      matlab.ui.control.Label
+        PilotAirspdMin           matlab.ui.control.NumericEditField
+        PilotAirspdWorkLabel     matlab.ui.control.Label
+        PilotTrimAirspd          matlab.ui.control.NumericEditField
+        PilotRTLRadLabel         matlab.ui.control.Label
+        PilotRTLRad              matlab.ui.control.NumericEditField
+        PilotLoiterRadLabel      matlab.ui.control.Label
+        PilotLoiterRad           matlab.ui.control.NumericEditField
+        PilotWPRadLabel          matlab.ui.control.Label
+        PilotWPRad               matlab.ui.control.NumericEditField
+        PilotSysIDLabel          matlab.ui.control.Label
+        PilotSysID               matlab.ui.control.NumericEditField
+        ParamsButtonLoad         matlab.ui.control.Button
+        ParamsButtonSave         matlab.ui.control.Button
+        PilotButtonRead          matlab.ui.control.Button
+        PilotButtonWrite         matlab.ui.control.Button
+        UIAxes                   matlab.ui.control.UIAxes
+        TabSetting               matlab.ui.container.Tab
+        ExpGPSList               matlab.ui.container.Panel
+        ExpLuohanLon             matlab.ui.control.NumericEditField
+        Label_2                  matlab.ui.control.Label
+        ExpLuohanLat             matlab.ui.control.NumericEditField
+        Label                    matlab.ui.control.Label
+        NetworkPanel             matlab.ui.container.Panel
+        NetworkGrid              matlab.ui.container.GridLayout
+        IP_3                     matlab.ui.control.EditField
+        IPLabel_3                matlab.ui.control.Label
+        IP_2                     matlab.ui.control.EditField
+        IPLabel_2                matlab.ui.control.Label
+        IP_1                     matlab.ui.control.EditField
+        IPLabel_1                matlab.ui.control.Label
+        ConfigPanel              matlab.ui.container.Panel
+        ConfigGrid               matlab.ui.container.GridLayout
+        ConfigDebug              matlab.ui.control.StateButton
+        ConfigEastRight          matlab.ui.control.NumericEditField
+        ConfigEastLeft           matlab.ui.control.NumericEditField
+        ConfigNorthRight         matlab.ui.control.NumericEditField
+        ConfigNorthLeft          matlab.ui.control.NumericEditField
+        ConfigButtonRead         matlab.ui.control.Button
+        ConfigButtonWrite        matlab.ui.control.Button
+        ConfigLabelEast          matlab.ui.control.Label
+        ConfigLabelNorth         matlab.ui.control.Label
     end
 
     
@@ -261,6 +290,7 @@ classdef HGC_r1_3 < matlab.apps.AppBase
         VehicleMode
         VehiclePosX
         VehiclePosY
+        VehicleHeading
         VehicleAirspd
         VehicleGroundspd
         VehicleAlt
@@ -268,9 +298,12 @@ classdef HGC_r1_3 < matlab.apps.AppBase
         VehicleNumMax
         % Pt3D
         VehicleGuidedPoint
-        RealHomeGPS
+        ExpGuidedPoint
+        RealHomeGPSUsed
+        MapGPSUnified
         % Canvas
         PlanCanvas
+        ExpCanvas
         % Flight Display
         PageFlight
         PageListID
@@ -280,7 +313,7 @@ classdef HGC_r1_3 < matlab.apps.AppBase
         EastLimit
         HandleVehicle
         % Guided Loop
-        TkoffAll
+        TkoffMinInd
         MasterID
         MasterNavID
         MasterNavIDChanged
@@ -320,7 +353,7 @@ classdef HGC_r1_3 < matlab.apps.AppBase
             app.ColorList = 'bgmcry';
             % 飞机状态相关初始化
             app.APMVehicle = cell(1,length(app.LinkID.Items));
-            app.TkoffAll = 0;
+            app.TkoffMinInd = 0;
             % 显示/控制循环周期
             app.DisplayCount = 20;
             app.DisplayStep = 0.5;
@@ -330,8 +363,9 @@ classdef HGC_r1_3 < matlab.apps.AppBase
             app.MasterID = 0;
             app.MasterNavID = 0;
             app.MasterNavIDChanged = 0;
-            app.RealHomeGPS = 0;
+            app.RealHomeGPSUsed = 0;
             app.GuidedValid = 0;
+            app.MapGPSUnified = 0;
             % 控制计时初始化
             app.CtrlTimeLabel.Text = '';
             app.TimeSynch = 0;
@@ -345,6 +379,9 @@ classdef HGC_r1_3 < matlab.apps.AppBase
             % 工作高度按ID顺序递增，最多VehicleNumMax架
             app.VehicleNumMax = length(app.LinkID.Items);
             app.VehicleAltWork = app.WorkAlt.Value:app.WorkAltDist.Value:app.WorkAlt.Value+app.WorkAltDist.Value*(app.VehicleNumMax-1);
+            % 实验用航点画布
+            app.ExpCanvas = Canvas(app.UIFigure,app.UIAxes,app.EastLimit,app.NorthLimit);
+            app.ExpGuidedPoint = Pt3D('id',0);
         end
 
         function DisplayLoop(app,varargin)
@@ -371,30 +408,31 @@ classdef HGC_r1_3 < matlab.apps.AppBase
         
         function OpenAPMVehicle(app,id,port)
             if isempty(app.APMVehicle)||isempty(app.APMVehicle{id})
+                % 连接IP
+                ip_ind = app.ValueIndexInItems(app.IPAddr.Value,app.IPAddr.Items);
+                ip_str = app.(['IP_' num2str(ip_ind)]).Value;
                 try
                     % 用户提醒
                     app.LinkButtonOn.Text = '连接中';
                     pause(0.1)
-                    % 连接IP
-                    ip_ind = app.ValueIndexInItems(app.IPAddr.Value,app.IPAddr.Items);
-                    ip_str = app.(['IP_' num2str(ip_ind)]).Value;
                     % py.(py文件名).(类名/函数名)
+                    % YawErr函数输入为rad，界面显示为deg，注意区分
                     app.APMVehicle{id} = py.apm_vehicle.Plane([ip_str ':' num2str(port)], ...
                         [num2str(id) 'plane'], app.WorkAlt.Value, app.WorkAltDist.Value, app.WorkAltErr.Value, app.WorkAltMin.Value,...
-                        app.GPSErr.Value, app.YawErr.Value);
+                        app.GPSErr.Value, app.YawErr.Value/180*pi);
                     % 等待home点，解锁后读home有bug，仅在锁定时候读
                     if ~app.APMVehicle{id}.vehicle.armed
                         home_gps = double(app.APMVehicle{id}.wait_home_GPS());
                         if length(home_gps)==1&&home_gps==0
                             % 失败读取默认地图原点
-                            home_gps = [app.APMVehicle{id}.map_origin.ref_lat;app.APMVehicle{id}.map_origin.ref_lon];
+                            home_gps = [app.ExpLuohanLat.Value;app.ExpLuohanLon.Value];
                             get_real_gps = 0;
                         else
                             get_real_gps = 1;
                         end
                     else
                         % 解锁后读取默认地图原点
-                        home_gps = [app.APMVehicle{id}.map_origin.ref_lat;app.APMVehicle{id}.map_origin.ref_lon];
+                        home_gps = [app.ExpLuohanLat.Value;app.ExpLuohanLon.Value];
                         get_real_gps = 0;
                     end
                     % 等待GPS
@@ -419,17 +457,17 @@ classdef HGC_r1_3 < matlab.apps.AppBase
                             % 如果ListID为空，i=0
                             i = 0;
                         end
-                        pt3d = Pt3D('id',id,'airspd_min',app.AirspdMin.Value,'airspd_max',app.AirspdMax.Value);
+                        pt3d = Pt3D('id',id,'airspd_min',app.AirspdMin.Value,'airspd_max',app.AirspdMax.Value,'heading_dist',app.HeadingDist.Value);
                         plan_canvas = Canvas(app.UIFigure,app.UIAxes,app.EastLimit,app.NorthLimit);
                         if i<=0
                             % 地图原点仅在连接第一个飞机时更新
                             app.MapGPSOrigin = home_gps(:);
                             % 如果是真实GPS坐标，可设置为默认地图原点
                             if get_real_gps
-                                app.RealHomeGPS = 1;
+                                app.RealHomeGPSUsed = 1;
                                 app.MapGPSUnify.Enable = "on";
                             else
-                                app.RealHomeGPS = 0;
+                                app.RealHomeGPSUsed = 0;
                                 app.MapGPSUnify.Enable = "off";
                             end
                             % 初始化第一个飞机
@@ -437,6 +475,7 @@ classdef HGC_r1_3 < matlab.apps.AppBase
                             app.VehicleMode = "连接";
                             app.VehiclePosX = 0;
                             app.VehiclePosY = 0;
+                            app.VehicleHeading = 0;
                             app.VehicleAirspd = 0;
                             app.VehicleGroundspd = 0;
                             app.VehicleAlt = 0;
@@ -451,6 +490,7 @@ classdef HGC_r1_3 < matlab.apps.AppBase
                             app.VehicleMode = [app.VehicleMode(1:i-1) "连接" app.VehicleMode(i:end)];
                             app.VehiclePosX = [app.VehiclePosX(1:i-1) 0 app.VehiclePosX(i:end)];
                             app.VehiclePosY = [app.VehiclePosY(1:i-1) 0 app.VehiclePosY(i:end)];
+                            app.VehicleHeading = [app.VehicleHeading(1:i-1) 0 app.VehicleHeading(i:end)];
                             app.VehicleAirspd = [app.VehicleAirspd(1:i-1) 0 app.VehicleAirspd(i:end)];
                             app.VehicleGroundspd = [app.VehicleGroundspd(1:i-1) 0 app.VehicleGroundspd(i:end)];
                             app.VehicleAlt = [app.VehicleAlt(1:i-1) 0 app.VehicleAlt(i:end)];
@@ -472,7 +512,7 @@ classdef HGC_r1_3 < matlab.apps.AppBase
                             warning(['[ ' num2str(id) 'plane ] Cannot close APM vehicle'])
                         end
                     end
-                    warning(['[ ' num2str(id) 'plane ] Cannot connect to 192.168.80.1:' num2str(port)])
+                    warning(['[ ' num2str(id) 'plane ] Cannot connect to ' ip_str ':' num2str(port)])
                 end
             end
             app.LinkButtonOn.Text = '连接';
@@ -492,11 +532,12 @@ classdef HGC_r1_3 < matlab.apps.AppBase
                     app.LinkButtonOn.Enable = "on";
                     % 如果ListID非空，且存在该ID，则找到该ID所在索引并删除
                     ind = find(id==app.VehicleListID);
-                    if ~isempty(app.VehicleListID)&&~isempty(ind)
+                    if ~isempty(ind)&&ind<=length(app.VehicleListID)
                         app.VehicleListID(ind) = [];
                         app.VehicleMode(ind) = [];
                         app.VehiclePosX(ind) = [];
                         app.VehiclePosY(ind) = [];
+                        app.VehicleHeading(ind) = [];
                         app.VehicleAirspd(ind) = [];
                         app.VehicleGroundspd(ind) = [];
                         app.VehicleAlt(ind) = [];
@@ -531,9 +572,10 @@ classdef HGC_r1_3 < matlab.apps.AppBase
                         % 如果GPS定位[0;0]，则说明飞控本身无法定位，sum可以同时判定失败/无法定位
                         % 即使GPS定位不成功，也得进行显示，故令GPS=默认地图原点
                         if sum(gps)==0
-                            gps = [app.APMVehicle{id}.map_origin.ref_lat;app.APMVehicle{id}.map_origin.ref_lon];
+                            xy = [0;0];
+                        else
+                            xy = double(app.APMVehicle{id}.map_origin.GPStoXYwithRef(gps(1), gps(2), app.MapGPSOrigin(1), app.MapGPSOrigin(2)));
                         end
-                        xy = double(app.APMVehicle{id}.map_origin.GPStoXYwithRef(gps(1), gps(2), app.MapGPSOrigin(1), app.MapGPSOrigin(2)));
                         % 输出中文模式名（get_mode只能输出英文）
                         modeuint = double(app.APMVehicle{id}.mode_str2uint());
                         modestr = char(app.APMVehicle{id}.mode_uint2str(modeuint,true));
@@ -545,14 +587,11 @@ classdef HGC_r1_3 < matlab.apps.AppBase
                         app.VehicleAirspd(i) = double(app.APMVehicle{id}.vehicle.airspeed);
                         app.VehicleGroundspd(i) = double(app.APMVehicle{id}.vehicle.groundspeed);
                         app.VehicleAlt(i) = double(app.APMVehicle{id}.get_curr_alt());
-                        % 航点轨迹相关更新（所有飞机）
+                        % 航点轨迹、朝向角（0~360）相关更新（所有飞机）
                         p_vehicle = [xy(:);-app.VehicleAlt(i)];
                         heading = double(app.APMVehicle{id}.vehicle.heading);
-                        if heading>180
-                            heading = heading-360;
-                        end
-                        yawgps = heading/180*pi;
-                        p_heading = p_vehicle+rotz(yawgps)*[app.VehicleGuidedPoint(i).heading_dist;0;0];
+                        app.VehicleHeading(i) = heading;
+                        p_heading = p_vehicle+rotz(heading/180*pi)*[app.VehicleGuidedPoint(i).heading_dist;0;0];
                         if app.VehicleAlt(i)<app.APMVehicle{id}.alt_min
                             if app.VehicleGuidedPoint(i).tkoff_flag
                                 app.VehicleGuidedPoint(i).tkoff_flag = 0;
@@ -563,6 +602,37 @@ classdef HGC_r1_3 < matlab.apps.AppBase
                             end
                         end
                         app.VehicleGuidedPoint(i).update(p_vehicle,p_heading);
+                        % 从飞控读航点1秒一次（所有起飞且下载航点的飞机）
+                        if app.TkoffCount>=2
+                            % 所有起飞且下载航点的飞机需要读
+                            if app.VehicleGuidedPoint(i).tkoff_flag
+                                countnext = double(app.APMVehicle{app.VehicleListID(i)}.get_waypoint(int32(0),int32(0)));
+                                % 如果直接读读不到，则下载后读取
+                                if countnext(1)==0
+                                    countnext = double(app.APMVehicle{app.VehicleListID(i)}.get_waypoint(int32(0),int32(1)));
+                                end
+                                app.PlanCanvas(i).navid = countnext(2);
+                            end
+                            % 所有飞机均读取
+                            if i==length(app.VehicleListID)
+                                app.TkoffCount=0;
+                            end
+                        end
+                        % 离航点的距离（所有起飞且下载航点的飞机）
+                        if app.VehicleGuidedPoint(i).tkoff_flag
+                            % 计算航点距离
+                            navid = app.PlanCanvas(i).navid;
+                            if navid&&navid<=length(app.VehicleGuidedPoint(i).xlist)&&app.VehicleGuidedPoint(i).tkoff_flag
+                                app.VehicleGuidedPoint(i).navpt_dist = norm(app.VehicleGuidedPoint(i).p_vehicle(1:2)...
+                                         -[app.VehicleGuidedPoint(i).xlist(navid);app.VehicleGuidedPoint(i).ylist(navid)]);
+                            else
+                                % 未起飞或未下载航点的飞机距离为飞机续航里程100km
+                                app.VehicleGuidedPoint(i).navpt_dist = 100000;
+                            end
+                        else
+                            % 未起飞或未下载航点的飞机距离为飞机续航里程100km
+                            app.VehicleGuidedPoint(i).navpt_dist = 100000;
+                        end
                         % 航点颜色相关更新（所有飞机）
                         app.VehicleGuidedPoint(i).color = app.ColorList(mod(i,length(app.ColorList)));
                         % 任务规划相关更新（选中飞机）
@@ -579,66 +649,72 @@ classdef HGC_r1_3 < matlab.apps.AppBase
                         warning(['[ ' num2str(id) 'plane ] Map display not valid'])
                     end
                 end
+                % 循环周期计数
+                app.TkoffCount = app.TkoffCount+1;
+                % 地图下方显示
                 app.UAVIDList.Value = num2str(app.VehicleListID);
                 app.MapGPSLat.Value = app.MapGPSOrigin(1);
                 app.MapGPSLon.Value = app.MapGPSOrigin(2);
                 % 如果是真实GPS坐标，可设置为默认地图原点
-                if app.RealHomeGPS
+                if app.RealHomeGPSUsed
                     app.MapGPSUnify.Enable = "on";
                 else
                     app.MapGPSUnify.Enable = "off";
+                    app.MapGPSUnified = 0;
                 end
                 app.MapGPSSet.Enable = "on";
-                % 判断飞机是否均起飞，即起飞机数是否等于总飞机数
-                app.TkoffAll = sum([app.VehicleGuidedPoint.tkoff_flag])==length(app.VehicleListID);
-                % 簇头选举可以慢一点频率，比如4次显示才进行一次
-                if app.TkoffCount>=4
-                    app.TkoffCount = 0;
-                    % 一旦全部起飞，设置最小ID为簇头，否则为0
-                    app.MasterID = app.VehicleListID(1)*app.TkoffAll;
-                    app.CmdPanel.Title = ['操作台|簇头' num2str(app.MasterID)];
+                % 判断飞机是否起飞，返回起飞飞机中航点id最大且距离最近的ind，其实就是簇头ind
+                vehicle_navid = [app.PlanCanvas.navid];
+                vehicle_navdist = [app.VehicleGuidedPoint.navpt_dist];
+                app.MasterNavID = max(vehicle_navid);
+                navid_max = max(vehicle_navid)==vehicle_navid;
+                [~,app.TkoffMinInd] = min(vehicle_navdist+(~navid_max)*100000);
+                % 这里作用是显示MasterID，若TkoffMinInd为空则为0
+                if isempty(app.TkoffMinInd)
+                    app.MasterID = 0;
                 else
-                    app.TkoffCount = app.TkoffCount+1;
+                    app.MasterID = app.VehicleListID(app.TkoffMinInd);
                 end
-                % Auto模式航点更新（MasterID）
-                master_ind = find(app.MasterID==app.VehicleListID,1);
-                if isempty(master_ind)
-                    % 如果不满足选举簇头条件，则选择PlanUAVID指定的UAV
-                    master_ind = app.ValueIndexInItems(app.PlanUAVID.Value,app.PlanUAVID.Items);
-                end 
-                if app.VehicleGuidedPoint(master_ind).tkoff_flag
-                    % 对当前路点进行显示
-                    countnext = double(app.APMVehicle{app.VehicleListID(master_ind)}.get_waypoint(0));  
-                    app.PlanCanvas(master_ind).navid = countnext(2);
-                end
+                app.CmdPanel.Title = ['操作台|簇头' num2str(app.MasterID) '|航点' num2str(app.MasterNavID)];
+%                 % Auto模式航点更新（MasterID）
+%                 master_ind = app.TkoffMinInd;
+%                 if isempty(master_ind)
+%                     % 如果不满足选举簇头条件，则选择PlanUAVID指定的UAV
+%                     master_ind = app.ValueIndexInItems(app.PlanUAVID.Value,app.PlanUAVID.Items);
+%                 end 
+%                 % 读取飞控中当前路点进行显示（MasterID）
+%                 if app.VehicleGuidedPoint(master_ind).tkoff_flag
+%                     countnext = double(app.APMVehicle{app.VehicleListID(master_ind)}.get_waypoint(int32(0)));
+%                     app.PlanCanvas(master_ind).navid = countnext(2);
+%                 end
                 % 按下之后显示控制时间
-                if app.GuidedStart.Value
+%                 if app.GuidedStart.Value
                     % 自动退出控制判定
                     if app.GuidedValid
-                        if app.TimeSynch==0
-                            app.GuidedStart.Text = '准备';
-                            app.CtrlTimeLabel.Text = '控制时间：0s，时间余量：0s';
-                        else
-                            if app.TimeSynch>=2
-                                app.GuidedStart.Text = '对时';
-                                app.CtrlTimeLabel.Text = ['控制时间：' num2str(ceil(app.TimeToc*100)/100) 's，时间余量：' num2str(ceil(app.TimeErr*100)/100) 's'];
-                            else
+%                         if app.TimeSynch==0
+%                             app.GuidedStart.Text = '准备';
+%                             app.CtrlTimeLabel.Text = '控制时间：0s，时间余量：0s';
+%                         else
+%                             if app.TimeSynch>=2
+%                                 app.GuidedStart.Text = '对时';
+%                                 app.CtrlTimeLabel.Text = ['控制时间：' num2str(ceil(app.TimeToc*100)/100) 's，时间余量：' num2str(ceil(app.TimeErr*100)/100) 's'];
+%                             else
                                 if app.MasterNavIDChanged
                                     app.GuidedStart.Text = '切换';
                                 else
                                     app.GuidedStart.Text = '控制';
                                 end
-                                app.CtrlTimeLabel.Text = ['控制时间：' num2str(ceil(app.TimeToc*100)/100) 's，时间余量：' num2str(ceil(app.TimeErr*100)/100) 's'];
-                            end
-                        end
-                    else
-                        app.SetTimerGuided(false);
+%                                 app.CtrlTimeLabel.Text = ['控制时间：' num2str(ceil(app.TimeToc*100)/100) 's，时间余量：' num2str(ceil(app.TimeErr*100)/100) 's'];
+%                             end
+%                         end
+%                     else
+%                         app.SetTimerGuided(false);
                     end
-                else
-                    % 手动退出控制判定
-                    app.GuidedStart.Text = '控制';
-                    app.CtrlTimeLabel.Text = '';
-                end
+%                 else
+%                     % 手动退出控制判定
+%                     app.GuidedStart.Text = '控制';
+%                     app.CtrlTimeLabel.Text = '';
+%                 end
             else
                 app.UAVIDList.Value = '';
                 app.MapGPSLat.Value = 0;
@@ -673,7 +749,18 @@ classdef HGC_r1_3 < matlab.apps.AppBase
                     end
                     app.PlanCanvas(i).show_figdata();
                 end
-                % 图层冒泡排序，按照UserData从小到大
+%                 % 实验用航点一键绘制
+%                 if app.ExpNavDisp
+%                     % 对于有效的ind，NED坐标转画图坐标
+%                     app.ExpCanvas.xlist = app.ExpGuidedPoint.ylist;
+%                     app.ExpCanvas.ylist = app.ExpGuidedPoint.xlist;
+%                 else
+%                     % 否则，清空画图
+%                     app.ExpCanvas.xlist = [];
+%                     app.ExpCanvas.ylist = [];
+%                 end
+%                 app.ExpCanvas.show_figdata();
+                % 图层冒泡排序，按照UserData从小到大，小的在图层上方
                 graph = app.UIAxes.Children;
                 for i=length(graph):-1:1
                     for j=1:i-1
@@ -726,7 +813,7 @@ classdef HGC_r1_3 < matlab.apps.AppBase
                             armed = app.APMVehicle{id}.vehicle.armed;
                             roll = double(app.APMVehicle{id}.vehicle.attitude.roll/pi*180);
                             pitch = double(app.APMVehicle{id}.vehicle.attitude.pitch/pi*180);
-                            heading = double(app.APMVehicle{id}.vehicle.heading);
+                            heading = app.VehicleHeading(ind);
                             % 电池读不到为none，无法转换double
                             try
                                 battery = double(app.APMVehicle{id}.vehicle.battery.level);
@@ -758,8 +845,7 @@ classdef HGC_r1_3 < matlab.apps.AppBase
                                         navid = app.PlanCanvas(ind).navid;
                                         % 判断航点是否下载
                                         if navid&&navid<=length(app.VehicleGuidedPoint(ind).xlist)
-                                            dist_to_navpt = norm(app.VehicleGuidedPoint(ind).p_vehicle(1:2)...
-                                                -[app.VehicleGuidedPoint(ind).xlist(navid);app.VehicleGuidedPoint(ind).ylist(navid)]);
+                                            dist_to_navpt = app.VehicleGuidedPoint(ind).navpt_dist;
                                             app.(['UAVPanel_' num2str(panel_count)]).Title = ['[' num2str(id) color ']' modestr '|解锁|' num2str(battery) '%|' num2str(navid) ':' num2str(ceil(dist_to_navpt)) 'm'];
                                         else
                                             app.(['UAVPanel_' num2str(panel_count)]).Title = ['[' num2str(id) color ']' modestr '|解锁|' num2str(battery) '%|未下载'];
@@ -842,103 +928,132 @@ classdef HGC_r1_3 < matlab.apps.AppBase
             if ~isempty(app.VehicleListID)
                 % 当前是全部起飞后才能开始控制
                 % 后续可改为指定ID飞机起飞后开始控制
-                if app.TkoffAll
-                    if app.MasterID~=0
-                        % 读取簇头的navid
-                        master_id = app.MasterID;
-                        master_ind = find(master_id==app.VehicleListID,1);
-                        % 判断航点是否存在/格式正确，sum([])=0
-                        if sum(app.VehicleGuidedPoint(master_ind).tlist)~=0
-                            % 判断簇头navid是否变化
-                            master_navid = app.PlanCanvas(master_ind).navid;
-                            if master_navid~=0&&app.MasterNavID~=master_navid
-                                master_navid_prev = app.MasterNavID;
-                                app.MasterNavID = app.PlanCanvas(master_ind).navid;
-                                app.MasterNavIDChanged = 1;
-                            else
-                                app.MasterNavIDChanged = 0;
-                            end
-                            % 更改所有簇成员navid
-                            if app.MasterNavIDChanged
-                                for ind = 1:length(app.VehicleListID)
-                                    id = app.VehicleListID(ind);
-                                    % MasterNavIDChanged判定只有一瞬间，只能在控制循环切航点
-                                    try
-                                        if id~=master_id
-                                            % 在APMVehicle里设置navid，MapDisplay()定期修改app.PlanCanvas(ind).navid
-                                            app.APMVehicle{id}.set_waypoint(int32(app.MasterNavID));
-                                            app.PlanCanvas(ind).navid = app.MasterNavID;
-                                        end
-                                    catch
-                                        warning(['[ ' num2str(id) 'plane ] Cannot set waypoint to ' num2str(app.MasterNavID)])
+                if ~isempty(app.TkoffMinInd)
+%                     % 读取簇头的ind，能用TkoffMinInd就不要用MasterID
+%                     master_ind = app.TkoffMinInd;
+%                     % 判断簇头navid是否变化
+%                     master_navid = app.PlanCanvas(master_ind).navid;
+%                     if master_navid~=0&&app.MasterNavID~=master_navid
+%                         app.MasterNavID = app.PlanCanvas(master_ind).navid;
+%                         app.MasterNavIDChanged = 1;
+%                     else
+%                         app.MasterNavIDChanged = 0;
+%                     end
+                    % 更改所有簇成员navid
+%                     if app.MasterNavIDChanged
+                        for ind = 1:length(app.VehicleListID)
+                            id = app.VehicleListID(ind);
+                            try
+                                % MasterNavIDChanged判定只有一瞬间，只能在控制循环切航点
+                                if ind~=app.TkoffMinInd&&app.VehicleGuidedPoint(ind).tkoff_flag
+                                    % 在APMVehicle里修改navid，MapDisplay()定期读取所有飞机的navid，一旦不一致则修改
+                                    if app.PlanCanvas(ind).navid~=app.MasterNavID
+                                        app.APMVehicle{id}.set_waypoint(int32(app.MasterNavID));
+                                        app.PlanCanvas(ind).navid = app.MasterNavID;
                                     end
                                 end
+                            catch
+                                warning(['[ ' num2str(id) 'plane ] Cannot set waypoint to ' num2str(app.MasterNavID)])
                             end
-                            % 航点必须navid>2且<count才进入控制流程
-                            if app.MasterNavID>2&&app.MasterNavID<length(app.VehicleGuidedPoint(master_ind).xlist)
-                                % 判断是否对时：当簇头navid变化且TimeSynch<2时开始对时，navid_prev=0为无效航点
-                                if app.TimeSynch<2&&app.MasterNavIDChanged&&master_navid_prev~=0
-                                    % 如果navid_prev>navid，或者navid_prev<2，或者navt<toc，则重置计时器
-                                    if master_navid_prev>app.MasterNavID||master_navid_prev<2||app.VehicleGuidedPoint(master_ind).tlist(app.MasterNavID)<app.TimeToc
-                                        app.TimeSynch = 0;
-                                    else
-                                        % 有效自动航点切换：切换时飞机在navid_prev附近，且navid-navid_prev==1
-                                        dist_to_navpt_prev = norm(app.VehicleGuidedPoint(master_ind).p_vehicle(1:2)...
-                                                -[app.VehicleGuidedPoint(master_ind).xlist(master_navid_prev);app.VehicleGuidedPoint(master_ind).ylist(master_navid_prev)]);
-                                        % 如果navid-navid_prev~=1，则航点切换为手动切
-                                        % 如果navid-navid_prev==1，但飞机明显没在navid_prev附近，则也为手动切
-                                        % 以上两种情况无需对时，保留上次对时
-                                        if app.MasterNavID-master_navid_prev>1||dist_to_navpt_prev>app.VehicleGuidedPoint(master_ind).heading_dist
-                                            app.TimeSynch = 1;
-                                        else
-                                            % 开始对时，准备下一次控制
-                                            app.TimeSynch = 2;
-                                            app.TimeNavpt = app.VehicleGuidedPoint(master_id).tlist(master_navid_prev);
-                                            app.TimeNow = app.VehicleGuidedPoint(master_id).tlist(master_navid_prev);
-                                            tic
-                                        end
-                                    end
-                                end
-                                % 如果对时无误，可以开始控制，有误则不进入控制流程
-                                if app.TimeSynch>0
-                                    app.TimeSynch = 1;
-                                    app.TimeToc = app.TimeNavpt+toc;
-                                    % 开始控制各个飞机航点、速度，先toc再控制，这样toc才有意义
-                                    for ind = 1:length(app.VehicleGuidedPoint)
-                                        % 读取参考轨迹点
-                                        navid = app.VehicleGuidedPoint(ind).track(app.TimeToc);
-                                        if app.VehicleMode(ind)~="自动"
-                                            app.PlanCanvas(master_id).navid = navid;
-                                        end
-                                        % 计算空速、航点
-                                        % app.VehicleGuidedPoint(ind).step(app.GuidedStep,0,0);
-                                    end
-                                    % 控制完再toc一下，进行时间对比
-                                    app.TimeToc = app.TimeNavpt+toc;
-                                    app.TimeNow = app.TimeNow+app.GuidedStep;
-                                else
-                                    app.TimeNow = 0;
-                                    app.TimeToc = 0;
-                                end
-                            else
-                                % 未进入控制流程
-                                app.TimeSynch = 0;
-                                app.TimeNow = 0;
-                                app.TimeToc = 0;
-                            end
-                            app.GuidedValid = 1;
-                            % 计算时间余量，如果太大需要调慢控制频率
-                            app.TimeErr = app.TimeNow-app.TimeToc;
-                        else
-                            % 航点格式不正确退出控制
-                            app.GuidedStart.Text = '航点错';
-                            app.GuidedValid = 0;
                         end
-                    else
-                        % MasterID不正确退出控制
-                        app.GuidedStart.Text = '簇头错';
-                        app.GuidedValid = 0;
-                    end
+%                     end
+                    app.GuidedValid = 1;
+%                     % 判断簇头navid是否变化
+%                     master_navid = app.PlanCanvas(master_ind).navid;
+%                     if master_navid~=0&&app.MasterNavID~=master_navid
+%                         master_navid_prev = app.MasterNavID;
+%                         app.MasterNavID = app.PlanCanvas(master_ind).navid;
+%                         app.MasterNavIDChanged = 1;
+%                     else
+%                         app.MasterNavIDChanged = 0;
+%                     endset_waypoint
+%                     % 判断航点是否存在/格式正确，sum([])=0
+%                     if sum(app.VehicleGuidedPoint(master_ind).tlist)~=0
+%                         % 判断簇头navid是否变化
+%                         master_navid = app.PlanCanvas(master_ind).navid;
+%                         if master_navid~=0&&app.MasterNavID~=master_navid
+%                             master_navid_prev = app.MasterNavID;
+%                             app.MasterNavID = app.PlanCanvas(master_ind).navid;
+%                             app.MasterNavIDChanged = 1;
+%                         else
+%                             app.MasterNavIDChanged = 0;
+%                         end
+%                         % 更改所有簇成员navid
+%                         if app.MasterNavIDChanged
+%                             for ind = 1:length(app.VehicleListID)
+%                                 try
+%                                     % MasterNavIDChanged判定只有一瞬间，只能在控制循环切航点
+%                                     if ind~=master_ind&&app.VehicleGuidedPoint(ind).tkoff_flag
+%                                         id = app.VehicleListID(ind);
+%                                         % 在APMVehicle里设置navid，MapDisplay()只能定期修改Master的navid，故这里也要改
+%                                         app.APMVehicle{id}.set_waypoint(int32(app.MasterNavID));
+%                                         app.PlanCanvas(ind).navid = app.MasterNavID;
+%                                     end
+%                                 catch
+%                                     warning(['[ ' num2str(id) 'plane ] Cannot set waypoint to ' num2str(app.MasterNavID)])
+%                                 end
+%                             end
+%                         end
+%                         % 航点必须navid>2且<count才进入控制流程
+%                         if app.MasterNavID>2&&app.MasterNavID<length(app.VehicleGuidedPoint(master_ind).xlist)
+%                             % 判断是否对时：当簇头navid变化且TimeSynch<2时开始对时，navid_prev=0为无效航点
+%                             if app.TimeSynch<2&&app.MasterNavIDChanged&&master_navid_prev~=0
+%                                 % 如果navid_prev>navid，或者navid_prev<2，或者navt<toc，则重置计时器
+%                                 if master_navid_prev>app.MasterNavID||master_navid_prev<2||app.VehicleGuidedPoint(master_ind).tlist(app.MasterNavID)<app.TimeToc
+%                                     app.TimeSynch = 0;
+%                                 else
+%                                     % 有效自动航点切换：切换时飞机在navid_prev附近，且navid-navid_prev==1
+%                                     dist_to_navpt_prev = norm(app.VehicleGuidedPoint(master_ind).p_vehicle(1:2)...
+%                                             -[app.VehicleGuidedPoint(master_ind).xlist(master_navid_prev);app.VehicleGuidedPoint(master_ind).ylist(master_navid_prev)]);
+%                                     % 如果navid-navid_prev~=1，则航点切换为手动切
+%                                     % 如果navid-navid_prev==1，但飞机明显没在navid_prev附近，则也为手动切
+%                                     % 以上两种情况无需对时，保留上次对时
+%                                     if app.MasterNavID-master_navid_prev>1||dist_to_navpt_prev>app.VehicleGuidedPoint(master_ind).heading_dist
+%                                         app.TimeSynch = 1;
+%                                     else
+%                                         % 开始对时，准备下一次控制
+%                                         app.TimeSynch = 2;
+%                                         app.TimeNavpt = app.VehicleGuidedPoint(master_ind).tlist(master_navid_prev);
+%                                         app.TimeNow = app.VehicleGuidedPoint(master_ind).tlist(master_navid_prev);
+%                                         tic
+%                                     end
+%                                 end
+%                             end
+%                             % 如果对时无误，可以开始控制，有误则不进入控制流程
+%                             if app.TimeSynch>0
+%                                 app.TimeSynch = 1;
+%                                 app.TimeToc = app.TimeNavpt+toc;
+%                                 % 开始控制各个飞机航点、速度，先toc再控制，这样toc才有意义
+%                                 for ind = 1:length(app.VehicleGuidedPoint)
+%                                     % 读取参考轨迹点，需要每一个飞机航点已下载
+%                                     if ~isempty(app.VehicleGuidedPoint(ind).tlist)
+%                                         app.VehicleGuidedPoint(ind).track_flag = 1;
+%                                         app.VehicleGuidedPoint(ind).track(app.TimeToc);
+%                                     else
+%                                         app.VehicleGuidedPoint(ind).track_flag = 0;
+%                                     end
+%                                 end
+%                                 % 控制完再toc一下，进行时间对比
+%                                 app.TimeToc = app.TimeNavpt+toc;
+%                                 app.TimeNow = app.TimeNow+app.GuidedStep;
+%                             else
+%                                 app.TimeNow = 0;
+%                                 app.TimeToc = 0;
+%                             end
+%                         else
+%                             % 未进入控制流程
+%                             app.TimeSynch = 0;
+%                             app.TimeNow = 0;
+%                             app.TimeToc = 0;
+%                         end
+%                         app.GuidedValid = 1;
+%                         % 计算时间余量，如果太大需要调慢控制频率
+%                         app.TimeErr = app.TimeNow-app.TimeToc;
+%                     else
+%                         % 航点格式不正确退出控制
+%                         app.GuidedStart.Text = '航点错';
+%                         app.GuidedValid = 0;
+%                     end
                 else
                     % 未全部起飞退出控制
                     app.GuidedStart.Text = '未起飞';
@@ -949,6 +1064,54 @@ classdef HGC_r1_3 < matlab.apps.AppBase
                 app.GuidedStart.Text = '未连接';
                 app.GuidedValid = 0;
             end
+        end
+        
+        function guided_pt = SaveGuidedPoint(app,ind)
+            guided_pt.cmd = app.VehicleGuidedPoint(ind).cmd;
+            guided_pt.hold = app.VehicleGuidedPoint(ind).hold;
+            guided_pt.rad_accept = app.VehicleGuidedPoint(ind).rad_accept;
+            guided_pt.rad_pass = app.VehicleGuidedPoint(ind).rad_pass;
+            guided_pt.yaw = app.VehicleGuidedPoint(ind).yaw;
+            guided_pt.lat = app.VehicleGuidedPoint(ind).lat;
+            guided_pt.lon = app.VehicleGuidedPoint(ind).lon;
+            guided_pt.alt = app.VehicleGuidedPoint(ind).alt;
+            guided_pt.xlist = app.VehicleGuidedPoint(ind).xlist;
+            guided_pt.ylist = app.VehicleGuidedPoint(ind).ylist;
+            guided_pt.zlist = app.VehicleGuidedPoint(ind).zlist;
+            guided_pt.vlist = app.VehicleGuidedPoint(ind).vlist;
+            guided_pt.tlist = app.VehicleGuidedPoint(ind).tlist;
+        end
+        
+        function LoadGuidedPoint(app,ind,guided_pt)
+            app.VehicleGuidedPoint(ind).cmd = guided_pt.cmd;
+            app.VehicleGuidedPoint(ind).hold = guided_pt.hold;
+            app.VehicleGuidedPoint(ind).rad_accept = guided_pt.rad_accept;
+            app.VehicleGuidedPoint(ind).rad_pass = guided_pt.rad_pass;
+            app.VehicleGuidedPoint(ind).yaw = guided_pt.yaw;
+            app.VehicleGuidedPoint(ind).lat = guided_pt.lat;
+            app.VehicleGuidedPoint(ind).lon = guided_pt.lon;
+            app.VehicleGuidedPoint(ind).alt = guided_pt.alt;
+            app.VehicleGuidedPoint(ind).xlist = guided_pt.xlist;
+            app.VehicleGuidedPoint(ind).ylist = guided_pt.ylist;
+            app.VehicleGuidedPoint(ind).zlist = guided_pt.zlist;
+            app.VehicleGuidedPoint(ind).vlist = guided_pt.vlist;
+            app.VehicleGuidedPoint(ind).tlist = guided_pt.tlist;
+        end
+
+        function ClearGuidedPoint(app,ind)
+            app.VehicleGuidedPoint(ind).cmd = [];
+            app.VehicleGuidedPoint(ind).hold = [];
+            app.VehicleGuidedPoint(ind).rad_accept = [];
+            app.VehicleGuidedPoint(ind).rad_pass = [];
+            app.VehicleGuidedPoint(ind).yaw = [];
+            app.VehicleGuidedPoint(ind).lat = [];
+            app.VehicleGuidedPoint(ind).lon = [];
+            app.VehicleGuidedPoint(ind).alt = [];
+            app.VehicleGuidedPoint(ind).xlist = [];
+            app.VehicleGuidedPoint(ind).ylist = [];
+            app.VehicleGuidedPoint(ind).zlist = [];
+            app.VehicleGuidedPoint(ind).vlist = [];
+            app.VehicleGuidedPoint(ind).tlist = [];
         end
     end
 
@@ -1016,17 +1179,18 @@ classdef HGC_r1_3 < matlab.apps.AppBase
         function LinkButtonOnPushed(app, event)
             id = str2double(app.LinkID.Value);
             port = app.LinkPort.Value+id;
+            guided_start = app.GuidedStart.Value;
             % 中断保护：连接MAVLINK之前停止计时器
             app.SetTimerDisplay(false);
-%             guided_start = app.GuidedStart.Value;
-%             app.SetTimerGuided(false);
+            app.SetTimerGuided(false);
             % 连接飞控端口，建立VehicleList
             app.OpenAPMVehicle(id,port);
             % 还原计时器状态
             app.SetTimerDisplay(true);
-%             if guided_start
-%                 app.SetTimerGuided(true);
-%             end
+            if guided_start
+                % 如果初始是启动的，还原为启动
+                app.SetTimerGuided(true);
+            end
         end
 
         % Button pushed function: LinkButtonOff
@@ -1034,15 +1198,11 @@ classdef HGC_r1_3 < matlab.apps.AppBase
             id = str2double(app.LinkID.Value);
             % 中断保护：断开MAVLINK之前停止计时器
             app.SetTimerDisplay(false);
-%             guided_start = app.GuidedStart.Value;
-%             app.SetTimerGuided(false);
+            app.SetTimerGuided(false);
             % 关闭飞控端口，删除VehicleList
             app.CloseAPMVehicle(id);
             % 还原计时器状态
             app.SetTimerDisplay(true);
-%             if guided_start
-%                 app.SetTimerGuided(true);
-%             end
         end
 
         % Value changed function: LinkID
@@ -1097,7 +1257,7 @@ classdef HGC_r1_3 < matlab.apps.AppBase
         function CanvasStartValueChanged(app, event)
             value = app.CanvasStart.Value;
             ind = app.ValueIndexInItems(app.PlanUAVID.Value,app.PlanUAVID.Items);
-            if ~isempty(app.VehicleListID)&&~isempty(ind)
+            if ~isempty(ind)&&ind<=length(app.VehicleListID)
                 % 手动启动/停止选点，地面上可选
                 if app.VehicleGuidedPoint(ind).tkoff_flag==0
                     if value
@@ -1123,11 +1283,14 @@ classdef HGC_r1_3 < matlab.apps.AppBase
             ind = app.ValueIndexInItems(app.PlanUAVID.Value,app.PlanUAVID.Items);
             % 如果任务模式为1（航点），显示参考工作高度
             app.PlanUAVIDValueChanged();
+            % 保存上一次航点
+            guided_pt = app.SaveGuidedPoint(ind);
             % 显示更新航点或者显示上次保存航点
             plan_updated = 0;
-            if ind<=length(app.VehicleListID)&&~isempty(ind)
+            % 先判空再判大小
+            if ~isempty(ind)&&ind<=length(app.VehicleListID)
                 id = app.VehicleListID(ind);
-                countnext = double(app.APMVehicle{id}.get_waypoint(0));
+                countnext = double(app.APMVehicle{id}.get_waypoint(int32(0)));
                 app.PlanCanvas(ind).navid = countnext(2);
                 use_time = 1;
                 if countnext(1)==0
@@ -1135,43 +1298,51 @@ classdef HGC_r1_3 < matlab.apps.AppBase
                 else
                     app.CanvasPanel.Title = '航点下载成功';
                 end
-                for i=1:countnext(1)
-                    % 如果i超出count则返回一个0，未超出返回8个参数
-                    navpt = double(app.APMVehicle{id}.get_waypoint(int32(i)));
-                    % 航线格式不满足要求（首尾不能是航点）
-                    if i==1||i==countnext(1)
-                        if navpt(1)==16
-                            use_time = 0;
+                % 清空航点
+                app.ClearGuidedPoint(ind);
+                % 一个个读取航点
+                try
+                    for i=1:countnext(1)
+                        % 如果i超出count则返回一个0，未超出返回8个参数
+                        navpt = double(app.APMVehicle{id}.get_waypoint(int32(i)));
+                        % 航线格式不满足要求（首尾不能是航点）
+                        if i==1||i==countnext(1)
+                            if navpt(1)==16
+                                use_time = 0;
+                            end
+                        end
+                        % 判断navpt长度是1还是8
+                        if length(navpt)>1
+                            % 16:waypoint, 17:loiter_unlim, 18:loiter_turn, 19:loiter_time, 20:rtl
+                            % waypoint仅rad_accept、rad_pass能上传，若rad_pass>0不管rad_accept多少飞机都会越过航点再转
+                            % loiter_unlim仅rad_pass能上传
+                            % loiter_turn、loiter_time都能上传，hold>0为次数/时间
+                            % rad_accept=1代表以下一个路点方向离开盘旋圆，=0代表以当前方向离开盘旋圆
+                            % yaw=1代表从切线离开盘旋圆，=0代表从中心离开盘旋圆
+                            % 航路可以不设置rtl，和手动切是一样的
+                            app.VehicleGuidedPoint(ind).cmd(i) = navpt(1);
+                            app.VehicleGuidedPoint(ind).hold(i) = navpt(2);
+                            app.VehicleGuidedPoint(ind).rad_accept(i) = navpt(3);
+                            app.VehicleGuidedPoint(ind).rad_pass(i) = navpt(4);
+                            app.VehicleGuidedPoint(ind).yaw(i) = navpt(5);
+                            app.VehicleGuidedPoint(ind).lat(i) = navpt(6);
+                            app.VehicleGuidedPoint(ind).lon(i) = navpt(7);
+                            app.VehicleGuidedPoint(ind).alt(i) = navpt(8);
+                            % NED axis
+                            xy = double(app.APMVehicle{id}.map_origin.GPStoXYwithRef(app.VehicleGuidedPoint(ind).lat(i), ...
+                                app.VehicleGuidedPoint(ind).lon(i), app.MapGPSOrigin(1), app.MapGPSOrigin(2)));
+                            app.VehicleGuidedPoint(ind).xlist(i) = xy(1);
+                            app.VehicleGuidedPoint(ind).ylist(i) = xy(2);
+                            app.VehicleGuidedPoint(ind).zlist(i) = -app.VehicleGuidedPoint(ind).alt(i);
+                            app.VehicleGuidedPoint(ind).vlist(i) = (app.VehicleGuidedPoint(ind).airspd_max+app.VehicleGuidedPoint(ind).airspd_min)/2;
+                            plan_updated = 1;
+                        else
+                            break;
                         end
                     end
-                    % 判断navpt长度是1还是8
-                    if length(navpt)>1
-                        % 16:waypoint, 17:loiter_unlim, 18:loiter_turn, 19:loiter_time, 20:rtl
-                        % waypoint仅rad_accept、rad_pass能上传，若rad_pass>0不管rad_accept多少飞机都会越过航点再转
-                        % loiter_unlim仅rad_pass能上传
-                        % loiter_turn、loiter_time都能上传，hold>0为次数/时间
-                        % rad_accept=1代表以下一个路点方向离开盘旋圆，=0代表以当前方向离开盘旋圆
-                        % yaw=1代表从切线离开盘旋圆，=0代表从中心离开盘旋圆
-                        % 航路可以不设置rtl，和手动切是一样的
-                        app.VehicleGuidedPoint(ind).cmd(i) = navpt(1);
-                        app.VehicleGuidedPoint(ind).hold(i) = navpt(2);
-                        app.VehicleGuidedPoint(ind).rad_accept(i) = navpt(3);
-                        app.VehicleGuidedPoint(ind).rad_pass(i) = navpt(4);
-                        app.VehicleGuidedPoint(ind).yaw(i) = navpt(5);
-                        app.VehicleGuidedPoint(ind).lat(i) = navpt(6);
-                        app.VehicleGuidedPoint(ind).lon(i) = navpt(7);
-                        app.VehicleGuidedPoint(ind).alt(i) = navpt(8);
-                        % NED axis
-                        xy = double(app.APMVehicle{id}.map_origin.GPStoXYwithRef(app.VehicleGuidedPoint(ind).lat(i), ...
-                            app.VehicleGuidedPoint(ind).lon(i), app.MapGPSOrigin(1), app.MapGPSOrigin(2)));
-                        app.VehicleGuidedPoint(ind).xlist(i) = xy(1);
-                        app.VehicleGuidedPoint(ind).ylist(i) = xy(2);
-                        app.VehicleGuidedPoint(ind).zlist(i) = -app.VehicleGuidedPoint(ind).alt(i);
-                        app.VehicleGuidedPoint(ind).vlist(i) = (app.VehicleGuidedPoint(ind).airspd_max+app.VehicleGuidedPoint(ind).airspd_min)/2;
-                        plan_updated = 1;
-                    else
-                        break;
-                    end
+                catch
+                    app.LoadGuidedPoint(ind,guided_pt);
+                    plan_updated = 0;
                 end
                 % 如果有航点在VehicleGuidedPoint中
                 if ~isempty(app.VehicleGuidedPoint(ind).cmd)
@@ -1183,7 +1354,7 @@ classdef HGC_r1_3 < matlab.apps.AppBase
                     count = length(app.VehicleGuidedPoint(ind).cmd);
                     app.NavID.Items = string(1:count);
                     % 航线满足要求
-                    if use_time
+                    if plan_updated&&use_time
                         xyz_diff = [diff(app.VehicleGuidedPoint(ind).xlist);diff(app.VehicleGuidedPoint(ind).ylist);diff(app.VehicleGuidedPoint(ind).zlist)];
                         xyz_dist = normby(xyz_diff,2);
                         % 航线格式：第一个点是集结点（<0），中间是路点（>=0），最后一个点是应急点（<0）
@@ -1201,7 +1372,9 @@ classdef HGC_r1_3 < matlab.apps.AppBase
                             app.VehicleGuidedPoint(ind).tlist(i) = app.VehicleGuidedPoint(ind).tlist(i-1)+xyz_dist(i-1)/app.VehicleGuidedPoint(ind).vlist(i);
                         end
                     else
-                        app.VehicleGuidedPoint(ind).tlist = zeros(size(app.VehicleGuidedPoint(ind).xlist));
+                        if plan_updated
+                            app.VehicleGuidedPoint(ind).tlist = zeros(size(app.VehicleGuidedPoint(ind).xlist));
+                        end
                     end
                     % NED坐标转画图坐标
                     app.PlanCanvas(ind).xlist = app.VehicleGuidedPoint(ind).ylist;
@@ -1278,6 +1451,7 @@ classdef HGC_r1_3 < matlab.apps.AppBase
                 start(app.TimerGuided);
             else
                 stop(app.TimerGuided);
+                app.GuidedValid = 0;
                 app.GuidedStart.Text = '控制';
                 app.CtrlTimeLabel.Text = '';
             end
@@ -1359,7 +1533,8 @@ classdef HGC_r1_3 < matlab.apps.AppBase
                 pause(0.01);
                 app.NavUpload.Text = "航点上传";
             else
-                if ind<=length(app.VehicleListID)&&~isempty(ind)
+                % 先判空再判大小
+                if ~isempty(ind)&&ind<=length(app.VehicleListID)
                     id = app.VehicleListID(ind);
                     app.CanvasPanel.Title = ['飞机' num2str(id) '参考航路格式错误'];
                 else
@@ -1387,7 +1562,7 @@ classdef HGC_r1_3 < matlab.apps.AppBase
                 try
                     app.APMParams{id} = struct(app.APMVehicle{id}.get_params());
                     disp(['[ ' num2str(id) 'plane ] Reading Params...'])
-                    for i=length(app.PilotGrid.Children):-2:3
+                    for i=length(app.PilotGrid.Children):-2:5
                         if isa(app.PilotGrid.Children(i),'matlab.ui.control.Label')&&isa(app.PilotGrid.Children(i-1),'matlab.ui.control.NumericEditField')
                             app.PilotGrid.Children(i-1).Value = app.APMParams{id}.(app.PilotGrid.Children(i).Text);
                             disp(['  ' app.PilotGrid.Children(i).Text]);
@@ -1436,6 +1611,7 @@ classdef HGC_r1_3 < matlab.apps.AppBase
             app.MapGPSUnify.Text = '统一完毕';
             pause(0.1)
             app.MapGPSUnify.Text = '统一原点';
+            app.MapGPSUnified = 1;
         end
 
         % Button pushed function: SwitchNavStart
@@ -1445,12 +1621,12 @@ classdef HGC_r1_3 < matlab.apps.AppBase
                 if ind==0
                     app.SwitchNavStart.Text = '无簇头';
                     pause(0.1)
-                    app.SwitchNavStart.Text = '切换起点';
+                    app.SwitchNavStart.Text = '从头开始';
                 else
                     if isempty(app.VehicleGuidedPoint(ind).tlist)
                         app.SwitchNavStart.Text = '未下载';
                         pause(0.1)
-                        app.SwitchNavStart.Text = '切换起点';
+                        app.SwitchNavStart.Text = '从头开始';
                     else
                         if sum(app.VehicleGuidedPoint(ind).tlist)==0
                             app.APMVehicle{app.MasterID}.set_waypoint(int32(1));
@@ -1462,7 +1638,7 @@ classdef HGC_r1_3 < matlab.apps.AppBase
             else
                 app.SwitchNavStart.Text = '未起飞';
                 pause(0.1)
-                app.SwitchNavStart.Text = '切换起点';
+                app.SwitchNavStart.Text = '从头开始';
             end
         end
 
@@ -1476,16 +1652,16 @@ classdef HGC_r1_3 < matlab.apps.AppBase
                 if ~app.APMVehicle{id}.vehicle.armed
                     home_gps = double(app.APMVehicle{id}.wait_home_GPS());
                     if sum(home_gps)==0
-                        % 如果原本RealHomeGPS==1则保留有效的GPS点位
+                        % 如果原本RealHomeGPSUsed==1则保留有效的GPS点位
                         app.MapGPSSet.Text = '未读取';
                     else
-                        % 如果原本RealHomeGPS==0则重新设置GPS
-                        app.RealHomeGPS = 1;
+                        % 如果原本RealHomeGPSUsed==0则重新设置GPS
+                        app.RealHomeGPSUsed = 1;
                         app.MapGPSOrigin = home_gps(:);
                         app.MapGPSSet.Text = '设置成功';
                     end
                 else
-                    % 如果原本RealHomeGPS==1则保留有效的GPS点位
+                    % 如果原本RealHomeGPSUsed==1则保留有效的GPS点位
                     app.MapGPSSet.Text = '未锁定';
                 end
                 pause(0.1)
@@ -1503,7 +1679,7 @@ classdef HGC_r1_3 < matlab.apps.AppBase
                 if id<=length(app.APMParams)&&~isempty(app.APMParams{id})
                     try
                         disp(['[ ' num2str(id) 'plane ] Writting Params...'])
-                        for i=length(app.PilotGrid.Children):-2:3
+                        for i=length(app.PilotGrid.Children):-2:5
                             if isa(app.PilotGrid.Children(i),'matlab.ui.control.Label')&&isa(app.PilotGrid.Children(i-1),'matlab.ui.control.NumericEditField')
                                 if app.PilotGrid.Children(i-1).Value ~= app.APMParams{id}.(app.PilotGrid.Children(i).Text)
                                     app.APMVehicle{id}.set_params(app.PilotGrid.Children(i).Text,floor(app.PilotGrid.Children(i-1).Value));
@@ -1525,6 +1701,168 @@ classdef HGC_r1_3 < matlab.apps.AppBase
             pause(0.1)
             app.PilotPanel.Title = '飞控参数';
             app.PilotButtonWrite.Text = '写入';
+        end
+
+        % Button pushed function: ExpNavGenerate
+        function ExpNavGenerateButtonPushed(app, event)
+            % ind表示飞机id在VehicleListID中的索引，id表示飞机id
+            ind = app.ValueIndexInItems(app.PlanUAVID.Value,app.PlanUAVID.Items);
+            % 如果任务模式为1（航点），显示参考工作高度
+            app.PlanUAVIDValueChanged();
+            workalt = app.TaskAlt.Value;
+            % 清空已有航点
+            app.ClearGuidedPoint(ind);
+            % 生成航点格式修改，先判空再判大小
+            if ~isempty(ind)&&ind<=length(app.VehicleListID)
+                % 预设规则生成航点
+                region_rad = app.ExpRegionRad.Value;
+                close_dist = app.ExpCloseDist.Value;
+                loiter_rad = app.ExpLoiterRad.Value;
+                wp_rad = app.ExpWayptRad.Value;
+                right_side = app.BoolInItems(app.ExpLoiterSide.Value,app.ExpLoiterSide.Items);
+                shoot_angle = app.ExpShootHeading.Value/180*pi;
+                region_circle = region_rad*[cos(0:pi/3:2*pi);sin(0:pi/3:2*pi)];
+                back_rad = (region_rad+close_dist)/2;
+                back_circle = back_rad*[cos(0:pi/3:2*pi);sin(0:pi/3:2*pi)];
+                head_angle = atan2(loiter_rad,close_dist+loiter_rad);
+                nav_pt(:,1) = [region_rad/2;0];
+                nav_pt(:,2:6) = region_circle(:,1:5);
+                nav_pt(:,7) = rot2(head_angle)*[close_dist-back_rad;-back_rad];
+                front_rad = (back_rad+close_dist)/2;
+                front_circle = front_rad*[1,1;-1,1];
+                nav_pt(:,8:9) = rot2(head_angle)*([close_dist+loiter_rad;close_dist-front_rad]+front_circle);
+                nav_pt(:,10) = rot2(head_angle)*[close_dist-back_rad-back_rad*cos(pi/6);close_dist];
+                nav_pt(:,11:12) = rot2(head_angle)*([close_dist-back_rad;0]+back_circle(:,5:6));
+                nav_pt(:,13) = rot2(head_angle)*[close_dist-loiter_rad;0];
+                if ~right_side
+                    nav_pt(2,:) = -nav_pt(2,:);
+                end
+                if shoot_angle>0
+                    nav_pt = rot2(shoot_angle)*nav_pt;
+                end
+                app.ExpGuidedPoint.xlist = nav_pt(1,:);
+                app.ExpGuidedPoint.ylist = nav_pt(2,:);
+                % 生成航点数量显示
+                countnext = [length(app.ExpGuidedPoint.xlist),0];
+                app.ExpPanel.Title = ['生成航点'  num2str(countnext(1)) '个'];
+                for i=1:countnext(1)
+                    % 航线格式要求（首尾不能是航点）
+                    if i==1||i==countnext(1)
+                        % 16:waypoint, 17:loiter_unlim, 18:loiter_turn, 19:loiter_time, 20:rtl
+                        % waypoint仅rad_accept、rad_pass能上传，若rad_pass>0不管rad_accept多少飞机都会越过航点再转
+                        % loiter_unlim仅rad_pass能上传
+                        % loiter_turn、loiter_time都能上传，hold>0为次数/时间
+                        % rad_accept=1代表以下一个路点方向离开盘旋圆，=0代表以当前方向离开盘旋圆
+                        % yaw=1代表从切线离开盘旋圆，=0代表从中心离开盘旋圆
+                        % 航路可以不设置rtl，和手动切是一样的
+                        app.VehicleGuidedPoint(ind).cmd(i) = 17;
+                        app.VehicleGuidedPoint(ind).hold(i) = 0;
+                        app.VehicleGuidedPoint(ind).rad_accept(i) = 0;
+                        app.VehicleGuidedPoint(ind).rad_pass(i) = loiter_rad;
+                    else
+                        app.VehicleGuidedPoint(ind).cmd(i) = 16;
+                        app.VehicleGuidedPoint(ind).hold(i) = 0;
+                        app.VehicleGuidedPoint(ind).rad_accept(i) = wp_rad;
+                        app.VehicleGuidedPoint(ind).rad_pass(i) = 0;
+                    end
+                    app.VehicleGuidedPoint(ind).yaw(i) = 0;
+                    gps = double(app.APMVehicle{app.VehicleListID(ind)}.map_origin.XYtoGPSwithRef(app.ExpGuidedPoint.xlist(i),...
+                        app.ExpGuidedPoint.ylist(i),app.MapGPSOrigin(1), app.MapGPSOrigin(2)));
+                    app.VehicleGuidedPoint(ind).lat(i) = gps(1);
+                    app.VehicleGuidedPoint(ind).lon(i) = gps(2);
+                    app.VehicleGuidedPoint(ind).alt(i) = workalt;
+                    % NED axis
+                    app.VehicleGuidedPoint(ind).xlist(i) = app.ExpGuidedPoint.xlist(i);
+                    app.VehicleGuidedPoint(ind).ylist(i) = app.ExpGuidedPoint.ylist(i);
+                    app.VehicleGuidedPoint(ind).zlist(i) = -app.VehicleGuidedPoint(ind).alt(i);
+                    app.VehicleGuidedPoint(ind).vlist(i) = (app.VehicleGuidedPoint(ind).airspd_max+app.VehicleGuidedPoint(ind).airspd_min)/2;
+                end
+                % 如果有航点在VehicleGuidedPoint中
+                if ~isempty(app.VehicleGuidedPoint(ind).cmd)
+                    app.ExpPanel.Title = [app.ExpPanel.Title '，显示生成航点'];
+                    count = length(app.VehicleGuidedPoint(ind).cmd);
+                    app.NavID.Items = string(1:count);
+                    % 航线满足要求
+                    xyz_diff = [diff(app.VehicleGuidedPoint(ind).xlist);diff(app.VehicleGuidedPoint(ind).ylist);diff(app.VehicleGuidedPoint(ind).zlist)];
+                    xyz_dist = normby(xyz_diff,2);
+                    % 航线格式：第一个点是集结点（<0），中间是路点（>=0），最后一个点是应急点（<0）
+                    for i=[1 count]
+                        if app.VehicleGuidedPoint(ind).cmd(i)==17
+                            % loiter_unlim：无限次，-255表示
+                            app.VehicleGuidedPoint(ind).tlist(i) = -255;
+                        else
+                            % loiter_turns/times：hold次数/时间，-hold表示
+                            app.VehicleGuidedPoint(ind).tlist(i) = -app.VehicleGuidedPoint(ind).hold(i);
+                        end  
+                    end
+                    app.VehicleGuidedPoint(ind).tlist(2) = 0;
+                    for i=3:count-1
+                        app.VehicleGuidedPoint(ind).tlist(i) = app.VehicleGuidedPoint(ind).tlist(i-1)+xyz_dist(i-1)/app.VehicleGuidedPoint(ind).vlist(i);
+                    end
+                    % NED坐标转画图坐标
+                    app.PlanCanvas(ind).xlist = app.VehicleGuidedPoint(ind).ylist;
+                    app.PlanCanvas(ind).ylist = app.VehicleGuidedPoint(ind).xlist;
+                end
+            else
+                app.ExpPanel.Title = '飞机未连接';
+            end
+            pause(0.1)
+            app.ExpPanel.Title = '操作台|试验';
+        end
+
+        % Button pushed function: IncreaseLoiterRad
+        function IncreaseLoiterRadButtonPushed(app, event)
+            % ind表示飞机id在VehicleListID中的索引，id表示飞机id
+            ind = app.ValueIndexInItems(app.PlanUAVID.Value,app.PlanUAVID.Items);
+            % 判定是否有两个以上飞机
+            if ~isempty(ind)&&ind<=length(app.VehicleListID)
+                id = app.VehicleListID(ind);
+                heading_err_max = 0;
+                for i=1:length(app.VehicleListID)               
+                    if i~=ind
+                        heading_err = app.VehicleHeading(ind)-app.VehicleHeading(i);
+                        if heading_err<-180
+                            heading_err = heading_err+360;
+                        end
+                        if heading_err>180
+                            heading_err = heading_err-360;
+                        end
+                        if heading_err>heading_err_max
+                            heading_err_max = heading_err;
+                        end
+                    end
+                end
+                % 计算角度误差带来的位置误差
+                dist_err = (heading_err_max/180*pi)*app.ExpLoiterRad.Value;
+                app.APMVehicle{id}.set_params('WP_LOITER_RAD',floor(dist_err/2+app.ExpLoiterRad.Value));
+                app.APMVehicle{id}.goto_point_GPS(double(app.VehicleGuidedPoint(ind).lat(1)),...
+                    double(app.VehicleGuidedPoint(ind).lon(1)),double(app.VehicleGuidedPoint(ind).alt(1)));
+                disp(['[ ' num2str(id) 'plane ] Loiter rad ' num2str(floor(dist_err/2+app.ExpLoiterRad.Value)) ', Heading err ' num2str(heading_err_max)])
+            end
+        end
+
+        % Button pushed function: RestoreLoiterRad
+        function RestoreLoiterRadButtonPushed(app, event)
+            % ind表示飞机id在VehicleListID中的索引，id表示飞机id
+            ind = app.ValueIndexInItems(app.PlanUAVID.Value,app.PlanUAVID.Items);
+            % 判定是否有两个以上飞机
+            if ~isempty(ind)&&ind<=length(app.VehicleListID)
+                id = app.VehicleListID(ind);
+                app.APMVehicle{id}.set_params('WP_LOITER_RAD',app.ExpLoiterRad.Value);
+            end
+        end
+
+        % Button pushed function: UseGuidedMode
+        function UseGuidedModeButtonPushed(app, event)
+            % ind表示飞机id在VehicleListID中的索引，id表示飞机id
+            ind = app.ValueIndexInItems(app.PlanUAVID.Value,app.PlanUAVID.Items);
+            % 判定是否有两个以上飞机
+            if ~isempty(ind)&&ind<=length(app.VehicleListID)
+                id = app.VehicleListID(ind);
+                app.APMVehicle{id}.set_params('WP_LOITER_RAD',floor(app.AddLoiterRad.Value));
+                app.APMVehicle{id}.goto_point_GPS(double(app.VehicleGuidedPoint(ind).lat(1)),...
+                    double(app.VehicleGuidedPoint(ind).lon(1)),double(app.VehicleGuidedPoint(ind).alt(1)));
+            end
         end
     end
 
@@ -2547,355 +2885,57 @@ classdef HGC_r1_3 < matlab.apps.AppBase
             app.FormAltKeep.Layout.Column = 3;
             app.FormAltKeep.Value = '否';
 
+            % Create BehaviorPanel
+            app.BehaviorPanel = uipanel(app.TabPlanning);
+            app.BehaviorPanel.Title = '操作台|行为';
+            app.BehaviorPanel.Position = [1 1 369 218];
+
+            % Create IncreaseLoiterRad
+            app.IncreaseLoiterRad = uibutton(app.BehaviorPanel, 'push');
+            app.IncreaseLoiterRad.ButtonPushedFcn = createCallbackFcn(app, @IncreaseLoiterRadButtonPushed, true);
+            app.IncreaseLoiterRad.Position = [6 167 100 23];
+            app.IncreaseLoiterRad.Text = '增大盘旋半径';
+
+            % Create RestoreLoiterRad
+            app.RestoreLoiterRad = uibutton(app.BehaviorPanel, 'push');
+            app.RestoreLoiterRad.ButtonPushedFcn = createCallbackFcn(app, @RestoreLoiterRadButtonPushed, true);
+            app.RestoreLoiterRad.Position = [6 138 100 23];
+            app.RestoreLoiterRad.Text = '还原盘旋半径';
+
+            % Create HeadingErrDeadzoneLabel
+            app.HeadingErrDeadzoneLabel = uilabel(app.BehaviorPanel);
+            app.HeadingErrDeadzoneLabel.HorizontalAlignment = 'right';
+            app.HeadingErrDeadzoneLabel.Position = [124 101 53 22];
+            app.HeadingErrDeadzoneLabel.Text = '盘旋半径';
+
+            % Create AddLoiterRad
+            app.AddLoiterRad = uieditfield(app.BehaviorPanel, 'numeric');
+            app.AddLoiterRad.Limits = [0 Inf];
+            app.AddLoiterRad.Position = [192 101 100 22];
+            app.AddLoiterRad.Value = 10;
+
+            % Create UseGuidedMode
+            app.UseGuidedMode = uibutton(app.BehaviorPanel, 'push');
+            app.UseGuidedMode.ButtonPushedFcn = createCallbackFcn(app, @UseGuidedModeButtonPushed, true);
+            app.UseGuidedMode.Position = [6 100 100 23];
+            app.UseGuidedMode.Text = '切换引导模式';
+
             % Create TabDecision
             app.TabDecision = uitab(app.TabGroupFlight);
-            app.TabDecision.Title = '在线决策';
-
-            % Create CopyrightLabel
-            app.CopyrightLabel = uilabel(app.TabMap);
-            app.CopyrightLabel.Position = [1298 3 87 17];
-            app.CopyrightLabel.Text = '海山科技 2024 ';
-
-            % Create CtrlTimeLabel
-            app.CtrlTimeLabel = uilabel(app.TabMap);
-            app.CtrlTimeLabel.Position = [1015 3 264 17];
-            app.CtrlTimeLabel.Text = '';
-
-            % Create UAVIDListLabel
-            app.UAVIDListLabel = uilabel(app.TabMap);
-            app.UAVIDListLabel.HorizontalAlignment = 'right';
-            app.UAVIDListLabel.Position = [47 5 101 22];
-            app.UAVIDListLabel.Text = '当前连接无人机ID';
-
-            % Create UAVIDList
-            app.UAVIDList = uieditfield(app.TabMap, 'text');
-            app.UAVIDList.Position = [163 5 353 22];
-
-            % Create MapGPSLatLabel
-            app.MapGPSLatLabel = uilabel(app.TabMap);
-            app.MapGPSLatLabel.HorizontalAlignment = 'right';
-            app.MapGPSLatLabel.Position = [720 5 29 22];
-            app.MapGPSLatLabel.Text = '纬度';
-
-            % Create MapGPSLat
-            app.MapGPSLat = uieditfield(app.TabMap, 'numeric');
-            app.MapGPSLat.ValueDisplayFormat = '%.8f';
-            app.MapGPSLat.Position = [752 5 100 22];
-
-            % Create MapGPSLonLabel
-            app.MapGPSLonLabel = uilabel(app.TabMap);
-            app.MapGPSLonLabel.HorizontalAlignment = 'right';
-            app.MapGPSLonLabel.Position = [858 5 29 22];
-            app.MapGPSLonLabel.Text = '经度';
-
-            % Create MapGPSLon
-            app.MapGPSLon = uieditfield(app.TabMap, 'numeric');
-            app.MapGPSLon.ValueDisplayFormat = '%.8f';
-            app.MapGPSLon.Position = [890 5 100 22];
-
-            % Create MapGPSSet
-            app.MapGPSSet = uibutton(app.TabMap, 'push');
-            app.MapGPSSet.ButtonPushedFcn = createCallbackFcn(app, @MapGPSSetButtonPushed, true);
-            app.MapGPSSet.Position = [545 4 76 24];
-            app.MapGPSSet.Text = '设置原点';
-
-            % Create MapGPSUnify
-            app.MapGPSUnify = uibutton(app.TabMap, 'push');
-            app.MapGPSUnify.ButtonPushedFcn = createCallbackFcn(app, @MapGPSUnifyButtonPushed, true);
-            app.MapGPSUnify.Enable = 'off';
-            app.MapGPSUnify.Position = [627 4 76 24];
-            app.MapGPSUnify.Text = '统一原点';
-
-            % Create TabSetting
-            app.TabSetting = uitab(app.TabGroupMap);
-            app.TabSetting.Title = '设置';
-
-            % Create LinkPanel
-            app.LinkPanel = uipanel(app.TabSetting);
-            app.LinkPanel.Title = '连接';
-            app.LinkPanel.Position = [12 341 128 430];
-
-            % Create LinkGrid
-            app.LinkGrid = uigridlayout(app.LinkPanel);
-            app.LinkGrid.ColumnWidth = {56, 56};
-            app.LinkGrid.RowHeight = {22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 23};
-            app.LinkGrid.ColumnSpacing = 4.66666666666667;
-            app.LinkGrid.RowSpacing = 8.66666739327567;
-            app.LinkGrid.Padding = [4.66666666666667 8.66666739327567 4.66666666666667 8.66666739327567];
-
-            % Create LinkButtonOn
-            app.LinkButtonOn = uibutton(app.LinkGrid, 'push');
-            app.LinkButtonOn.ButtonPushedFcn = createCallbackFcn(app, @LinkButtonOnPushed, true);
-            app.LinkButtonOn.Layout.Row = 4;
-            app.LinkButtonOn.Layout.Column = 1;
-            app.LinkButtonOn.Text = '连接';
-
-            % Create LinkButtonOff
-            app.LinkButtonOff = uibutton(app.LinkGrid, 'push');
-            app.LinkButtonOff.ButtonPushedFcn = createCallbackFcn(app, @LinkButtonOffPushed, true);
-            app.LinkButtonOff.Layout.Row = 4;
-            app.LinkButtonOff.Layout.Column = 2;
-            app.LinkButtonOff.Text = '断开';
-
-            % Create WorkButtonWrite
-            app.WorkButtonWrite = uibutton(app.LinkGrid, 'push');
-            app.WorkButtonWrite.Enable = 'off';
-            app.WorkButtonWrite.Layout.Row = 13;
-            app.WorkButtonWrite.Layout.Column = 1;
-            app.WorkButtonWrite.Text = '写入';
-
-            % Create WorkButtonRead
-            app.WorkButtonRead = uibutton(app.LinkGrid, 'push');
-            app.WorkButtonRead.Enable = 'off';
-            app.WorkButtonRead.Layout.Row = 13;
-            app.WorkButtonRead.Layout.Column = 2;
-            app.WorkButtonRead.Text = '读取';
-
-            % Create LinkIDLabel
-            app.LinkIDLabel = uilabel(app.LinkGrid);
-            app.LinkIDLabel.HorizontalAlignment = 'right';
-            app.LinkIDLabel.Layout.Row = 3;
-            app.LinkIDLabel.Layout.Column = 1;
-            app.LinkIDLabel.Text = '飞机ID';
-
-            % Create LinkID
-            app.LinkID = uidropdown(app.LinkGrid);
-            app.LinkID.Items = {'1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32'};
-            app.LinkID.Editable = 'on';
-            app.LinkID.ValueChangedFcn = createCallbackFcn(app, @LinkIDValueChanged, true);
-            app.LinkID.BackgroundColor = [1 1 1];
-            app.LinkID.Layout.Row = 3;
-            app.LinkID.Layout.Column = 2;
-            app.LinkID.Value = '1';
-
-            % Create LinkPortLabel
-            app.LinkPortLabel = uilabel(app.LinkGrid);
-            app.LinkPortLabel.HorizontalAlignment = 'right';
-            app.LinkPortLabel.Layout.Row = 2;
-            app.LinkPortLabel.Layout.Column = 1;
-            app.LinkPortLabel.Text = '起始端口';
-
-            % Create LinkPort
-            app.LinkPort = uieditfield(app.LinkGrid, 'numeric');
-            app.LinkPort.Limits = [0 Inf];
-            app.LinkPort.ValueDisplayFormat = '%.0f';
-            app.LinkPort.Layout.Row = 2;
-            app.LinkPort.Layout.Column = 2;
-            app.LinkPort.Value = 12550;
-
-            % Create WorkAltMinLabel
-            app.WorkAltMinLabel = uilabel(app.LinkGrid);
-            app.WorkAltMinLabel.HorizontalAlignment = 'right';
-            app.WorkAltMinLabel.Layout.Row = 8;
-            app.WorkAltMinLabel.Layout.Column = 1;
-            app.WorkAltMinLabel.Text = '最小高度';
-
-            % Create WorkAltMin
-            app.WorkAltMin = uieditfield(app.LinkGrid, 'numeric');
-            app.WorkAltMin.Limits = [0 Inf];
-            app.WorkAltMin.Layout.Row = 8;
-            app.WorkAltMin.Layout.Column = 2;
-            app.WorkAltMin.Value = 50;
-
-            % Create WorkAltErr
-            app.WorkAltErr = uieditfield(app.LinkGrid, 'numeric');
-            app.WorkAltErr.Limits = [0 Inf];
-            app.WorkAltErr.Layout.Row = 7;
-            app.WorkAltErr.Layout.Column = 2;
-            app.WorkAltErr.Value = 1;
-
-            % Create WorkAltErrLabel
-            app.WorkAltErrLabel = uilabel(app.LinkGrid);
-            app.WorkAltErrLabel.HorizontalAlignment = 'right';
-            app.WorkAltErrLabel.Layout.Row = 7;
-            app.WorkAltErrLabel.Layout.Column = 1;
-            app.WorkAltErrLabel.Text = '高度误差';
-
-            % Create WorkAltDist
-            app.WorkAltDist = uieditfield(app.LinkGrid, 'numeric');
-            app.WorkAltDist.Limits = [0 Inf];
-            app.WorkAltDist.Layout.Row = 6;
-            app.WorkAltDist.Layout.Column = 2;
-            app.WorkAltDist.Value = 10;
-
-            % Create WorkAltDistLabel
-            app.WorkAltDistLabel = uilabel(app.LinkGrid);
-            app.WorkAltDistLabel.HorizontalAlignment = 'right';
-            app.WorkAltDistLabel.Layout.Row = 6;
-            app.WorkAltDistLabel.Layout.Column = 1;
-            app.WorkAltDistLabel.Text = '工作高差';
-
-            % Create WorkAlt
-            app.WorkAlt = uieditfield(app.LinkGrid, 'numeric');
-            app.WorkAlt.Limits = [0 Inf];
-            app.WorkAlt.Layout.Row = 5;
-            app.WorkAlt.Layout.Column = 2;
-            app.WorkAlt.Value = 60;
-
-            % Create WorkAltLabel
-            app.WorkAltLabel = uilabel(app.LinkGrid);
-            app.WorkAltLabel.HorizontalAlignment = 'right';
-            app.WorkAltLabel.Layout.Row = 5;
-            app.WorkAltLabel.Layout.Column = 1;
-            app.WorkAltLabel.Text = '工作高度';
-
-            % Create GPSErrLabel
-            app.GPSErrLabel = uilabel(app.LinkGrid);
-            app.GPSErrLabel.HorizontalAlignment = 'right';
-            app.GPSErrLabel.Layout.Row = 11;
-            app.GPSErrLabel.Layout.Column = 1;
-            app.GPSErrLabel.Text = 'GPS误差';
-
-            % Create GPSErr
-            app.GPSErr = uieditfield(app.LinkGrid, 'numeric');
-            app.GPSErr.Limits = [0 Inf];
-            app.GPSErr.Layout.Row = 11;
-            app.GPSErr.Layout.Column = 2;
-            app.GPSErr.Value = 1;
-
-            % Create YawErrLabel
-            app.YawErrLabel = uilabel(app.LinkGrid);
-            app.YawErrLabel.HorizontalAlignment = 'right';
-            app.YawErrLabel.Layout.Row = 12;
-            app.YawErrLabel.Layout.Column = 1;
-            app.YawErrLabel.Text = '偏航误差';
-
-            % Create YawErr
-            app.YawErr = uieditfield(app.LinkGrid, 'numeric');
-            app.YawErr.Limits = [0 Inf];
-            app.YawErr.Layout.Row = 12;
-            app.YawErr.Layout.Column = 2;
-            app.YawErr.Value = 0.07;
-
-            % Create IPAddrLabel
-            app.IPAddrLabel = uilabel(app.LinkGrid);
-            app.IPAddrLabel.HorizontalAlignment = 'right';
-            app.IPAddrLabel.Layout.Row = 1;
-            app.IPAddrLabel.Layout.Column = 1;
-            app.IPAddrLabel.Text = 'IP地址';
-
-            % Create IPAddr
-            app.IPAddr = uidropdown(app.LinkGrid);
-            app.IPAddr.Items = {'本地', '虚拟', '实验'};
-            app.IPAddr.Layout.Row = 1;
-            app.IPAddr.Layout.Column = 2;
-            app.IPAddr.Value = '虚拟';
-
-            % Create WorkAltMinLabel_2
-            app.WorkAltMinLabel_2 = uilabel(app.LinkGrid);
-            app.WorkAltMinLabel_2.HorizontalAlignment = 'right';
-            app.WorkAltMinLabel_2.Layout.Row = 10;
-            app.WorkAltMinLabel_2.Layout.Column = 1;
-            app.WorkAltMinLabel_2.Text = '最大空速';
-
-            % Create AirspdMax
-            app.AirspdMax = uieditfield(app.LinkGrid, 'numeric');
-            app.AirspdMax.Limits = [0 Inf];
-            app.AirspdMax.Layout.Row = 10;
-            app.AirspdMax.Layout.Column = 2;
-            app.AirspdMax.Value = 30;
-
-            % Create AirspdMin
-            app.AirspdMin = uieditfield(app.LinkGrid, 'numeric');
-            app.AirspdMin.Limits = [0 Inf];
-            app.AirspdMin.Layout.Row = 9;
-            app.AirspdMin.Layout.Column = 2;
-            app.AirspdMin.Value = 20;
-
-            % Create WorkAltErrLabel_2
-            app.WorkAltErrLabel_2 = uilabel(app.LinkGrid);
-            app.WorkAltErrLabel_2.HorizontalAlignment = 'right';
-            app.WorkAltErrLabel_2.Layout.Row = 9;
-            app.WorkAltErrLabel_2.Layout.Column = 1;
-            app.WorkAltErrLabel_2.Text = '最小空速';
-
-            % Create ConfigPanel
-            app.ConfigPanel = uipanel(app.TabSetting);
-            app.ConfigPanel.Title = '地图显示';
-            app.ConfigPanel.Position = [152 644 200 127];
-
-            % Create ConfigGrid
-            app.ConfigGrid = uigridlayout(app.ConfigPanel);
-            app.ConfigGrid.ColumnWidth = {41, 56, 56};
-            app.ConfigGrid.RowHeight = {22, 22, 23};
-            app.ConfigGrid.RowSpacing = 9.06666564941406;
-            app.ConfigGrid.Padding = [10 9.06666564941406 10 9.06666564941406];
-
-            % Create ConfigLabelNorth
-            app.ConfigLabelNorth = uilabel(app.ConfigGrid);
-            app.ConfigLabelNorth.HorizontalAlignment = 'right';
-            app.ConfigLabelNorth.Layout.Row = 1;
-            app.ConfigLabelNorth.Layout.Column = 1;
-            app.ConfigLabelNorth.Text = '北边界';
-
-            % Create ConfigLabelEast
-            app.ConfigLabelEast = uilabel(app.ConfigGrid);
-            app.ConfigLabelEast.HorizontalAlignment = 'right';
-            app.ConfigLabelEast.Layout.Row = 2;
-            app.ConfigLabelEast.Layout.Column = 1;
-            app.ConfigLabelEast.Text = '东边界';
-
-            % Create ConfigButtonWrite
-            app.ConfigButtonWrite = uibutton(app.ConfigGrid, 'push');
-            app.ConfigButtonWrite.Enable = 'off';
-            app.ConfigButtonWrite.Layout.Row = 3;
-            app.ConfigButtonWrite.Layout.Column = 2;
-            app.ConfigButtonWrite.Text = '写入';
-
-            % Create ConfigButtonRead
-            app.ConfigButtonRead = uibutton(app.ConfigGrid, 'push');
-            app.ConfigButtonRead.Enable = 'off';
-            app.ConfigButtonRead.Layout.Row = 3;
-            app.ConfigButtonRead.Layout.Column = 3;
-            app.ConfigButtonRead.Text = '读取';
-
-            % Create ConfigNorthLeft
-            app.ConfigNorthLeft = uieditfield(app.ConfigGrid, 'numeric');
-            app.ConfigNorthLeft.HorizontalAlignment = 'left';
-            app.ConfigNorthLeft.Layout.Row = 1;
-            app.ConfigNorthLeft.Layout.Column = 2;
-            app.ConfigNorthLeft.Value = -5000;
-
-            % Create ConfigNorthRight
-            app.ConfigNorthRight = uieditfield(app.ConfigGrid, 'numeric');
-            app.ConfigNorthRight.HorizontalAlignment = 'left';
-            app.ConfigNorthRight.Layout.Row = 1;
-            app.ConfigNorthRight.Layout.Column = 3;
-            app.ConfigNorthRight.Value = 5000;
-
-            % Create ConfigEastLeft
-            app.ConfigEastLeft = uieditfield(app.ConfigGrid, 'numeric');
-            app.ConfigEastLeft.HorizontalAlignment = 'left';
-            app.ConfigEastLeft.Layout.Row = 2;
-            app.ConfigEastLeft.Layout.Column = 2;
-            app.ConfigEastLeft.Value = -5000;
-
-            % Create ConfigEastRight
-            app.ConfigEastRight = uieditfield(app.ConfigGrid, 'numeric');
-            app.ConfigEastRight.HorizontalAlignment = 'left';
-            app.ConfigEastRight.Layout.Row = 2;
-            app.ConfigEastRight.Layout.Column = 3;
-            app.ConfigEastRight.Value = 5000;
-
-            % Create ConfigDebug
-            app.ConfigDebug = uibutton(app.ConfigGrid, 'state');
-            app.ConfigDebug.Enable = 'off';
-            app.ConfigDebug.Text = '调试';
-            app.ConfigDebug.Layout.Row = 3;
-            app.ConfigDebug.Layout.Column = 1;
+            app.TabDecision.Title = '在线调参';
 
             % Create PilotPanel
-            app.PilotPanel = uipanel(app.TabSetting);
+            app.PilotPanel = uipanel(app.TabDecision);
             app.PilotPanel.Title = '飞控参数';
-            app.PilotPanel.Position = [152 224 200 409];
+            app.PilotPanel.Position = [131 292 239 441];
 
             % Create PilotGrid
             app.PilotGrid = uigridlayout(app.PilotPanel);
-            app.PilotGrid.ColumnWidth = {115, 60};
-            app.PilotGrid.RowHeight = {22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 23};
+            app.PilotGrid.ColumnWidth = {115, '100x'};
+            app.PilotGrid.RowHeight = {23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 24, 24};
             app.PilotGrid.ColumnSpacing = 7.66666666666667;
-            app.PilotGrid.RowSpacing = 9.41025719275841;
-            app.PilotGrid.Padding = [7.66666666666667 9.41025719275841 7.66666666666667 9.41025719275841];
+            app.PilotGrid.RowSpacing = 8.5952388218471;
+            app.PilotGrid.Padding = [7.66666666666667 8.5952388218471 7.66666666666667 8.5952388218471];
 
             % Create PilotButtonWrite
             app.PilotButtonWrite = uibutton(app.PilotGrid, 'push');
@@ -2910,6 +2950,20 @@ classdef HGC_r1_3 < matlab.apps.AppBase
             app.PilotButtonRead.Layout.Row = 12;
             app.PilotButtonRead.Layout.Column = 2;
             app.PilotButtonRead.Text = '读取';
+
+            % Create ParamsButtonSave
+            app.ParamsButtonSave = uibutton(app.PilotGrid, 'push');
+            app.ParamsButtonSave.Enable = 'off';
+            app.ParamsButtonSave.Layout.Row = 13;
+            app.ParamsButtonSave.Layout.Column = 1;
+            app.ParamsButtonSave.Text = '一键保存配置';
+
+            % Create ParamsButtonLoad
+            app.ParamsButtonLoad = uibutton(app.PilotGrid, 'push');
+            app.ParamsButtonLoad.Enable = 'off';
+            app.ParamsButtonLoad.Layout.Row = 13;
+            app.ParamsButtonLoad.Layout.Column = 2;
+            app.ParamsButtonLoad.Text = '加载';
 
             % Create PilotSysID
             app.PilotSysID = uieditfield(app.PilotGrid, 'numeric');
@@ -3049,15 +3103,444 @@ classdef HGC_r1_3 < matlab.apps.AppBase
             app.PilotAirspdUseLabel.Layout.Column = 1;
             app.PilotAirspdUseLabel.Text = 'ARSPD_USE';
 
+            % Create LinkPanel
+            app.LinkPanel = uipanel(app.TabDecision);
+            app.LinkPanel.Title = '连接参数';
+            app.LinkPanel.Position = [1 292 131 441];
+
+            % Create LinkGrid
+            app.LinkGrid = uigridlayout(app.LinkPanel);
+            app.LinkGrid.ColumnWidth = {56, '100x'};
+            app.LinkGrid.RowHeight = {20, 20, 20, 22, 20, 20, 20, 20, 20, 20, 20, 20, 20, 22};
+            app.LinkGrid.ColumnSpacing = 5.22667185465495;
+            app.LinkGrid.RowSpacing = 9.20889511108398;
+            app.LinkGrid.Padding = [5.22667185465495 9.20889511108398 5.22667185465495 9.20889511108398];
+
+            % Create LinkButtonOn
+            app.LinkButtonOn = uibutton(app.LinkGrid, 'push');
+            app.LinkButtonOn.ButtonPushedFcn = createCallbackFcn(app, @LinkButtonOnPushed, true);
+            app.LinkButtonOn.Layout.Row = 4;
+            app.LinkButtonOn.Layout.Column = 1;
+            app.LinkButtonOn.Text = '连接';
+
+            % Create LinkButtonOff
+            app.LinkButtonOff = uibutton(app.LinkGrid, 'push');
+            app.LinkButtonOff.ButtonPushedFcn = createCallbackFcn(app, @LinkButtonOffPushed, true);
+            app.LinkButtonOff.Layout.Row = 4;
+            app.LinkButtonOff.Layout.Column = 2;
+            app.LinkButtonOff.Text = '断开';
+
+            % Create WorkButtonWrite
+            app.WorkButtonWrite = uibutton(app.LinkGrid, 'push');
+            app.WorkButtonWrite.Enable = 'off';
+            app.WorkButtonWrite.Layout.Row = 14;
+            app.WorkButtonWrite.Layout.Column = 1;
+            app.WorkButtonWrite.Text = '写入';
+
+            % Create WorkButtonRead
+            app.WorkButtonRead = uibutton(app.LinkGrid, 'push');
+            app.WorkButtonRead.Enable = 'off';
+            app.WorkButtonRead.Layout.Row = 14;
+            app.WorkButtonRead.Layout.Column = 2;
+            app.WorkButtonRead.Text = '读取';
+
+            % Create LinkIDLabel
+            app.LinkIDLabel = uilabel(app.LinkGrid);
+            app.LinkIDLabel.HorizontalAlignment = 'right';
+            app.LinkIDLabel.Layout.Row = 3;
+            app.LinkIDLabel.Layout.Column = 1;
+            app.LinkIDLabel.Text = '飞机ID';
+
+            % Create LinkID
+            app.LinkID = uidropdown(app.LinkGrid);
+            app.LinkID.Items = {'1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32'};
+            app.LinkID.Editable = 'on';
+            app.LinkID.ValueChangedFcn = createCallbackFcn(app, @LinkIDValueChanged, true);
+            app.LinkID.BackgroundColor = [1 1 1];
+            app.LinkID.Layout.Row = 3;
+            app.LinkID.Layout.Column = 2;
+            app.LinkID.Value = '1';
+
+            % Create LinkPortLabel
+            app.LinkPortLabel = uilabel(app.LinkGrid);
+            app.LinkPortLabel.HorizontalAlignment = 'right';
+            app.LinkPortLabel.Layout.Row = 2;
+            app.LinkPortLabel.Layout.Column = 1;
+            app.LinkPortLabel.Text = '起始端口';
+
+            % Create LinkPort
+            app.LinkPort = uieditfield(app.LinkGrid, 'numeric');
+            app.LinkPort.Limits = [0 Inf];
+            app.LinkPort.ValueDisplayFormat = '%.0f';
+            app.LinkPort.Layout.Row = 2;
+            app.LinkPort.Layout.Column = 2;
+            app.LinkPort.Value = 12550;
+
+            % Create WorkAltMinLabel
+            app.WorkAltMinLabel = uilabel(app.LinkGrid);
+            app.WorkAltMinLabel.HorizontalAlignment = 'right';
+            app.WorkAltMinLabel.Layout.Row = 8;
+            app.WorkAltMinLabel.Layout.Column = 1;
+            app.WorkAltMinLabel.Text = '最小高度';
+
+            % Create WorkAltMin
+            app.WorkAltMin = uieditfield(app.LinkGrid, 'numeric');
+            app.WorkAltMin.Limits = [0 Inf];
+            app.WorkAltMin.Layout.Row = 8;
+            app.WorkAltMin.Layout.Column = 2;
+            app.WorkAltMin.Value = 50;
+
+            % Create WorkAltErr
+            app.WorkAltErr = uieditfield(app.LinkGrid, 'numeric');
+            app.WorkAltErr.Limits = [0 Inf];
+            app.WorkAltErr.Layout.Row = 7;
+            app.WorkAltErr.Layout.Column = 2;
+            app.WorkAltErr.Value = 1;
+
+            % Create WorkAltErrLabel
+            app.WorkAltErrLabel = uilabel(app.LinkGrid);
+            app.WorkAltErrLabel.HorizontalAlignment = 'right';
+            app.WorkAltErrLabel.Layout.Row = 7;
+            app.WorkAltErrLabel.Layout.Column = 1;
+            app.WorkAltErrLabel.Text = '高度误差';
+
+            % Create WorkAltDist
+            app.WorkAltDist = uieditfield(app.LinkGrid, 'numeric');
+            app.WorkAltDist.Limits = [0 Inf];
+            app.WorkAltDist.Layout.Row = 6;
+            app.WorkAltDist.Layout.Column = 2;
+            app.WorkAltDist.Value = 15;
+
+            % Create WorkAltDistLabel
+            app.WorkAltDistLabel = uilabel(app.LinkGrid);
+            app.WorkAltDistLabel.HorizontalAlignment = 'right';
+            app.WorkAltDistLabel.Layout.Row = 6;
+            app.WorkAltDistLabel.Layout.Column = 1;
+            app.WorkAltDistLabel.Text = '工作高差';
+
+            % Create WorkAlt
+            app.WorkAlt = uieditfield(app.LinkGrid, 'numeric');
+            app.WorkAlt.Limits = [0 Inf];
+            app.WorkAlt.Layout.Row = 5;
+            app.WorkAlt.Layout.Column = 2;
+            app.WorkAlt.Value = 70;
+
+            % Create WorkAltLabel
+            app.WorkAltLabel = uilabel(app.LinkGrid);
+            app.WorkAltLabel.HorizontalAlignment = 'right';
+            app.WorkAltLabel.Layout.Row = 5;
+            app.WorkAltLabel.Layout.Column = 1;
+            app.WorkAltLabel.Text = '工作高度';
+
+            % Create GPSErrLabel
+            app.GPSErrLabel = uilabel(app.LinkGrid);
+            app.GPSErrLabel.HorizontalAlignment = 'right';
+            app.GPSErrLabel.Layout.Row = 9;
+            app.GPSErrLabel.Layout.Column = 1;
+            app.GPSErrLabel.Text = 'GPS误差';
+
+            % Create GPSErr
+            app.GPSErr = uieditfield(app.LinkGrid, 'numeric');
+            app.GPSErr.Limits = [0 Inf];
+            app.GPSErr.Layout.Row = 9;
+            app.GPSErr.Layout.Column = 2;
+            app.GPSErr.Value = 1;
+
+            % Create YawErrLabel
+            app.YawErrLabel = uilabel(app.LinkGrid);
+            app.YawErrLabel.HorizontalAlignment = 'right';
+            app.YawErrLabel.Layout.Row = 10;
+            app.YawErrLabel.Layout.Column = 1;
+            app.YawErrLabel.Text = '航向误差';
+
+            % Create YawErr
+            app.YawErr = uieditfield(app.LinkGrid, 'numeric');
+            app.YawErr.Limits = [0 Inf];
+            app.YawErr.Layout.Row = 10;
+            app.YawErr.Layout.Column = 2;
+            app.YawErr.Value = 5;
+
+            % Create IPAddrLabel
+            app.IPAddrLabel = uilabel(app.LinkGrid);
+            app.IPAddrLabel.HorizontalAlignment = 'right';
+            app.IPAddrLabel.Layout.Row = 1;
+            app.IPAddrLabel.Layout.Column = 1;
+            app.IPAddrLabel.Text = 'IP地址';
+
+            % Create IPAddr
+            app.IPAddr = uidropdown(app.LinkGrid);
+            app.IPAddr.Items = {'本地', '虚拟', '实验'};
+            app.IPAddr.Layout.Row = 1;
+            app.IPAddr.Layout.Column = 2;
+            app.IPAddr.Value = '虚拟';
+
+            % Create AirspdMaxLabel
+            app.AirspdMaxLabel = uilabel(app.LinkGrid);
+            app.AirspdMaxLabel.HorizontalAlignment = 'right';
+            app.AirspdMaxLabel.Layout.Row = 12;
+            app.AirspdMaxLabel.Layout.Column = 1;
+            app.AirspdMaxLabel.Text = '最大空速';
+
+            % Create AirspdMax
+            app.AirspdMax = uieditfield(app.LinkGrid, 'numeric');
+            app.AirspdMax.Limits = [0 Inf];
+            app.AirspdMax.Layout.Row = 12;
+            app.AirspdMax.Layout.Column = 2;
+            app.AirspdMax.Value = 30;
+
+            % Create AirspdMin
+            app.AirspdMin = uieditfield(app.LinkGrid, 'numeric');
+            app.AirspdMin.Limits = [0 Inf];
+            app.AirspdMin.Layout.Row = 11;
+            app.AirspdMin.Layout.Column = 2;
+            app.AirspdMin.Value = 20;
+
+            % Create AirspdMinLabel
+            app.AirspdMinLabel = uilabel(app.LinkGrid);
+            app.AirspdMinLabel.HorizontalAlignment = 'right';
+            app.AirspdMinLabel.Layout.Row = 11;
+            app.AirspdMinLabel.Layout.Column = 1;
+            app.AirspdMinLabel.Text = '最小空速';
+
+            % Create HeadingDistLabel
+            app.HeadingDistLabel = uilabel(app.LinkGrid);
+            app.HeadingDistLabel.HorizontalAlignment = 'right';
+            app.HeadingDistLabel.Layout.Row = 13;
+            app.HeadingDistLabel.Layout.Column = 1;
+            app.HeadingDistLabel.Text = '航点前置';
+
+            % Create HeadingDist
+            app.HeadingDist = uieditfield(app.LinkGrid, 'numeric');
+            app.HeadingDist.Limits = [0 Inf];
+            app.HeadingDist.Layout.Row = 13;
+            app.HeadingDist.Layout.Column = 2;
+            app.HeadingDist.Value = 250;
+
+            % Create ExpPanel
+            app.ExpPanel = uipanel(app.TabDecision);
+            app.ExpPanel.Title = '操作台|试验';
+            app.ExpPanel.Position = [1 3 369 290];
+
+            % Create ExpRegionRadLabel
+            app.ExpRegionRadLabel = uilabel(app.ExpPanel);
+            app.ExpRegionRadLabel.HorizontalAlignment = 'right';
+            app.ExpRegionRadLabel.Position = [9 242 53 22];
+            app.ExpRegionRadLabel.Text = '区域半径';
+
+            % Create ExpRegionRad
+            app.ExpRegionRad = uieditfield(app.ExpPanel, 'numeric');
+            app.ExpRegionRad.Limits = [700 Inf];
+            app.ExpRegionRad.Position = [77 242 100 22];
+            app.ExpRegionRad.Value = 900;
+
+            % Create ExpShootHeadingLabel
+            app.ExpShootHeadingLabel = uilabel(app.ExpPanel);
+            app.ExpShootHeadingLabel.HorizontalAlignment = 'right';
+            app.ExpShootHeadingLabel.Position = [9 136 53 22];
+            app.ExpShootHeadingLabel.Text = '发射朝向';
+
+            % Create ExpShootHeading
+            app.ExpShootHeading = uieditfield(app.ExpPanel, 'numeric');
+            app.ExpShootHeading.Limits = [0 360];
+            app.ExpShootHeading.Position = [77 136 100 22];
+            app.ExpShootHeading.Value = 320;
+
+            % Create ExpLoiterSideLabel
+            app.ExpLoiterSideLabel = uilabel(app.ExpPanel);
+            app.ExpLoiterSideLabel.HorizontalAlignment = 'right';
+            app.ExpLoiterSideLabel.Position = [10 110 53 22];
+            app.ExpLoiterSideLabel.Text = '集结位置';
+
+            % Create ExpLoiterSide
+            app.ExpLoiterSide = uidropdown(app.ExpPanel);
+            app.ExpLoiterSide.Items = {'右', '左'};
+            app.ExpLoiterSide.Position = [77 110 100 22];
+            app.ExpLoiterSide.Value = '右';
+
+            % Create ExpNavGenerate
+            app.ExpNavGenerate = uibutton(app.ExpPanel, 'push');
+            app.ExpNavGenerate.ButtonPushedFcn = createCallbackFcn(app, @ExpNavGenerateButtonPushed, true);
+            app.ExpNavGenerate.Position = [9 76 80 23];
+            app.ExpNavGenerate.Text = '航点生成';
+
+            % Create ExpCloseDistLabel
+            app.ExpCloseDistLabel = uilabel(app.ExpPanel);
+            app.ExpCloseDistLabel.HorizontalAlignment = 'right';
+            app.ExpCloseDistLabel.Position = [9 162 53 22];
+            app.ExpCloseDistLabel.Text = '近点距离';
+
+            % Create ExpCloseDist
+            app.ExpCloseDist = uieditfield(app.ExpPanel, 'numeric');
+            app.ExpCloseDist.Limits = [0 200];
+            app.ExpCloseDist.Position = [77 162 100 22];
+            app.ExpCloseDist.Value = 50;
+
+            % Create ExpLoiterRadLabel
+            app.ExpLoiterRadLabel = uilabel(app.ExpPanel);
+            app.ExpLoiterRadLabel.HorizontalAlignment = 'right';
+            app.ExpLoiterRadLabel.Position = [9 215 53 22];
+            app.ExpLoiterRadLabel.Text = '盘旋半径';
+
+            % Create ExpLoiterRad
+            app.ExpLoiterRad = uieditfield(app.ExpPanel, 'numeric');
+            app.ExpLoiterRad.Position = [77 215 100 22];
+            app.ExpLoiterRad.Value = 300;
+
+            % Create ExpWayptRadLabel
+            app.ExpWayptRadLabel = uilabel(app.ExpPanel);
+            app.ExpWayptRadLabel.HorizontalAlignment = 'right';
+            app.ExpWayptRadLabel.Position = [9 188 53 22];
+            app.ExpWayptRadLabel.Text = '航点半径';
+
+            % Create ExpWayptRad
+            app.ExpWayptRad = uieditfield(app.ExpPanel, 'numeric');
+            app.ExpWayptRad.Limits = [0 Inf];
+            app.ExpWayptRad.Position = [77 188 100 22];
+            app.ExpWayptRad.Value = 200;
+
+            % Create CopyrightLabel
+            app.CopyrightLabel = uilabel(app.TabMap);
+            app.CopyrightLabel.Position = [1298 3 87 17];
+            app.CopyrightLabel.Text = '海山科技 2024 ';
+
+            % Create CtrlTimeLabel
+            app.CtrlTimeLabel = uilabel(app.TabMap);
+            app.CtrlTimeLabel.Position = [1015 3 264 17];
+            app.CtrlTimeLabel.Text = '';
+
+            % Create UAVIDListLabel
+            app.UAVIDListLabel = uilabel(app.TabMap);
+            app.UAVIDListLabel.HorizontalAlignment = 'right';
+            app.UAVIDListLabel.Position = [47 5 101 22];
+            app.UAVIDListLabel.Text = '当前连接无人机ID';
+
+            % Create UAVIDList
+            app.UAVIDList = uieditfield(app.TabMap, 'text');
+            app.UAVIDList.Position = [163 5 353 22];
+
+            % Create MapGPSLatLabel
+            app.MapGPSLatLabel = uilabel(app.TabMap);
+            app.MapGPSLatLabel.HorizontalAlignment = 'right';
+            app.MapGPSLatLabel.Position = [720 5 29 22];
+            app.MapGPSLatLabel.Text = '纬度';
+
+            % Create MapGPSLat
+            app.MapGPSLat = uieditfield(app.TabMap, 'numeric');
+            app.MapGPSLat.ValueDisplayFormat = '%.8f';
+            app.MapGPSLat.Position = [752 5 100 22];
+
+            % Create MapGPSLonLabel
+            app.MapGPSLonLabel = uilabel(app.TabMap);
+            app.MapGPSLonLabel.HorizontalAlignment = 'right';
+            app.MapGPSLonLabel.Position = [858 5 29 22];
+            app.MapGPSLonLabel.Text = '经度';
+
+            % Create MapGPSLon
+            app.MapGPSLon = uieditfield(app.TabMap, 'numeric');
+            app.MapGPSLon.ValueDisplayFormat = '%.8f';
+            app.MapGPSLon.Position = [890 5 100 22];
+
+            % Create MapGPSSet
+            app.MapGPSSet = uibutton(app.TabMap, 'push');
+            app.MapGPSSet.ButtonPushedFcn = createCallbackFcn(app, @MapGPSSetButtonPushed, true);
+            app.MapGPSSet.Position = [545 4 76 24];
+            app.MapGPSSet.Text = '设置原点';
+
+            % Create MapGPSUnify
+            app.MapGPSUnify = uibutton(app.TabMap, 'push');
+            app.MapGPSUnify.ButtonPushedFcn = createCallbackFcn(app, @MapGPSUnifyButtonPushed, true);
+            app.MapGPSUnify.Enable = 'off';
+            app.MapGPSUnify.Position = [627 4 76 24];
+            app.MapGPSUnify.Text = '统一原点';
+
+            % Create TabSetting
+            app.TabSetting = uitab(app.TabGroupMap);
+            app.TabSetting.Title = '设置';
+
+            % Create ConfigPanel
+            app.ConfigPanel = uipanel(app.TabSetting);
+            app.ConfigPanel.Title = '地图显示';
+            app.ConfigPanel.Position = [12 649 200 127];
+
+            % Create ConfigGrid
+            app.ConfigGrid = uigridlayout(app.ConfigPanel);
+            app.ConfigGrid.ColumnWidth = {41, 56, 56};
+            app.ConfigGrid.RowHeight = {22, 22, 23};
+            app.ConfigGrid.RowSpacing = 9.06666564941406;
+            app.ConfigGrid.Padding = [10 9.06666564941406 10 9.06666564941406];
+
+            % Create ConfigLabelNorth
+            app.ConfigLabelNorth = uilabel(app.ConfigGrid);
+            app.ConfigLabelNorth.HorizontalAlignment = 'right';
+            app.ConfigLabelNorth.Layout.Row = 1;
+            app.ConfigLabelNorth.Layout.Column = 1;
+            app.ConfigLabelNorth.Text = '北边界';
+
+            % Create ConfigLabelEast
+            app.ConfigLabelEast = uilabel(app.ConfigGrid);
+            app.ConfigLabelEast.HorizontalAlignment = 'right';
+            app.ConfigLabelEast.Layout.Row = 2;
+            app.ConfigLabelEast.Layout.Column = 1;
+            app.ConfigLabelEast.Text = '东边界';
+
+            % Create ConfigButtonWrite
+            app.ConfigButtonWrite = uibutton(app.ConfigGrid, 'push');
+            app.ConfigButtonWrite.Enable = 'off';
+            app.ConfigButtonWrite.Layout.Row = 3;
+            app.ConfigButtonWrite.Layout.Column = 2;
+            app.ConfigButtonWrite.Text = '写入';
+
+            % Create ConfigButtonRead
+            app.ConfigButtonRead = uibutton(app.ConfigGrid, 'push');
+            app.ConfigButtonRead.Enable = 'off';
+            app.ConfigButtonRead.Layout.Row = 3;
+            app.ConfigButtonRead.Layout.Column = 3;
+            app.ConfigButtonRead.Text = '读取';
+
+            % Create ConfigNorthLeft
+            app.ConfigNorthLeft = uieditfield(app.ConfigGrid, 'numeric');
+            app.ConfigNorthLeft.HorizontalAlignment = 'left';
+            app.ConfigNorthLeft.Layout.Row = 1;
+            app.ConfigNorthLeft.Layout.Column = 2;
+            app.ConfigNorthLeft.Value = -5000;
+
+            % Create ConfigNorthRight
+            app.ConfigNorthRight = uieditfield(app.ConfigGrid, 'numeric');
+            app.ConfigNorthRight.HorizontalAlignment = 'left';
+            app.ConfigNorthRight.Layout.Row = 1;
+            app.ConfigNorthRight.Layout.Column = 3;
+            app.ConfigNorthRight.Value = 5000;
+
+            % Create ConfigEastLeft
+            app.ConfigEastLeft = uieditfield(app.ConfigGrid, 'numeric');
+            app.ConfigEastLeft.HorizontalAlignment = 'left';
+            app.ConfigEastLeft.Layout.Row = 2;
+            app.ConfigEastLeft.Layout.Column = 2;
+            app.ConfigEastLeft.Value = -5000;
+
+            % Create ConfigEastRight
+            app.ConfigEastRight = uieditfield(app.ConfigGrid, 'numeric');
+            app.ConfigEastRight.HorizontalAlignment = 'left';
+            app.ConfigEastRight.Layout.Row = 2;
+            app.ConfigEastRight.Layout.Column = 3;
+            app.ConfigEastRight.Value = 5000;
+
+            % Create ConfigDebug
+            app.ConfigDebug = uibutton(app.ConfigGrid, 'state');
+            app.ConfigDebug.Enable = 'off';
+            app.ConfigDebug.Text = '调试';
+            app.ConfigDebug.Layout.Row = 3;
+            app.ConfigDebug.Layout.Column = 1;
+
             % Create NetworkPanel
             app.NetworkPanel = uipanel(app.TabSetting);
             app.NetworkPanel.Title = '网络IP';
-            app.NetworkPanel.Position = [365 652 160 119];
+            app.NetworkPanel.Position = [219 649 160 127];
 
             % Create NetworkGrid
             app.NetworkGrid = uigridlayout(app.NetworkPanel);
             app.NetworkGrid.ColumnWidth = {29, 100};
-            app.NetworkGrid.RowHeight = {22, 22, 22};
+            app.NetworkGrid.RowHeight = {24, 24, 24};
             app.NetworkGrid.ColumnSpacing = 9.66666666666667;
             app.NetworkGrid.RowSpacing = 7.83333396911621;
             app.NetworkGrid.Padding = [9.66666666666667 7.83333396911621 9.66666666666667 7.83333396911621];
@@ -3101,6 +3584,35 @@ classdef HGC_r1_3 < matlab.apps.AppBase
             app.IP_3.Layout.Column = 2;
             app.IP_3.Value = '192.168.17.188';
 
+            % Create ExpGPSList
+            app.ExpGPSList = uipanel(app.TabSetting);
+            app.ExpGPSList.Title = '试验地点';
+            app.ExpGPSList.Position = [12 553 200 90];
+
+            % Create Label
+            app.Label = uilabel(app.ExpGPSList);
+            app.Label.HorizontalAlignment = 'right';
+            app.Label.Position = [47 41 29 22];
+            app.Label.Text = '纬度';
+
+            % Create ExpLuohanLat
+            app.ExpLuohanLat = uieditfield(app.ExpGPSList, 'numeric');
+            app.ExpLuohanLat.ValueDisplayFormat = '%.7f';
+            app.ExpLuohanLat.Position = [91 41 100 22];
+            app.ExpLuohanLat.Value = 30.3414888;
+
+            % Create Label_2
+            app.Label_2 = uilabel(app.ExpGPSList);
+            app.Label_2.HorizontalAlignment = 'right';
+            app.Label_2.Position = [47 10 29 22];
+            app.Label_2.Text = '经度';
+
+            % Create ExpLuohanLon
+            app.ExpLuohanLon = uieditfield(app.ExpGPSList, 'numeric');
+            app.ExpLuohanLon.ValueDisplayFormat = '%.7f';
+            app.ExpLuohanLon.Position = [91 10 100 22];
+            app.ExpLuohanLon.Value = 113.80068;
+
             % Show the figure after all components are created
             app.UIFigure.Visible = 'on';
         end
@@ -3110,7 +3622,7 @@ classdef HGC_r1_3 < matlab.apps.AppBase
     methods (Access = public)
 
         % Construct app
-        function app = HGC_r1_3
+        function app = HGC_r1_5
 
             % Create UIFigure and components
             createComponents(app)

@@ -474,7 +474,7 @@ class Plane:
         self.yaw_err = yaw_err
         self.wp_list = []
         self.connect()
-        self.init_map_origin_GPS(30.3415366,113.8083823)
+        self.init_map_origin_GPS(30.3414888,113.8006800)
         # self.vehicle.parameters['SYSID_THISMAV']
         # self.vehicle.parameters['WP_RADIUS']
         # self.vehicle.parameters['WP_LOITER_RAD']
