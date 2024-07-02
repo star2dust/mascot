@@ -280,7 +280,18 @@ class Copter:
     def yaw_to_point_XY(self, x_tar_to_home, y_tar_to_home):
         north,east = self.get_curr_XY()
         yaw_pt = math.atan2(y_tar_to_home-east,x_tar_to_home-north)
-        return get_yaw_err(self.vehicle.attitude.yaw-yaw_pt)
+        yaw_curr = self.vehicle.heading/180*math.pi
+        return get_yaw_err(yaw_curr-yaw_pt)
+    
+    def bearing_to_point_XY(self, x_tar_to_home, y_tar_to_home):
+        north,east = self.get_curr_XY()
+        vec = np.array(y_tar_to_home-east,x_tar_to_home-north)
+        vec_norm = np.linalg.norm(vec)
+        if vec_norm>0:
+            vec_bearing = vec/vec_norm
+        else:
+            vec_bearing = np.array([0,0])
+        return vec_bearing[0],vec_bearing[1]
     
     # def goto_point_XY(self, x_tar_to_home, y_tar_to_home, alt_tar_to_home, flight_time=0, check_reached=False, use_spd=0):
     #     print("[ %s ] LINE to Point (N:%s, E:%s) with alt %sm" % (self.name, x_tar_to_home, y_tar_to_home, alt_tar_to_home))
@@ -849,7 +860,18 @@ class Plane:
     def yaw_to_point_XY(self, x_tar_to_home, y_tar_to_home):
         north,east = self.get_curr_XY()
         yaw_pt = math.atan2(y_tar_to_home-east,x_tar_to_home-north)
-        return get_yaw_err(self.vehicle.attitude.yaw-yaw_pt,self.yaw_err)
+        yaw_curr = self.vehicle.heading/180*math.pi
+        return get_yaw_err(yaw_curr-yaw_pt)
+    
+    def bearing_to_point_XY(self, x_tar_to_home, y_tar_to_home):
+        north,east = self.get_curr_XY()
+        vec = np.array(y_tar_to_home-east,x_tar_to_home-north)
+        vec_norm = np.linalg.norm(vec)
+        if vec_norm>0:
+            vec_bearing = vec/vec_norm
+        else:
+            vec_bearing = np.array([0,0])
+        return vec_bearing[0],vec_bearing[1]
 
     def goto_point_XYZ(self, x, y, z, use_spd=0, speed=25.0):
         wp = self.map_origin.GPSOffsetMeters(x,y,z)

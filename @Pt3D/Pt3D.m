@@ -17,8 +17,9 @@ classdef Pt3D < handle
         % 空速范围
         airspd_max
         airspd_min
-        % 航点前置距离
+        % 控制航点前置距离
         heading_dist
+        % 离航点距离
         navpt_dist
         % color
         color
@@ -64,8 +65,8 @@ classdef Pt3D < handle
             % opt parse: only stated fields are chosen to opt, otherwise to arg
             opt.id = 1;
             opt.p = [0;0;0];
-            opt.airspd_min = 20;
-            opt.airspd_max = 30;
+            opt.airspd_min = 25;
+            opt.airspd_max = 40;
             opt.heading_dist = 300;
             opt.algorithm = '';
             opt.color = 'b';

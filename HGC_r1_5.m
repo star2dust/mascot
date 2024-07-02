@@ -2912,7 +2912,7 @@ classdef HGC_r1_5 < matlab.apps.AppBase
             app.AddLoiterRad = uieditfield(app.BehaviorPanel, 'numeric');
             app.AddLoiterRad.Limits = [0 Inf];
             app.AddLoiterRad.Position = [192 101 100 22];
-            app.AddLoiterRad.Value = 10;
+            app.AddLoiterRad.Value = 350;
 
             % Create UseGuidedMode
             app.UseGuidedMode = uibutton(app.BehaviorPanel, 'push');
@@ -3272,7 +3272,7 @@ classdef HGC_r1_5 < matlab.apps.AppBase
             app.IPAddr.Items = {'本地', '虚拟', '实验'};
             app.IPAddr.Layout.Row = 1;
             app.IPAddr.Layout.Column = 2;
-            app.IPAddr.Value = '虚拟';
+            app.IPAddr.Value = '本地';
 
             % Create AirspdMaxLabel
             app.AirspdMaxLabel = uilabel(app.LinkGrid);
@@ -3286,14 +3286,14 @@ classdef HGC_r1_5 < matlab.apps.AppBase
             app.AirspdMax.Limits = [0 Inf];
             app.AirspdMax.Layout.Row = 12;
             app.AirspdMax.Layout.Column = 2;
-            app.AirspdMax.Value = 30;
+            app.AirspdMax.Value = 40;
 
             % Create AirspdMin
             app.AirspdMin = uieditfield(app.LinkGrid, 'numeric');
             app.AirspdMin.Limits = [0 Inf];
             app.AirspdMin.Layout.Row = 11;
             app.AirspdMin.Layout.Column = 2;
-            app.AirspdMin.Value = 20;
+            app.AirspdMin.Value = 25;
 
             % Create AirspdMinLabel
             app.AirspdMinLabel = uilabel(app.LinkGrid);
@@ -3314,7 +3314,7 @@ classdef HGC_r1_5 < matlab.apps.AppBase
             app.HeadingDist.Limits = [0 Inf];
             app.HeadingDist.Layout.Row = 13;
             app.HeadingDist.Layout.Column = 2;
-            app.HeadingDist.Value = 250;
+            app.HeadingDist.Value = 300;
 
             % Create ExpPanel
             app.ExpPanel = uipanel(app.TabDecision);
@@ -3331,7 +3331,7 @@ classdef HGC_r1_5 < matlab.apps.AppBase
             app.ExpRegionRad = uieditfield(app.ExpPanel, 'numeric');
             app.ExpRegionRad.Limits = [700 Inf];
             app.ExpRegionRad.Position = [77 242 100 22];
-            app.ExpRegionRad.Value = 900;
+            app.ExpRegionRad.Value = 800;
 
             % Create ExpShootHeadingLabel
             app.ExpShootHeadingLabel = uilabel(app.ExpPanel);
